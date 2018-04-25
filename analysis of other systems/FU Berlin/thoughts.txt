@@ -1,0 +1,41 @@
+Aufbau:
+Unterteilung in 5 Bereiche: z.b. Studium-> Was ist Informatik,...
+Erwartungsabfrage
+detailreiche Übersicht über Studienverlauf (inkl. Infos zu Fächern)
+(etwas) Werbung für den Studiengang
+
+Beispielaufgaben:
+ Nach Semestern geordnet(1-4)
+*	Lückentext mit Dropdownfeldern -> Definiere selbst was Informatik ist.
+	Multiple-Choice Fragen zu (Aussagen-)Logik
+	Assembler code lesen (minimalistisch)
+	Binärbaum -> Ordne Begriffe ein
+	Automaten + Reg EXP (Wort in Sprache?)
+	Eulerkreis in Graphen -> "Beweis"
+	
+	-> allgemein eher Spielerisches herangehen
+	Kein Zeitlimit o.ä.
+	Direktes Feedback mit Erklärung des korrekten Ergebnisses
+	Keine "Beurteilung" der Testperson, eher informativ
+
+Studienalltag:
+Interview mit Studierenden (Video)
+Aufbau des Campus
+Wochenstunden
+Mentoring Programme
+
+Design:
+Schlichtes Design; hauptsächlich Schwarz auf Weiß, Feedback in Grau oder Grün
+neu geladene Seiten "fahren ins Bild" (links+recht bei zurück)
+Jede Seite hat ein eigenes Bildchen
+
+Fazit:
+Die Übersicht des Studienverlaufs und Infos zu einzelnen Modulen sind sicher Hilfreich zur Orientierung.
+Die Frage ist ob wir in unserem Ansatz informieren oder eher prüfen wollen?
+
+Das schlichte Design wirkt eher langweilig, v.a. nach mehr als 10 Minuten...
+Bilder lenken eher vom Test ab als dass sie hilfreich sind. -> Bildauswahl? 
+Vielleicht lieber Bilder zwischendurch, als Einleitung zu einem neuen Abschnitt.
+Ohne Vorkenntnisse muss man sich teilweise anstrengen die Aufgaben zu lösen.
+Aber: Der Test schafft es nicht Druck aufzubauen, es fehlt an Motivation gewissenhaft zu arbeiten.
+Die spielerische Darstellung der Sachverhalte bleibt zu beurteilen. (Kontrast zu Formalismen)
