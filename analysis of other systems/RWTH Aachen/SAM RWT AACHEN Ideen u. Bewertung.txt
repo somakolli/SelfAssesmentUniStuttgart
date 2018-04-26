@@ -1,0 +1,99 @@
+Self Assesment Test - RWTH Aachen
+
+Design des Tests u. Interaktionsmöglichkeiten:
+
+- simpel, meist schwarz auf weiß, wichtiges farblich hervorgehoben
+
+- ausgewogene Menge an Text/Inhalt pro Seite)
+
+- Text über Auswahlboxen tendenziell zu klein
+
+- Aufgabenbeschreibung zumeist kurz und bündig
+
+- Fortschrittsbalken, jedoch pro Abschnitt kaum aussagekräftig
+
+- Überblick über alle Abschnitte nach jedem  Abschnitt, jedoch mit sinnlosen Bezeichnern
+
+- wenige Buttons/Interaktionen pro Seite, die sehr einfach gehalten sind (meist beschränkt auf Auwahl, Weiter, Pausieren) 
+
+- Fragen meist bebildert (schwarz/weiß)
+
+- hin und wieder simple und kleine Animationen/gifs bei bestimmten Fragen (schätzungsweise einfach zu reproduzieren)
+
+- Timer pro Aufgabe (2 min, Aktualisierung alle 10 sec)
+- Keine Möglichkeit, Fragen zu überspringen, außer man wartet den Timer ab
+
+- keine Skalierbarkeit/Adjustment des Fensters/des Texts/der Inhalte möglich
+
+- kein Mobile support
+
+- Möglichkeit nach und nur nach jedem Abschnitt pausieren und zu einem späterem Zeitpunkt fortfahren zu können ist eine sehr gute und gut umgesetzte Idee
+
+
+Fragen des Tests[Technisch]:
+
+- Fast jede Frage bebildert
+
+- viele Fragen zu einfach und nicht wirklich technisch --> 90% der Fragen nicht repräsentativ für technische Informatik (CMOS, Digitaltechnik, RO)
+
+Fragen des Tests[Motivation]:
+
+- Fragen bzgl. Einschätzung, wie wichtig bestimmte Themengebiete sind
+
+- Fragen bzgl. eigener Einschätzung
+
+- Fragen bzgl. eigener Motivation
+
+- Fragen bzgl. eigener opferbereitschaft (großteils sinnlos)
+
+--> Für alle gilt: 4 Auswahlmöglichkeiten mit mittlerem Übergang "eher nein" zu "eher ja" -->  vermeidet Auweichen auf neutrale Antwort 
+
+- 3  Blöcke zwischendurch eine gute Idee, Umsetung aber mangelhaft: Fragen beziehen sich nicht/kaum auf die zuvor gelösten Aufgaben , 2 Blöcke reichen
+
+
+Fragen des Tests[Logik]:
+
+- Keine Zeitbegrenzung (besser: Einige mit, einige ohne)
+
+- typische IQ-Test Aufgaben, spezifischere Aufgaben fehlen (z.B. Aussagenlogik oder Automaten)
+
+Fragen des Tests[Mathe]:
+
+- gestellte Fragen in der Summe sinnvoll und gut, könnten aber schwerer sein
+
+- für Informatiker etwas zu viel Geometrie
+
+- kein/kaum LinAlg. --> Fragen zu Vektoren/Matrizen
+
+- keine Wahrscheinlichkeitstheorie
+
+Feedback:
+
+- Pro Abschnitt: Angabe wie viele Fragen korrekt beantwortet + Prozentsatz + Balken (der aber sinnlos)
+Idee: Angabe, wie man zum Durchschnitt steht
+
+- kleine Infobox, die Wichtigkeit des Fachs/der Thematik erklärt (Idee gut, konkrete Info eher weniger, da zu allgemeingültig)
+
+- kurze Erläuterung zum Ergebnis und dessen Aussagekraft: Kompletter Gargabe, die Erläuterung bringt einem quasi nix
+
+- Tipp am Ende : Werbung für Vorkurse, aber nichts konkretes/hilfreiches
+
+- kein Fazit/abschließendes Urteil vorhanden 
+
+Sonstiges:
+
+- Konkrete Beispiele + Hilfestellung + Lösungsvorschlag vor den Aufgaben 
+
+- EInschätzung vor und nach jedem Abschnitt (gute Idee, Umsetzung mit Auswahlmöglichkeiten aber verbesserbar)
+
+- Frage bzgl. Ernsthaftigkeit nach jedem Abschnitt (besser: Hinweis vor Testbeginn und nach Ende)
+
+- Frage bzgl. Störung --> mehrere Anwortmöglichkeiten ankreuzbar (ergibt keinen Sinn)
+
+- Allgemeines Problem: Fachspezifik fehlt an allen Ecken und Kanten --> Test vermittelt kaum, worauf es im Informatik Studium ankommt (vermutliche Folge der Schwachsinnsidee, Elektrotechnik und (technische) Info. in einem Test unterbringen zu wollen)
+
+
+
+
+Bewertung des SelfAssesment Test: 4/10 - gute Ideen, solides Design, vieles aber verbesserbar. Speziell die Fragen sind teils nicht gut gewählt/haben keine Aussagekraft über das Studienfach. Feedback Darstellung gelungen, Inhalt selbst zum großen Teil Müll.
+
