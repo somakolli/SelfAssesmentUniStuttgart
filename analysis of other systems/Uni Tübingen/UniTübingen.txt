@@ -1,0 +1,44 @@
+Aufbau:
+Mehrere Unterschiedliche Tests:
+-Ist studieren überhaupt etwas für mich?
+-Welche Studiengänge passen zu mir?
+-Erfülle ich die Anforderungen der Studienfelder?
+-Womit beschäftigt man sich in den Studiengängen?
+Dauer zwischen 10 und 45 minuten
+
+Fagen: Womit beschäftigt man sich in den Studiengängen? (Bereich Informatik)
+-Persönliche Fragen (Alter, Geschlecht, usw.)
+-Wall of Text -> Erklärung des Studiums (kann ich mir vorstellen so etwas zu studieren?)
+-Eher Fragen ob man überhaupt studieren will, keine fragen ob es im Rahmen des möglichen steht
+
+Fagen: Erfülle ich die Anforderungen der Studienfelder? (Bereich Informatik)
+-Anzeige wieviel % man abgeschlossen hat zu jedem Zeitpunkt.
+-Mehrere Fragenbereiche für den Test
+-Vor zeitlimitierten fragen: Was kommt auf sie zu?
+-Fehler sind einsehbar nach Bearbeitung
+
+Bereich: Mathematik
+-Zeit: 30 Minuten für 8 Fragen (Mehr als genug ;10/30 gebraucht)
+-Basic Umformungsfragen: Brüche Wurzeln 
+-Reell vs Komplex
+-Funktionen verstehen (Schaubilder gegeben welche Funktion könnte dazu passen, Passende Ableitung zu funktionen finden)
+
+Bereich: Diagramme
+-Schaubilder anschaulich dargestellt (mit Erklärung was es tun soll)
+-Zeit: 20 minuten für 3 Fragen (12/20 gebraucht)
+-Erklärung der Diagramme vor dem Test
+-Bantworten der Fragen zu den Diagrammen (z.b. Werte von Variablen, Änderung im Diagramm verändert das Programm nicht?)
+
+Design:
+Kleines Fenster auf der Großen Website (Platz wird nicht genutzt)
+Weißer Hintergrund, Schwarze/Rote Schrift
+Check Circles für Single Choice Fragen
+Für Umfragen: (Trifft nicht zu, Trifft eher nicht zu, Trifft eher zu, Trifft zu)
+
+Fazit:
+
+-Fragen sollten so Präzise wie möglich gestellt sein.
+-Gute Einteilung der Fragen.
+-Gute Bearbeitungszeit. 
+-Schönes/einfaches Design.
+-Nettes Feedback am Ende (% Richtig wird angezeigt)
