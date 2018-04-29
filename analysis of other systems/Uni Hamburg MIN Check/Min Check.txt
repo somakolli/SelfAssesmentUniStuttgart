@@ -1,0 +1,30 @@
+Min Check Universität Hamburg
+
+
+----------------------------------------------------------------
+Der Test
+----------------------------------------------------------------
+- Design: Sehr simpel, kleines Fenster mit grauem Rahmen und stets zwei Feldern zum Ankreuzen, dazu ein/zwei Buttons zur Anzeige der Lösung/zum weiter Klicken 
+
+- Wahr oder Falsch Aussagen ankreuzen, beziehen sich auf drei Bereiche (Vor, Während, Nach dem Studium)
+
+- 23 Fragen, nach ankreuzen wird auch direkt die Lösung angezeigt: Korrekt/Falsch + kurze Erläuterung
+
+- Die Fragen stellen sich zum Großteil als Fangfragen heraus: 
+"Man muss Note 1 in Mathe in der Schule gehabt haben"
+"Kommunikation ist wichtig/unwichtig"
+"Englisch ist wichtig/unwichtig",
+"Informatik nur etwas für Programmierfreaks"
+"Frauen sind geeignet/ungeeignet für Informatik" 
+
+----------------------------------------------------------------
+Einschätzung
+----------------------------------------------------------------
+
+- Unnötige, gezwungen übertriebene und stark verallgemeinerte "Spaß"-Fragen, die keinerlei Aufschluss über die eigene Eignung geben
+
+- Klar zu erkennen, dass sie mehr als Werbung für das Studium dienen ("Schau, all diese Vorurteile gelten gar nicht, dafür stimmen alle positiven Gerüchte ausnahmslos, das Informatik Studium ist also super toll") 
+
+- Die Erläuterungstexte bei den Lösungen sind etwas hilfreicher und geben zumindest etwas Einsicht darin, was im Info-Studium drankommen kan
+
+- Fazit besteht aus Angabe wie viele Fragen man korrekt beantwortet hat + kleinem (nichts sagendem) Text, der die Eignung für das Fach erläutert
