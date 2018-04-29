@@ -1,0 +1,19 @@
+System
+- ohne Anmeldung
+- man kann den test pausieren
+- beantwortete fragen werden an einen server geschickt
+- mathematische ausdrücke als bilder in den fragen
+- fragen werden zufällig aus einem pool gewählt
+Art der Fragen
+- zeitmanagementfrage
+- fachliche Fragen
+- single- und multiple-choice fragen
+- fragen um das technische englisch zu testen
+- mathe fragen
+- physik fragen
+- demographische fragen zum schluss
+Bewertung
+- keine Beurteilung ob man für den Studiengang geeignet ist oder nicht
+- nach jedem Abschnitt wird nur der Anteil der richtig beantworteten Fragen angezeigt
+- es werden die Zeile des Tests erläutert
+- es wird dazu ermuntert den Test nochmal durchzuführen und weiter zu Üben
