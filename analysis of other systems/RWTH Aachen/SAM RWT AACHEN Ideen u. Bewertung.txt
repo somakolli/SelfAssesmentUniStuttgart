@@ -2,6 +2,9 @@ Self Assesment Test - RWTH Aachen
 
 Design des Tests u. Interaktionsmöglichkeiten:
 
+- entwickelt mittels testMaker 3.5
+Siehe https://www.global-assess.rwth-aachen.de/tu9/tm/index.php?page=about für Details zu testMaker
+
 - simpel, meist schwarz auf weiß, wichtiges farblich hervorgehoben
 
 - ausgewogene Menge an Text/Inhalt pro Seite)
