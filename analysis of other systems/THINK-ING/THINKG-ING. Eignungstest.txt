@@ -1,0 +1,17 @@
+Eignungstest Ingenier-Nachwuchsinitiative THINK-ING.
+
+Design:
+- Ohne Anmeldung möglich, mit Anmeldung Pausieren möglich
+- 40 Fragen, Ausgelegt auf 30 Minuten
+- Statt Tick-Boxen anklickbare Textboxen, hovern über Textbox highlited diese, siehe SC
+- Bebilderung, siehe SC
+- Anzeige, die absolvierte Fragen/Fragen insgesamt anzeigt
+- Als allgemeiner Test angedacht, nicht Fachspezifisch
+
+Fragen:
+- Keine (notwendig) Fachspezifischen Fragen, sondern eher solche, welche die Allgemeinbildung testen, siehe SC
+- Elaborative Antwortmöglichkeiten, siehe SC
+- Fazit zum Schluss: Gliedert Fragen in Bereiche (Allgemein, Logik, Mathe, Technik und NWT) und gibt an, wie viele solcher man pro Bereich richtig beantwortet hat --> Anhand der Ratio korrekte Antworten/Fragen im Bereich Gesamt wird Eignung in kurzem Text erläutert und angegeben, in welchem Bereich man sich unter den Absolvierenden des Tests befindet (unteres Drittel, Mittelfeld, oberes Drittel etc.)
+
+
+
