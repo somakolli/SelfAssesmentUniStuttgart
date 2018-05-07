@@ -1,0 +1,24 @@
+Anforderungen:
+Fortschrittsbalken(hin und her springen)
+Lückentext?
+Dropdown-Fragen?
+Textverständnis?
+Tooltips
+Mutliple-choice/Single-choice Fragen
+Gesamtbewertung
+Zeitlimits(pro frage/insgesamt)
+Ergebnis nach jeder frage?
+Abschnitte(Bewertung nach jedem Abschnitt?)
+Lösungen und Erklärungen(Am ende/nach jeder Frage)
+Fragen gewichten
+Demografische Fragen
+Server schnittstelle zur Datensammlung(Speicherungen der Daten am Ende)
+State-Speicherung(cookie, link)
+Graphisches Feedback(Uni-Frankfurt)
+Interessensfragen(Wie sehr interessiert das Fach)
+Informationsseiten(Seiten die keine Fragen einhalten)
+Mobile support
+Layout unterteilung vorgegeben
+Dokumentation/Benutzerhandbuch
+Zufällige Fragen
+
