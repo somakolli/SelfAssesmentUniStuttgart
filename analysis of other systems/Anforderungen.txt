@@ -1,24 +1,34 @@
 Anforderungen:
-Fortschrittsbalken(hin und her springen)
+
+Zu unterstützende Fragen:
+Interessensfragen(Wie sehr interessiert das Fach)
+Mutliple-choice/Single-choice Fragen
 Lückentext?
 Dropdown-Fragen?
 Textverständnis?
-Tooltips
-Mutliple-choice/Single-choice Fragen
-Gesamtbewertung
-Zeitlimits(pro frage/insgesamt)
-Ergebnis nach jeder frage?
-Abschnitte(Bewertung nach jedem Abschnitt?)
-Lösungen und Erklärungen(Am ende/nach jeder Frage)
-Fragen gewichten
 Demografische Fragen
+Lösungen und Erklärungen(Am ende/nach jeder Frage)
+Zufällige Fragen(?)
+
+Gestaltungsmöglichkeiten:
+Informationsseiten(Seiten die keine Fragen einhalten)
+Fragen gewichten
+Zeitlimits(pro frage/insgesamt)
+Tooltips
+
+Technisches:
+Browser-basiert
+Mobile support
+Fortschrittsbalken(hin und her springen)
+Layout unterteilung vorgegeben
 Server schnittstelle zur Datensammlung(Speicherungen der Daten am Ende)
 State-Speicherung(cookie, link)
 Graphisches Feedback(Uni-Frankfurt)
-Interessensfragen(Wie sehr interessiert das Fach)
-Informationsseiten(Seiten die keine Fragen einhalten)
-Mobile support
-Layout unterteilung vorgegeben
+Gesamtbewertung + Mapping auf Empfehlung
+Ergebnis nach jeder frage?
+Abschnitte(Bewertung nach jedem Abschnitt?)
+
 Dokumentation/Benutzerhandbuch
-Zufällige Fragen
+
+
 
