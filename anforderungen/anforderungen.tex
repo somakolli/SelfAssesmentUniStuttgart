@@ -1,0 +1,58 @@
+\documentclass[12pt,pdftex,a4paper]{article}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cancel}
+\usepackage[T1]{fontenc} 
+\usepackage[utf8]{inputenc} 
+\usepackage{listings}
+\usepackage{gauss} 
+\usepackage{amsmath}
+\usepackage{underscore}
+\newcommand{\bbN}{\mathbbm{N}}
+\newcommand{\bbR}{\mathbbm{R}}
+\newcommand{\bbZ}{\mathbbm{Z}}
+\newcommand{\bbI}{\mathbbm{I}}
+\usepackage[pdftex]{graphicx}
+\usepackage{listings}
+\usepackage{pgf}
+\usepackage{csvsimple}
+\lstset{language=Python,basicstyle=\footnotesize}
+\begin{document}
+\title{Self Assesment Tests für die Universität Stuttgart - Anforderungen}
+\author{Tim-Julian Ehret, Sokol Makolli, Julian Blumenröther, Jena, Jonas Allali}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Funktionale Anforderungen}
+\subsection{Fragenaufbau}
+\begin{itemize}
+ \item Zunächst sollen lediglich Single-Choice und Multiple-Choice Fragen unterstützt werden.
+ \item Die Lösung soll weder am Anfang noch am Ende angezeigt werden.
+ \item Man soll Bilder sowie Videos in den Fragen und in den Antworten einbinden können.
+ \item Der Fragensteller soll Zeitlimits einstellen können; zunächst nur für jede Frage.
+\end{itemize}
+\subsection{Fragenbewertung}
+\begin{itemize}
+ \item Man soll die Fragen gewichten können.
+ \item Am Ende des Tests soll der Anteil der richtig Beantworteten Fragen in Prozent angegeben werden.
+ \item Je nach Ergebnis soll ein Text angezeigt werden den der Fragensteller bestimmen kann.
+\end{itemize}
+\subsection{Darstellung}
+\begin{itemize}
+ \item Es soll ein Fortschrittsbalken angezeigt werden, jedoch soll man nicht zwischen den Fragen hin und her springen können.
+ \item Die Fragen sollen in Abschnitte unterteilt werden.
+ \item Keine unterschtützung für mathematische Formeln.
+\end{itemize}
+\subsection{State-Management}
+\begin{itemize}
+ \item Kein Server nur statische Seiten!
+ \item Keine Cookies!
+ \item Der State(also die beantworteten Fragen) sollen im Link dargestellt werden.
+\end{itemize}
+\section{Nicht-Funktionale Anforderungen}
+\begin{itemize}
+ \item Ein Benutzerhandbuch für die Fragensteller soll erstellt werden.
+\end{itemize}
+\end{document}
+\grid
+\grid
