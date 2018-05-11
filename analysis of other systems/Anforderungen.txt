@@ -1,7 +1,7 @@
 Anforderungen:
 
 Zu unterstützende Fragen:
-Interessensfragen(Wie sehr interessiert das Fach)
+Interessensfragen(Wie sehr interessiert das Fach)-
 Mutliple-choice/Single-choice Fragen+
 Lückentext?-
 Dropdown-Fragen?-
