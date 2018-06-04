@@ -1,9 +1,12 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Answer {
-    private String content;
+    private String content = "";
+    private List<String> mediaPath = new ArrayList<>();
 
     public String getContent() {
         return content;

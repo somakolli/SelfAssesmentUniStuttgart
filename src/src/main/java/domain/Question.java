@@ -7,6 +7,8 @@ import java.util.List;
 public class Question {
     private String question = "";
     private List<Answer> answers = new ArrayList<>();
+    private List<String> mediaPaths = new ArrayList<>();
+    private int points = 0;
 
     public Question(){
     }
