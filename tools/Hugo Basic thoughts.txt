@@ -1,0 +1,37 @@
+Hugo
+
+Die folgenden Gedanken entsprechen in etwa dem, was auch in der Hugo Documentation unter https://gohugo.io/documentation/ zu finden ist, hier und da ergänzt mit Überlegungen bezüglich dem Projekt INF. Der Inhalt beschränkt sich momentan noch auf die Basis-Funktionalitäten -und Eigenschaften von Hugo, über Zeit sollen hier nur weitere "in-depth" Überlegungen folgen.
+
+
+-------------------Installation und Start--------------------
+Installation: 
+
+- download latest release on https://github.com/gohugoio/hugo/releases
+- extract into any folder (recommended: create a folder named "Hugo" with a subfolder "bin" in your root directory of local disk C: and extract it in here)
+- if the hugo executable is there - done
+- for convenience: add hugo to your PATH-variable 
+
+Getting started:
+
+- open command line in your chosen directory and type in hugo new site _nameOfYourSite_ 
+
+-------------------Installation und Start--------------------
+
+-------------------About Hugo as a SSG-----------------------
+- prädefinierte layouts, templates, themes, archtypes und co. über github u.Ä. zu finden, die aber überschrieben/selbst erstellt werden können
+
+- website struktur steht und fällt mit genutztem theme/templates, entweder vorgefertigt nutzbar oder selbst geschriebene templates (aufgabenspezifisch unterscheidbar: base template, single page template, list template etc.)
+
+- simples (static) content management
+
+- databases (verschiedene Formate, z.B. JSON) einfach einzubinden 
+
+- directory struktur ermöglicht einfache staffelung von pages
+
+- individuelle, auf directories zugeschnittene archtypes/templates möglich
+
+- shortcodes zum Einbinden von (prädefinierten) templates/html-snippets wie z.b. Videos, entweder vorgefertigte shortcodes nutzbar oder selbst schreiben 
+
+- taxonomie: Gruppierung von Inhalten anhand von (interaktiven) Tsgs/Keywords (für uns eher irrelevant) und Kategorien/Abschnitten oder selbst definiert 
+-------------------About Hugo as a SSG-----------------------
+
