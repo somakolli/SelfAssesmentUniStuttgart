@@ -1,7 +1,7 @@
+package generator;
+
 import domain.Question;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
 public interface GeneratorInterface {

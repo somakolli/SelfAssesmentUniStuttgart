@@ -1,3 +1,5 @@
+package generator;
+
 import org.jsoup.nodes.Element;
 
 import java.util.Objects;

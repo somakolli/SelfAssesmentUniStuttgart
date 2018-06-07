@@ -1,3 +1,5 @@
+package generator;
+
 import domain.Question;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,7 +9,6 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
