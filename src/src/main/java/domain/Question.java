@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Question {
+public class Question implements SAObject {
     private String question = "";
     private List<Answer> answers = new ArrayList<>();
     private List<String> mediaPaths = new ArrayList<>();
@@ -45,12 +45,12 @@ public class Question {
         this.points = points;
     }
 
-    public HashMap<String, String> getStringVariables(){
+    public HashMap<String, String> getStringProperties(){
         HashMap<String, String> stringVariables = new HashMap<>();
         stringVariables.put("question", this.question);
         return stringVariables;
     }
-    public HashMap<String, List<Answer>> getListVariables(){
+    public HashMap<String, List<Answer>> getListProperties(){
         HashMap<String, List<Answer>> listVariables = new HashMap<>();
         listVariables.put("answers", this.answers);
         return listVariables;
