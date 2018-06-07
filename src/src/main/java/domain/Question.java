@@ -33,6 +33,18 @@ public class Question {
         this.answers = answers;
     }
 
+    public List<String> getMediaPaths() {
+        return mediaPaths;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public HashMap<String, String> getStringVariables(){
         HashMap<String, String> stringVariables = new HashMap<>();
         stringVariables.put("question", this.question);

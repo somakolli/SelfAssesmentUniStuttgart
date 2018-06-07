@@ -16,6 +16,14 @@ public class Answer {
         this.content = content;
     }
 
+    public List<String> getMediaPath() {
+        return mediaPath;
+    }
+
+    public void setMediaPath(List<String> mediaPath) {
+        this.mediaPath = mediaPath;
+    }
+
     public HashMap<String, String> getStringVariables(){
         HashMap<String, String> stringVariables = new HashMap<>();
         stringVariables.put("content", content);
