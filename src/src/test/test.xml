@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment></comment>
+    <entry key = "Question_1">exampleQuestion</entry>
+    <entry key = "Answer_1.1">Answer for question 1, maybe this is longer
+    then one line....
+        bliblablup</entry>
+    <entry key="Answer_1.2">Second Answer for question 1</entry>
+
+</properties>
