@@ -1,4 +1,7 @@
 import domain.Question;
+import generator.Generator;
+import generator.TemplateForLoop;
+import generator.TemplateObject;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

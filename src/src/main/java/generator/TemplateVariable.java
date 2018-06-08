@@ -1,3 +1,5 @@
+package generator;
+
 import java.util.Objects;
 
 public class TemplateVariable {

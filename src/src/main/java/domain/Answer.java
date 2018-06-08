@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Answer {
+public class Answer implements SAObject{
     private String content = "";
     private List<String> mediaPath = new ArrayList<>();
 
@@ -16,7 +16,15 @@ public class Answer {
         this.content = content;
     }
 
-    public HashMap<String, String> getStringVariables(){
+    public List<String> getMediaPath() {
+        return mediaPath;
+    }
+
+    public void setMediaPath(List<String> mediaPath) {
+        this.mediaPath = mediaPath;
+    }
+
+    public HashMap<String, String> getStringProperties(){
         HashMap<String, String> stringVariables = new HashMap<>();
         stringVariables.put("content", content);
         return stringVariables;
