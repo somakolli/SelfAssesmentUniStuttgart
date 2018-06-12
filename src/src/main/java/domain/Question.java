@@ -37,6 +37,10 @@ public class Question implements SAObject {
         return mediaPaths;
     }
 
+    public void setMediaPaths(List<String> mediaPaths) {
+        this.mediaPaths = mediaPaths;
+    }
+
     public int getPoints() {
         return points;
     }

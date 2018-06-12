@@ -19,6 +19,9 @@ public class Parser implements ParserInterface {
     private Properties properties;
     private List<Question> generatedQuestions;
     private List<Answer> generatedAnswers;
+    private List<TimeQuestion> generatedTimeQuestions;
+    private List<Pair> timeBuffer;
+    private List<Pair> mediaBuffer;
     private List<Pair> pairs;
 
     /**
@@ -28,8 +31,11 @@ public class Parser implements ParserInterface {
      */
     public Parser(File configFile) {
         this.pairs = new ArrayList<>();
+        this.timeBuffer = new ArrayList<>();
+        this.mediaBuffer = new ArrayList<>();
         this.generatedAnswers = new ArrayList<>();
         this.generatedQuestions = new ArrayList<>();
+        this.generatedTimeQuestions = new ArrayList<>();
         // domain-List will contain one Object of each Class from out domain
         this.domain = new HashMap<>();
         this.domain.put("Answer", new Answer());
@@ -72,9 +78,9 @@ public class Parser implements ParserInterface {
             //System.out.println(properties.stringPropertyNames());
             generateObject(getType(key), properties.getProperty(key), getId(key));
         }
-        System.out.println("Objects added successfully:" + (generatedQuestions.size() + generatedAnswers.size()));
-
+        System.out.println("Objects added:" + (generatedQuestions.size() + generatedAnswers.size() + generatedTimeQuestions.size()));
     }
+
 
     /**
      * parses the configFile given as a XML-File !  <br/>
@@ -111,6 +117,7 @@ public class Parser implements ParserInterface {
     @Override
     public void generateObject(String type, String attributes, String id) {
         //containsKey uses .equals()
+        //System.out.println("Type: "+type+" Attributes: "+attributes+ " id: "+id);
         switch (type) {
             case "Answer":
                 Answer newAnswer = new Answer();
@@ -118,12 +125,28 @@ public class Parser implements ParserInterface {
                 //the ID is calculated in getID(Key)
                 lookupAndChange(newAnswer, id);
                 generatedAnswers.add(newAnswer);
+                break;
             case "Question":
                 Question newQuestion = new Question();
                 //the ID is calculated in getID(Key)
                 register(newQuestion, id);
                 newQuestion.setQuestion(attributes);
                 generatedQuestions.add(newQuestion);
+                break;
+            case "TimeQuestion":
+                TimeQuestion newTimeQuestion = new TimeQuestion();
+                register(newTimeQuestion, id);
+                newTimeQuestion.setQuestion(attributes);
+                generatedTimeQuestions.add(newTimeQuestion);
+                break;
+            case "Time":
+                lookupAndChangeTime(attributes, id);
+                break;
+            case "Mediapath":
+                lookupAndChangeMedia(attributes, id);
+                break;
+
+
         }
     }
 
@@ -135,6 +158,23 @@ public class Parser implements ParserInterface {
      */
     private void register(Question question, String id) {
         this.pairs.add(new Pair(question, id));
+
+    }
+
+    /**
+     * Method to store all TimeQuestions
+     *
+     * @param question the new question to be stored
+     */
+    private void register(TimeQuestion question, String id) {
+        this.pairs.add(new Pair(question, id));
+        for (Pair time : timeBuffer) {
+            if (time.getId().equals(id)) {
+                //System.out.println("Setting time, question");
+                question.setTime(Integer.valueOf(time.getTime()));
+                //System.out.println(question.getTime());
+            }
+        }
     }
 
     /**
@@ -147,7 +187,49 @@ public class Parser implements ParserInterface {
         for (Pair pair : pairs) {
             if (pair.getId().equals(id)) {
                 pair.addAnswer(answer);
+
             }
+        }
+    }
+
+    /**
+     * search corresponding TIME-QUESTION and set the time <br/>
+     * if there is no question jet, the time will be stored in timeBuffer
+     *
+     * @param time the time to set
+     * @param id   the ID of the corresponding TIME-QUESTION
+     */
+    public void lookupAndChangeTime(String time, String id) {
+        boolean set = false;
+        for (Pair pair : pairs) {
+            if (pair.getId().equals(id)) {
+                //System.out.println(Integer.valueOf(time));
+                pair.getTimeQuestion().setTime(Integer.valueOf(time));
+                set = true;
+            }
+        }
+        if (!set) {
+            timeBuffer.add(new Pair(time, id, false));
+        }
+    }
+
+    /**
+     * search corresponding QUESTION and update it's Mediapath <br/>
+     * if there is no question jet, the Mediapath will be stored in
+     *
+     * @param mediaPath the new Mediapath will be stored in mediapathBuffer
+     * @param id        the ID of the QUESTION
+     */
+    public void lookupAndChangeMedia(String mediaPath, String id) {
+        boolean set = false;
+        for (Pair pair : pairs) {
+            if (pair.getId().equals(id)) {
+                pair.addMediaPaths(mediaPath);
+                set = true;
+            }
+        }
+        if (!set) {
+            mediaBuffer.add(new Pair(mediaPath, id, true));
         }
     }
 
@@ -160,11 +242,11 @@ public class Parser implements ParserInterface {
     public String getId(String key) {
         int start = key.indexOf('_');
         int end = key.indexOf('.');
-        System.out.println(key);
+        //System.out.println(key);
         if (key.contains(".")) {
-            return key.substring(start, end);
+            return key.substring(start + 1, end);
         } else {
-            return key.substring(start, key.length());
+            return key.substring(start + 1, key.length());
         }
     }
 
@@ -176,7 +258,7 @@ public class Parser implements ParserInterface {
      */
     public String getType(String key) {
         int end = key.indexOf('_');
-        return key.substring(1, end);
+        return key.substring(0, end);
     }
 
     private Question getQuestionById(String id) {
@@ -198,5 +280,9 @@ public class Parser implements ParserInterface {
 
     public Properties getProperties() {
         return this.properties;
+    }
+
+    public List<TimeQuestion> getGeneratedTimeQuestions() {
+        return generatedTimeQuestions;
     }
 }

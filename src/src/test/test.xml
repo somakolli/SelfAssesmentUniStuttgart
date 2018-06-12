@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-    <comment></comment>
+    <comment>
+        Entries must follow this Naming-Scheme (Keys) :
+
+        Questions : Question_NumberOfQuestion
+        Answers : Answer_NumberOfCorrespondingQuestions.NumberOfAnswer
+        TimeQuestion : TimeQuestion_NumberOfQuestion  // ALL questions must have unique numbers
+        Time : Time_NumberOfCorrespondingTimeQuestion
+
+        ## Please avoid Spaces at the Beginning of Keys AND Element-Content ##
+
+    </comment>
     <entry key = "Question_1">exampleQuestion</entry>
     <entry key = "Answer_1.1">Answer for question 1, maybe this is longer
     then one line....
         bliblablup</entry>
     <entry key="Answer_1.2">Second Answer for question 1</entry>
+    <entry key="TimeQuestion_2">example for a timed Question</entry>
+    <entry key="Time_2">666</entry>
+    <entry key="Answer_2.1">The Answer for the timed question!</entry>
+    <entry key="Mediapath_1.1">src/path/blablabla/.../here/lives/media1</entry>
+    <entry key="Mediapath_1.2">src/path/blablabla/.../here/lives/media2</entry>
+    <entry key="Mediapath_1.3">src/path/blablabla/.../here/lives/media3</entry>
 
 </properties>
