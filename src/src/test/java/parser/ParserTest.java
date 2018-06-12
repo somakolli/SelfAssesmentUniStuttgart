@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -38,9 +39,11 @@ public class ParserTest {
         testProps.setProperty("TimeQuestion_2", "example for a timed Question");
         testProps.setProperty("Time_2", "60");
         testProps.setProperty("Answer_2.1", "The Answer for the timed question!");
-        testProps.setProperty("Mediapath_1.1","src/path/blablabla/.../here/lives/media1");
-        testProps.setProperty("Mediapath_1.2","src/path/blablabla/.../here/lives/media2");
-        testProps.setProperty("Mediapath_1.3","src/path/blablabla/.../here/lives/media3");
+        testProps.setProperty("Mediapath_1.1", "src/path/blablabla/.../here/lives/media1");
+        testProps.setProperty("Mediapath_1.2", "src/path/blablabla/.../here/lives/media2");
+        testProps.setProperty("Mediapath_1.3", "src/path/blablabla/.../here/lives/media3");
+        testProps.setProperty("Mediapath_1.4", "src/path/blablabla/.../here/lives/media4");
+        testProps.setProperty("Mediapath_1.7", "src/path/blablabla/.../here/lives/media5");
         Properties actualProps = parser.parse(testFile);
 
         Assert.assertEquals(testProps.stringPropertyNames(), actualProps.stringPropertyNames());
@@ -77,9 +80,7 @@ public class ParserTest {
                 "    then one line....\n" +
                 "        bliblablup");
         Answer testAnswer2 = new Answer();
-        testAnswer2.setContent("Answer for question 1, maybe this is longer\n" +
-                "    then one line....\n" +
-                "        bliblablup");
+        testAnswer2.setContent("Second Answer for question 1");
 
         Answer testAnswer3 = new Answer();
         testAnswer3.setContent("The Answer for the timed question!");
@@ -102,24 +103,32 @@ public class ParserTest {
         int testTime = 666;
 
         List<String> testMediapaths = new ArrayList<>();
-        testMediapaths.add("/src/path/blablabla/.../here/lives/media1");
-        testMediapaths.add("/src/path/blablabla/.../here/lives/media2");
-        testMediapaths.add("/src/path/blablabla/.../here/lives/media3");
+        testMediapaths.add("src/path/blablabla/.../here/lives/media1");
+        testMediapaths.add("src/path/blablabla/.../here/lives/media2");
+        testMediapaths.add("src/path/blablabla/.../here/lives/media3");
+        testMediapaths.add("src/path/blablabla/.../here/lives/media4");
+        testMediapaths.add("src/path/blablabla/.../here/lives/media5");
 
         parser.startParser();
         for (int i = 0; i < testQuestion.getAnswers().size(); i++) {
-            Assert.assertEquals(testQuestion.getAnswers().get(i).getContent(), testAnswer1.getContent());
+            Assert.assertEquals(testQuestion.getAnswers().get(i).getContent(),
+                    parser.getGeneratedQuestions().get(0).getAnswers().get(i).getContent());
         }
         for (int i = 0; i < testTimeQuestion.getAnswers().size(); i++) {
-            Assert.assertEquals(testTimeQuestion.getAnswers().get(i).getContent(), testAnswer3.getContent());
+            Assert.assertEquals(testTimeQuestion.getAnswers().get(i).getContent(),
+                    parser.getGeneratedTimeQuestions().get(0).getAnswers().get(i).getContent());
 
         }
         for (int i = 0; i < parser.getGeneratedTimeQuestions().size(); i++) {
-            Assert.assertEquals(parser.getGeneratedTimeQuestions().get(i).getTime(), testTime);
+            Assert.assertEquals(testTime, parser.getGeneratedTimeQuestions().get(i).getTime());
         }
         //Check Mediapaths
-        for (int i = 0; i<parser.getGeneratedQuestions().get(0).getMediaPaths().size(); i++) {
-            Assert.assertEquals(parser.getGeneratedQuestions().get(0).getMediaPaths().get(i), testMediapaths.get(i));
+        Collections.reverse(testMediapaths);
+        for (int i = 0; i < parser.getGeneratedQuestions().get(0).getMediaPaths().size(); i++) {
+            //System.out.println("expected: " + testMediapaths.get(i));
+            //System.out.println("actual: " + parser.getGeneratedQuestions().get(0).getMediaPaths().get(i));
+            Assert.assertEquals(testMediapaths.get(i),
+                    parser.getGeneratedQuestions().get(0).getMediaPaths().get(i));
         }
     }
 

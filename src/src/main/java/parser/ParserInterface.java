@@ -49,7 +49,7 @@ public interface ParserInterface {
      * @param answer The new answer that might be added
      * @param id     QuestionsId
      */
-    void lookupAndChange(Answer answer, String id);
+    void lookupAndChangeAnswer(Answer answer, String id);
 
 
     /**

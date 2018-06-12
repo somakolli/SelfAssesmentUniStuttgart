@@ -8,10 +8,11 @@
         Answers : Answer_NumberOfCorrespondingQuestions.NumberOfAnswer
         TimeQuestion : TimeQuestion_NumberOfQuestion  // ALL questions must have unique numbers
         Time : Time_NumberOfCorrespondingTimeQuestion
+        Mediapath: Mediapath_NumberOfCorrespondingQuestion.NumberOfPath
 
         ## Please avoid Spaces at the Beginning of Keys AND Element-Content ##
-
     </comment>
+
     <entry key = "Question_1">exampleQuestion</entry>
     <entry key = "Answer_1.1">Answer for question 1, maybe this is longer
     then one line....
@@ -23,5 +24,9 @@
     <entry key="Mediapath_1.1">src/path/blablabla/.../here/lives/media1</entry>
     <entry key="Mediapath_1.2">src/path/blablabla/.../here/lives/media2</entry>
     <entry key="Mediapath_1.3">src/path/blablabla/.../here/lives/media3</entry>
+    <entry key="Mediapath_1.4">src/path/blablabla/.../here/lives/media4</entry>
+    <entry key="Mediapath_1.7">src/path/blablabla/.../here/lives/media5</entry>
+
+
 
 </properties>

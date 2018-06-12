@@ -20,9 +20,12 @@ public class Parser implements ParserInterface {
     private List<Question> generatedQuestions;
     private List<Answer> generatedAnswers;
     private List<TimeQuestion> generatedTimeQuestions;
-    private List<Pair> timeBuffer;
-    private List<Pair> mediaBuffer;
-    private List<Pair> pairs;
+    private List<Pair> pairs;  //stores Questions + ID's
+    private List<TimePair> timeBuffer; // stores times + ID's
+    private List<MediaPair> mediaBuffer; // stores Media-paths + ID's
+    private List<AnswerPair> answerBuffer; // stores answers + ID's
+    private List<PointPair> pointbuffer; // stores points + ID's
+
 
     /**
      * Constructor for the Parser. Domain is added manually!
@@ -33,6 +36,8 @@ public class Parser implements ParserInterface {
         this.pairs = new ArrayList<>();
         this.timeBuffer = new ArrayList<>();
         this.mediaBuffer = new ArrayList<>();
+        this.answerBuffer = new ArrayList<>();
+        this.pointbuffer = new ArrayList<>();
         this.generatedAnswers = new ArrayList<>();
         this.generatedQuestions = new ArrayList<>();
         this.generatedTimeQuestions = new ArrayList<>();
@@ -123,20 +128,20 @@ public class Parser implements ParserInterface {
                 Answer newAnswer = new Answer();
                 newAnswer.setContent(attributes);
                 //the ID is calculated in getID(Key)
-                lookupAndChange(newAnswer, id);
+                lookupAndChangeAnswer(newAnswer, id);
                 generatedAnswers.add(newAnswer);
                 break;
             case "Question":
                 Question newQuestion = new Question();
+                newQuestion.setQuestion(attributes);
                 //the ID is calculated in getID(Key)
                 register(newQuestion, id);
-                newQuestion.setQuestion(attributes);
                 generatedQuestions.add(newQuestion);
                 break;
             case "TimeQuestion":
                 TimeQuestion newTimeQuestion = new TimeQuestion();
-                register(newTimeQuestion, id);
                 newTimeQuestion.setQuestion(attributes);
+                register(newTimeQuestion, id);
                 generatedTimeQuestions.add(newTimeQuestion);
                 break;
             case "Time":
@@ -145,6 +150,9 @@ public class Parser implements ParserInterface {
             case "Mediapath":
                 lookupAndChangeMedia(attributes, id);
                 break;
+            default:
+                System.out.println("Object could not be created.");
+                System.out.println("Please check config file for spelling mistakes");
 
 
         }
@@ -152,43 +160,79 @@ public class Parser implements ParserInterface {
 
 
     /**
-     * Method to store all Questions
+     * Method to store all Questions <br/>
+     * Contains a Check for already buffered Elements
      *
      * @param question the new question to be stored
      */
     private void register(Question question, String id) {
         this.pairs.add(new Pair(question, id));
+        //Checks if there are elements to be added to this question
+        for (AnswerPair aPair : answerBuffer) {
+            if (aPair.getId().equals(id)) {
+                question.getAnswers().add(aPair.getAnswer());
+            }
+        }
+        for (MediaPair mPair : mediaBuffer) {
+            if (mPair.getId().equals(id)) {
+                question.getMediaPaths().add(mPair.getMediapath());
+            }
+        }
+        for (PointPair pPair : pointbuffer) {
+            if (pPair.getId().equals(id)) {
+                question.setPoints(Integer.valueOf(pPair.getPoints()));
+            }
+        }
 
     }
 
     /**
      * Method to store all TimeQuestions
      *
-     * @param question the new question to be stored
+     * @param question the new time-question to be stored
      */
     private void register(TimeQuestion question, String id) {
         this.pairs.add(new Pair(question, id));
-        for (Pair time : timeBuffer) {
-            if (time.getId().equals(id)) {
-                //System.out.println("Setting time, question");
-                question.setTime(Integer.valueOf(time.getTime()));
-                //System.out.println(question.getTime());
+        //Checks if there are elements to be added to this question
+        for (TimePair tPair : timeBuffer) {
+            if (tPair.getId().equals(id)) {
+                question.setTime(Integer.valueOf(tPair.getTime()));
+            }
+        }
+        for (AnswerPair aPair : answerBuffer) {
+            if (aPair.getId().equals(id)) {
+                question.getAnswers().add(aPair.getAnswer());
+            }
+        }
+        for (MediaPair mPair : mediaBuffer) {
+            if (mPair.getId().equals(id)) {
+                question.getMediaPaths().add(mPair.getMediapath());
+            }
+        }
+        for (PointPair pPair : pointbuffer) {
+            if (pPair.getId().equals(id)) {
+                question.setPoints(Integer.valueOf(pPair.getPoints()));
             }
         }
     }
 
     /**
-     * Tries to add the given answer to a Question, if it exists
+     * Tries to add the given answer to a Question; <br/>
+     * if the corresponding question doesn't exist (jet), the answer will be stored in answerBuffer
      *
      * @param answer The new answer that might be added
      * @param id     QuestionsId
      */
-    public void lookupAndChange(Answer answer, String id) {
+    public void lookupAndChangeAnswer(Answer answer, String id) {
+        boolean set = false;
         for (Pair pair : pairs) {
             if (pair.getId().equals(id)) {
                 pair.addAnswer(answer);
-
+                set = true;
             }
+        }
+        if (!set) {
+            answerBuffer.add(new AnswerPair(answer, id));
         }
     }
 
@@ -203,13 +247,12 @@ public class Parser implements ParserInterface {
         boolean set = false;
         for (Pair pair : pairs) {
             if (pair.getId().equals(id)) {
-                //System.out.println(Integer.valueOf(time));
                 pair.getTimeQuestion().setTime(Integer.valueOf(time));
                 set = true;
             }
         }
         if (!set) {
-            timeBuffer.add(new Pair(time, id, false));
+            timeBuffer.add(new TimePair(time, id));
         }
     }
 
@@ -229,7 +272,7 @@ public class Parser implements ParserInterface {
             }
         }
         if (!set) {
-            mediaBuffer.add(new Pair(mediaPath, id, true));
+            mediaBuffer.add(new MediaPair(mediaPath, id));
         }
     }
 

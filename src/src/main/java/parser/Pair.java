@@ -16,8 +16,7 @@ public class Pair {
     private String id;
     private Question question;
     private TimeQuestion timeQuestion;
-    private String time;
-    private String mediapath;
+
 
     /**
      * Constructor for a simple Question pair. <br/>
@@ -45,22 +44,6 @@ public class Pair {
         this.id = id;
     }
 
-    /**
-     * Constructor for a simple Time pair <br/>
-     * e.g. the Mapping of Time <-> TIME-Question OR Mediapath <-> (TIME-)question via ID
-     *
-     * @param timeMedia the time OR mediapath to be stored
-     * @param id        the ID of the corresponding TIME-question
-     * @param isMedia   a Boolean to switch between MEDIAPATH and TIME
-     */
-    public Pair(String timeMedia, String id, boolean isMedia) {
-        if (isMedia) {
-            this.mediapath = timeMedia;
-        } else {
-            this.time = timeMedia;
-        }
-        this.id = id;
-    }
 
     public String getId() {
         return this.id;
@@ -108,11 +91,4 @@ public class Pair {
         return timeQuestion;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public String getMediapath() {
-        return mediapath;
-    }
 }
