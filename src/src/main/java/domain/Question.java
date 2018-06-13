@@ -9,8 +9,20 @@ public class Question implements SAObject {
     private List<Answer> answers = new ArrayList<>();
     private List<String> mediaPaths = new ArrayList<>();
     private int points = 0;
+    //wen die zeit 0 ist dann ist es keine
+    private int time = 0;
 
     public Question(){
+    }
+
+
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public Question(String question) {
@@ -59,4 +71,6 @@ public class Question implements SAObject {
         listVariables.put("answers", this.answers);
         return listVariables;
     }
+
+
 }
