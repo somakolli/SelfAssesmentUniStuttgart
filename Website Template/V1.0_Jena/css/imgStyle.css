@@ -1,0 +1,13 @@
+.img-fluid{
+    float: left; 
+    padding-right: 20px;
+}
+
+.imgText{
+    text-align: center;
+}
+
+p {
+    vertical-align: auto; 
+    text-align: left
+}

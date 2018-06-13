@@ -1,0 +1,30 @@
+.nav {
+    background-color: black;
+}
+
+.nav-pills li a{
+    color: white;
+}
+
+.nav-pills > li > .dropdown-menu { 
+    background-color: lightgrey; 
+    
+}
+.nav-pills > li > .dropdown-menu > .dropdown-item { 
+    color: black; 
+    
+}
+
+.progress{
+    position: relative; 
+    margin-top: -16px; 
+    width: 100%;
+}
+
+.jumbotron {
+    height: 150px;
+    background-color: lightslategray;
+    margin-bottom: 0;
+}
+
+

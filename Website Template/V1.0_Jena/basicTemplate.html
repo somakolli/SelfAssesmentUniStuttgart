@@ -7,13 +7,16 @@
     <title>Sitey McSiteFace</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
         crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/navbarStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/headcontentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/maincontentStyle.css">
     <link rel="stylesheet" type="text/css" href="css/buttonStyle.css">
-    <img src="images/unistuttgart_logo_deutsch.jpg" class="rounded" alt="Logo der Universität Stuttgart" width="500" height="100" style="margin: 0px 10px">
+    <img src="images/unistuttgart_logo_deutsch.jpg" class="rounded" alt="Logo der Universität Stuttgart" width="500" height="100"
+        style="margin: 0px 10px">
 
 </head>
 
 <body>
+    <!-----------------------------GLOBAL NAVIGATION BAR---------------------->
     <ul class="nav nav-pills" style="margin-top: 10px">
         <li class="nav-item">
             <a class="nav-link" href="#">Home</a>
@@ -40,15 +43,40 @@
             </div>
         </li>
     </ul>
-    <div class="jumbotron" style="margin-bottom: 0">
+    <!-----------------------------GLOBAL NAVIGATION BAR---------------------->
+
+
+    <!-----------------------------HEADER---------------------->
+    <div class="jumbotron">
         <h1 align="center">SelfAssessment Test</h1>
     </div>
-    <div class="progress" style="position: relative; top: 0px; width: 100%;">
+    <!-----------------------------HEADER---------------------->
+
+    <!--LOKAL NAVBAR OPTIONAL HIER EINGEBAUT. FALLS WEG: ENTFERNE MARGIN TOP AUS PROGRESSBAR-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Einführung</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#">Studium Allgemein</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="PI">
+                Praktische Informatik
+            </li>
+        </ol>
+    </nav>
+    <!--LOKAL NAVBAR OPTIONAL HIER EINGEBAUT. FALLS WEG: ENTFERNE MARGIN TOP AUS PROGRESSBAR-->
+
+    <!-----------------------------PROGRESS BAR---------------------->
+    <div class="progress">
         <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
             aria-valuemax="100">25%</div>
     </div>
+    <!-----------------------------PROGRESS BAR---------------------->
 
-    <div class="container" style="margin-top: 50px">
+    <!-----------------------------CONTENT-CONTAINER---------------------->
+    <div class="container">
         <h2>Some Questions</h2>
         <p>This could be an explanation regarding the questions below.</p>
         <div class="card border-dark mb-3">
@@ -91,12 +119,16 @@
                     </form>
             </div>
         </div>
+        <!-----------------------------CONTENT-CONTAINER---------------------->
+
+        <!-----------------------------NAVIGATION BUTTONS---------------------->
         <div class="bottom-left">
             <a href="#" class="previous">&laquo; Previous</a>
         </div>
         <div class="bottom-right">
             <a href="#" class="next">Next &raquo;</a>
         </div>
+        <!-----------------------------NAVIGATION BUTTONS---------------------->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
