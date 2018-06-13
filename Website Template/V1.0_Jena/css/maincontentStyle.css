@@ -1,3 +1,15 @@
 .container{
     margin-top: 50px;
 }
+
+/*
+This can be individualized for different 
+types of questions. 
+*/
+.mediaQuestion-title{
+    text-align: center;
+}
+
+.basicQuestion-title {
+    text-align: left;
+}
