@@ -3,7 +3,12 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlRootElement
+@XmlType(propOrder = {"question", "points", "time", "mediaPaths", "answers"})
 public class Question implements SAObject {
     private String question = "";
     private List<Answer> answers = new ArrayList<>();
@@ -12,15 +17,15 @@ public class Question implements SAObject {
     //wen die zeit 0 ist dann ist es keine
     private int time = 0;
 
-    public Question(){
+    public Question() {
     }
-
 
 
     public int getTime() {
         return time;
     }
 
+    @XmlElement
     public void setTime(int time) {
         this.time = time;
     }
@@ -33,6 +38,7 @@ public class Question implements SAObject {
         return question;
     }
 
+    @XmlElement
     public void setQuestion(String question) {
         this.question = question;
     }
@@ -41,6 +47,7 @@ public class Question implements SAObject {
         return answers;
     }
 
+    @XmlElement
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
@@ -49,6 +56,7 @@ public class Question implements SAObject {
         return mediaPaths;
     }
 
+    @XmlElement
     public void setMediaPaths(List<String> mediaPaths) {
         this.mediaPaths = mediaPaths;
     }
@@ -57,16 +65,18 @@ public class Question implements SAObject {
         return points;
     }
 
+    @XmlElement
     public void setPoints(int points) {
         this.points = points;
     }
 
-    public HashMap<String, String> getStringProperties(){
+    public HashMap<String, String> getStringProperties() {
         HashMap<String, String> stringVariables = new HashMap<>();
         stringVariables.put("question", this.question);
         return stringVariables;
     }
-    public HashMap<String, List<Answer>> getListProperties(){
+
+    public HashMap<String, List<Answer>> getListProperties() {
         HashMap<String, List<Answer>> listVariables = new HashMap<>();
         listVariables.put("answers", this.answers);
         return listVariables;

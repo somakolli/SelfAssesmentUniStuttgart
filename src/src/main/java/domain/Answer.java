@@ -3,8 +3,11 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class Answer implements SAObject{
+@XmlRootElement
+public class Answer implements SAObject {
     private String content = "";
     private List<String> mediaPath = new ArrayList<>();
 
@@ -12,6 +15,7 @@ public class Answer implements SAObject{
         return content;
     }
 
+    @XmlElement
     public void setContent(String content) {
         this.content = content;
     }
@@ -20,11 +24,12 @@ public class Answer implements SAObject{
         return mediaPath;
     }
 
+    @XmlElement
     public void setMediaPath(List<String> mediaPath) {
         this.mediaPath = mediaPath;
     }
 
-    public HashMap<String, String> getStringProperties(){
+    public HashMap<String, String> getStringProperties() {
         HashMap<String, String> stringVariables = new HashMap<>();
         stringVariables.put("content", content);
         return stringVariables;
