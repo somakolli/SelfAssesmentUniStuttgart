@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <questions>
+        <question>testQuestion</question>
+        <points>5</points>
+        <time>60</time>
+        <mediaPaths>defaultpath</mediaPaths>
+        <mediaPaths>defautpath2</mediaPaths>
+        <answers>
+            <content>My first answer</content>
+            <mediaPath>defaultpath</mediaPath>
+            <mediaPath>defaultpath2</mediaPath>
+        </answers>
+        <answers>
+            <content>My second answer</content>
+            <mediaPath>defaultpath</mediaPath>
+            <mediaPath>defaultpath2</mediaPath>
+        </answers>
+    </questions>
+    <questions>
+        <question></question>
+        <points>0</points>
+        <time>0</time>
+    </questions>
+</saRoot>
