@@ -7,22 +7,28 @@ body {
 
 }
 
+.card {
+    border: double;
+    border-color: gray;
+}
+
 .card-header {
     background-color: lightgray;
     color: black;
-}
-
-/*
-This can be individualized for different 
-types of questions. 
-*/
-.mediaQuestion-title{
+    border: double;
+    border-color: gray;
+    border-top: none;
+    border-right: none;
+    border-left: none;
     text-align: center;
 }
 
-.basicQuestion-title {
-    text-align: left;
+.card-body > ul > li > .checkbox > label > input{
+    margin-right: 55px;
 }
+
+
+
 
 .progress-bar-active{
     width: 50px; 

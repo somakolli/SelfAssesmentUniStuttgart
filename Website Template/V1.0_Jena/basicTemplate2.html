@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/headcontentStyle.css">
     <link rel="stylesheet" type="text/css" href="css/maincontentStyle.css">
     <link rel="stylesheet" type="text/css" href="css/bottomContentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/multiCheckboxStyle.css">
     <img src="images/unistuttgart_logo_deutsch.jpg" class="rounded" alt="Logo der Universität Stuttgart" width="500" height="100"
         style="margin: 0px 10px">
 
@@ -25,14 +26,14 @@
     <!--LOKAL NAVBAR OPTIONAL HIER EINGEBAUT. FALLS WEG: ENTFERNE MARGIN TOP AUS PROGRESSBAR-->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="#">Studium Allgemein</a>
+            <li class="breadcrumb-item active" aria-current="PI" style="color:black">
+                <a>Studium Allgemein</a>
             </li>
             <li class="breadcrumb-item">
                 <a href="#">Mathematik</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="PI" style="color:black">
-                <a>Theoretische Informatik</a>
+            <li class="breadcrumb-item">
+                <a href="#"> Theoretische Informatik</a>
             </li>
             <li class="breadcrumb-item">
                 <a href="#">Technische Informatik</a>
@@ -47,7 +48,7 @@
     <div class="progress">
         <div class="progress-bar-active"></div>
         <div class="progress-bar-active"></div>
-        <div class="progress-bar-inactive"></div>
+        <div class="progress-bar-active"></div>
         <div class="progress-bar-inactive"></div>
         <div class="progress-bar-inactive"></div>
         <div class="progress-bar-inactive"></div>
@@ -70,31 +71,73 @@
     <!-----------------------------CONTENT-CONTAINER---------------------->
     <div class="container">
         <div class="card border-dark mb-3">
-            <div class="card-header">
-                <h5>Wieso möchten Sie Informatik Studieren?</h4>
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="option2">Wieso nicht?</label>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="option1">Es gibt nichts besseres</label>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="option2">Memes</label>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Sehr gut</th>
+                        <th>Sehr sehr gut</th>
+                        <th>Dude trust me</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Wie gut schätzen Sie ihre mathematischen Fähigkeiten ein?</td>
+                            <td>
+                                <div class="radio">
+                                    <input type="radio" name="option2">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="radio">
+                                    <input type="radio" name="option2">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="radio">
+                                    <input type="radio" name="option2">
+                                </div>
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Wie gut schätzen Sie ihre technischen Fähigkeiten ein?</td>
+                            <td>
+                                    <div class="radio">
+                                        <input type="radio" name="option2">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" name="option2">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" name="option2">
+                                    </div>
+                                </td>
+                    </tr>
+                    <tr>
+                        <th>Wie gut schätzen Sie ihre pratkischen Fähigkeiten ein?</td>
+                            <td>
+                                    <div class="radio" >
+                                        <input type="radio" name="option2">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" name="option2">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" name="option2">
+                                    </div>
+                                </td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
         <!-----------------------------CONTENT-CONTAINER---------------------->
 
