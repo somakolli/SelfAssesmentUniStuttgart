@@ -9,29 +9,23 @@ a:hover {
 }
 
 .previous {
-    background-color: lightslategray;
-    color: white;
+    background-color: lightgray;
+    color: black;
     padding: 8px 16px;
 }
 
 .next {
-    background-color: lightslategray;
-    color: white;
+    background-color: lightgray;
+    color: black;
     padding: 8px 26px;
 }
 
 
 .bottom-right {
-    /* right: 0px;
-    bottom: 0;
-    position: relative; */
     float: right;
 }
 
 .bottom-left {
-    /* left: 0;
-    bottom: 0;
-    position: absolute; */
     float: left;
 }
 
