@@ -1,13 +1,14 @@
-body {
+
+
+
+.container-fluid{
+    margin-top: 150px;
+    height: 100%;
+    width: 80%;
 
 }
 
-.container{
-    margin-top: 50px;
-
-}
-
-.card {
+.card{
     border: double;
     border-color: gray;
 }
