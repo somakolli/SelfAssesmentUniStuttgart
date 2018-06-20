@@ -39,4 +39,12 @@ public interface parserInterface {
      * @return List of all Answers
      */
     public List<Answer> generateAnswerList(SARoot root);
+
+    /**
+     * Stores All questions (including the answers/...) in a XML file
+     *
+     * @param root SARoot that contains the List of all Questions
+     * @param path      path for the new XML file
+     */
+    public void writeObjectsToXML(SARoot root, String path);
 }

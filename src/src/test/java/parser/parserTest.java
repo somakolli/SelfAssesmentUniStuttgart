@@ -2,6 +2,7 @@ package parser;
 
 import domain.Answer;
 import domain.Question;
+import domain.SARoot;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -79,10 +80,11 @@ public class parserTest {
         List<Question> testQuestions = new ArrayList<>();
         testQuestions.add(testQuestion);
         testQuestions.add(testQuestion2);
-
+        SARoot newRoot = new SARoot();
+        newRoot.setQuestions(testQuestions);
         // let parser create a new XML file
         //System.out.println("A new test file has been created at: "+testOutputPath);
-        parser.writeObjectsToXML(testQuestions, testOutputPath);
+        parser.writeObjectsToXML(newRoot, testOutputPath);
 
     }
 

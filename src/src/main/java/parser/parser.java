@@ -86,9 +86,8 @@ public class parser implements parserInterface {
      * @param path      path for the new XML file
      */
     @Override
-    public void writeObjectsToXML(List<Question> questions, String path) {
-        SARoot newRoot = new SARoot();
-        newRoot.getQuestions().addAll(questions);
+    public void writeObjectsToXML(SARoot root, String path) {
+
         try {
 
             File testFile = new File(path);
@@ -99,7 +98,7 @@ public class parser implements parserInterface {
             // output pretty printed
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            jaxbMarshaller.marshal(newRoot, testFile);
+            jaxbMarshaller.marshal(root, testFile);
             // the next Line will print the generated XML File to the console, for Debugging only
             //jaxbMarshaller.marshal(newRoot, System.out);
 
