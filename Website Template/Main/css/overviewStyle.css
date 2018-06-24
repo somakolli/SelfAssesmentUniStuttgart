@@ -1,0 +1,15 @@
+.container-overview {
+    margin-top: 50px;
+    width: 65%;
+    margin: 0 auto;
+}
+.list-group {
+    border: double;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.list-group > li {
+    border: double;
+    font-weight: bold;
+}

@@ -1,0 +1,24 @@
+
+.container-fluid{
+    margin-top: 150px;
+    height: 100%;
+    width: 80%;
+
+}
+
+.card{
+    border: double;
+}
+
+.card-header {
+    border: double;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    text-align: center;
+}
+
+.card-body > ul > li > .checkbox > label > input{
+    margin-right: 55px;
+}
+
