@@ -10,7 +10,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Answer implements SAObject {
     private String content = "";
     private List<String> mediaPath = new ArrayList<>();
+    private Boolean isCorrect = false;
 
+    
+    public Boolean getCorrect() {
+		return this.isCorrect;
+	}
+    
+    @XmlElement
+	public void setCorrect(Boolean isCorrect) {
+		this.isCorrect = isCorrect;
+	}
+    
     public String getContent() {
         return content;
     }
