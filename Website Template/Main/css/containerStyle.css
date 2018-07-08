@@ -22,3 +22,9 @@
     margin-right: 55px;
 }
 
+@media(max-width: 500px) {
+    .container-fluid {
+    width: 500px;
+    margin-top: 50px;
+    }
+  }

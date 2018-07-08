@@ -1,33 +1,41 @@
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
   display: inline-block;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
   content: "|";
 }
 
-.progress{
-  position: relative; 
-  margin-top: -16px; 
-  width: 100%;
-  height: 30px;
-
+@media(max-width: 500px) {
+  .breadcrumb {
+   width: 600px;
+  top: 0;
+  left: 0;
+  }
+  .breadcrumb-item > a{
+    font-size: 12px;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
 }
 
-.progress-bar-active{
-  width: 50px; 
+.progress {
+  position: relative;
+  margin-top: -16px;
+  width: 100%;
+  height: 30px;
+}
+
+.progress-bar-active {
+  width: 50px;
   height: 20px;
   border-style: solid;
   border-width: 3px;
   border-left-width: 1px;
 }
 
-.progress-bar-inactive{
-  width: 50px; 
+.progress-bar-inactive {
+  width: 50px;
   height: 20px;
   border-style: solid;
   border-left-width: 1px;
-
 }
-
-
-

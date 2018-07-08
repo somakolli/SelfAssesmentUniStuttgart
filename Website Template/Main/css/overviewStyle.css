@@ -13,3 +13,12 @@
     border: double;
     font-weight: bold;
 }
+
+@media(max-width: 500px) {
+    .container-overview {
+        margin: 0 auto;
+        margin-left: 50px;
+        width: 500px;
+        
+    }
+  }
