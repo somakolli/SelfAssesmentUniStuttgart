@@ -87,17 +87,17 @@
                         <th>Wie gut schätzen Sie ihre mathematischen Fähigkeiten ein?</td>
                             <td>
                                 <div class="radio">
-                                    <input type="radio" name="option2">
+                                    <input type="radio" id="question1_first" name="option1" onclick="saveQuestionState(this)">
                                 </div>
                             </td>
                             <td>
                                 <div class="radio">
-                                    <input type="radio" name="option2">
+                                    <input type="radio" id="question1_second" name="option2" onclick="saveQuestionState(this)">
                                 </div>
                             </td>
                             <td>
                                 <div class="radio">
-                                    <input type="radio" name="option2">
+                                    <input type="radio" id="question1_third" name="option3" onclick="saveQuestionState(this)">
                                 </div>
                             </td>
                     </tr>
@@ -105,17 +105,17 @@
                         <th>Wie gut schätzen Sie ihre technischen Fähigkeiten ein?</td>
                             <td>
                                     <div class="radio">
-                                        <input type="radio" name="option2">
+                                        <input type="radio" id="question2_first" name="option1" onclick="saveQuestionState(this)">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="radio">
-                                        <input type="radio" name="option2">
+                                        <input type="radio" id="question2_second" name="option2" onclick="saveQuestionState(this)">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="radio">
-                                        <input type="radio" name="option2">
+                                        <input type="radio" id="question2_third" name="option3" onclick="saveQuestionState(this)">
                                     </div>
                                 </td>
                     </tr>
@@ -123,17 +123,17 @@
                         <th>Wie gut schätzen Sie ihre pratkischen Fähigkeiten ein?</td>
                             <td>
                                     <div class="radio" >
-                                        <input type="radio" name="option2">
+                                        <input type="radio" id="question3_first" name="option1" onclick="saveQuestionState(this)">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="radio">
-                                        <input type="radio" name="option2">
+                                        <input type="radio" id="question3_second" name="option2" onclick="saveQuestionState(this)">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="radio">
-                                        <input type="radio" name="option2">
+                                        <input type="radio" id="question3_third" name="option3" onclick="saveQuestionState(this)">
                                     </div>
                                 </td>
                     </tr>
@@ -151,12 +151,14 @@
             <script src="scripts/timer.js"></script>
         </div> -->
         <div class="bottom-right">
-            <a href="#" class="next">Next &raquo;</a>
+            <a href="evaluation.html" class="next" onclick="saveState()">Next &raquo;</a>
         </div>
         <!-----------------------------NAVIGATION BUTTONS---------------------->
     </div>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="questionState.js"></script>
+    <script src="state.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"

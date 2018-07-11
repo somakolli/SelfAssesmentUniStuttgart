@@ -18,7 +18,7 @@
 
 <body>
     <!-----------------------------HEADER---------------------->
-    <nav aria-label="breadcrumb">
+    <nav class="header" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="PI">
                     <a>Studium Allgemein</a>
@@ -42,7 +42,7 @@
     <!-----------------------------PROGRESS BAR---------------------->
     <div class="progress">
         <div class="progress-bar-active"></div>
-        <div class="progress-bar-active"></div>
+        <div id="last-added" class="progress-bar-active"></div>
         <div class="progress-bar-inactive"></div>
         <div class="progress-bar-inactive"></div>
         <div class="progress-bar-inactive"></div>
@@ -70,19 +70,19 @@
                     <li class="list-group-item">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="option2">Wieso nicht?</label>
+                                <input type="checkbox" id="option1" value="first" onclick="saveQuestionState(this)">Wieso nicht?</label>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="option1">Es gibt nichts besseres</label>
+                                <input type="checkbox" id="option2" value="second" onclick="saveQuestionState(this)">Es gibt nichts besseres</label>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="option2">Memes</label>
+                                <input type="checkbox" id="option3" value="third" onclick="saveQuestionState(this)">Memes</label>
                         </div>
                     </li>
                 </ul>
@@ -98,12 +98,13 @@
             <script src="scripts/timer.js"></script>
         </div>
         <div class="bottom-right">
-            <a href="#" class="next">Next &raquo;</a>
+            <a href="#" class="next" onclick="replaceSingleQuestion();">Next &raquo;</a>
         </div>
         <!-----------------------------NAVIGATION BUTTONS---------------------->
     </div>
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="scripts/questionState.js"></script>
+    <script src="scripts/state.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
