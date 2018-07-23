@@ -92,7 +92,7 @@ public class TextEditor extends Application {
 				currentSelectedTreeItem = selectedItem;
 				System.out.println("Selected Text : " + selectedItem.getValue());
 
-				if (oldSelected != null) {
+				if (oldSelected != null && twMap.getSAObject(oldSelected) != null) {
 					twMap.setContent(twMap.getSAObject(oldSelected), text.getText());
 				}
 				if (selectedItem != null) {
@@ -166,6 +166,7 @@ public class TextEditor extends Application {
 			if (result.get() == ButtonType.OK) {
 				// ... user chose OK
 				text.setText("");
+				
 				if (twMap.isQuestion(currentSelectedTreeItem)) {
 					twMap.removePair(currentSelectedTreeItem);
 					rootitem.getChildren().remove(currentSelectedTreeItem);
@@ -176,10 +177,16 @@ public class TextEditor extends Application {
 				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
 
 					twMap.removePair(currentSelectedTreeItem);
-					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+					
 					for (int i = 0; i < currentSelectedTreeItem.getParent().getChildren().size(); i++) {
 						currentSelectedTreeItem.getParent().getChildren().get(i).setValue("Answer: " + (i + 1));
 					}
+					
+					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+					
+					TreeItem<String> ti = currentSelectedTreeItem;
+					
+					
 
 				}
 

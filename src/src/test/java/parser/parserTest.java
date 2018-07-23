@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +85,8 @@ public class parserTest {
         newRoot.setQuestions(testQuestions);
         // let parser create a new XML file
         //System.out.println("A new test file has been created at: "+testOutputPath);
-        parser.writeObjectsToXML(newRoot, testOutputPath);
+        File testfile = new File("src/test/testOutputJAXB.xml");
+        parser.writeObjectsToXML(newRoot, testfile);
 
     }
 
