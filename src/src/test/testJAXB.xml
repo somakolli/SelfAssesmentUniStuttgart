@@ -11,15 +11,15 @@
             <mediaPath>defaultpath</mediaPath>
             <mediaPath>defaultpath2</mediaPath>
         </answers>
-        <answers>
-            <content>My second answer</content>
-            <mediaPath>defaultpath</mediaPath>
-            <mediaPath>defaultpath2</mediaPath>
-        </answers>
     </questions>
     <questions>
         <question></question>
         <points>0</points>
         <time>0</time>
+           <answers>
+            <content>My second answer</content>
+            <mediaPath>defaultpath</mediaPath>
+            <mediaPath>defaultpath2</mediaPath>
+        </answers>
     </questions>
 </saRoot>

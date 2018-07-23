@@ -2,6 +2,7 @@ package creator;
 
 import javafx.application.Application;
 import domain.*;
+import parser.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,6 +22,8 @@ import javafx.stage.Stage;
 import java.io.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -197,7 +200,10 @@ public class TextEditor extends Application {
 		});
 
 		MenuItem saveMenuItem = new MenuItem("Export xml");
-		saveMenuItem.setOnAction(actionEvent -> save(primaryStage, text));
+		saveMenuItem.setOnAction(actionEvent -> {
+			twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
+			save(primaryStage, text);
+		});
 		MenuItem exitMenuItem = new MenuItem("Programm beenden");
 		exitMenuItem.setOnAction(actionEvent -> Platform.exit());
 
@@ -249,47 +255,60 @@ public class TextEditor extends Application {
 			item = new TreeItem<>("Answer: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
 
 		}
-
 	}
 
 	public void open(Stage primaryStage, TextArea text) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
-		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
-		fileChooser.setInitialFileName("file.txt");
+		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
+		fileChooser.setInitialFileName("file.xml");
 		File file = fileChooser.showOpenDialog(primaryStage);
+		/**
+		 * if (file != null) { InputStream in = new FileInputStream(file);
+		 * BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		 * StringBuilder out = new StringBuilder(); String line; while ((line =
+		 * reader.readLine()) != null) { out.append(line + "\n"); }
+		 * text.setText(out.toString()); reader.close(); in.close(); }
+		 */
 
+		// open parser
+		parser parser = new parser();
 		if (file != null) {
-			InputStream in = new FileInputStream(file);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			StringBuilder out = new StringBuilder();
-			String line;
-			while ((line = reader.readLine()) != null) {
-				out.append(line + "\n");
+			parser.setFile(file);
+			parser.startParser();
+
+			for (Question q : parser.getGeneratedQuestions()) {
+
+				makeBranch(rootitem, q);
+
+				for (Answer a : q.getAnswers()) {
+					makeBranch(twMap.getTreeItem(q), a);
+
+				}
+
 			}
-			text.setText(out.toString());
-			reader.close();
 		}
-	};
+	}
 
 	public void save(Stage primaryStage, TextArea text) {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save File");
-		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
-		fileChooser.setInitialFileName("file.txt");
+		fileChooser.setTitle("Save as XML-File");
+		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
+		fileChooser.setInitialFileName("file.xml");
 		File file = fileChooser.showSaveDialog(primaryStage);
+		/**
+		 * if (file != null) { try { FileWriter fileWriter = null; fileWriter = new
+		 * FileWriter(file); fileWriter.write(text.getText()); fileWriter.close(); }
+		 * catch (IOException ex) {
+		 * 
+		 * }
+		 */
+		parser parser = new parser();
+		SARoot root = new SARoot();
+		root.setQuestions(twMap.getQuestions());
+		parser.writeObjectsToXML(root, file);
 
-		if (file != null) {
-			try {
-				FileWriter fileWriter = null;
-				fileWriter = new FileWriter(file);
-				fileWriter.write(text.getText());
-				fileWriter.close();
-			} catch (IOException ex) {
-
-			}
-		}
-	};
+	}
 
 	public void suche(TextArea fullText) {
 		Stage sucheStage = new Stage();

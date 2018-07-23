@@ -2,6 +2,7 @@ package parser;
 
 import domain.*;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -46,5 +47,5 @@ public interface parserInterface {
      * @param root SARoot that contains the List of all Questions
      * @param path      path for the new XML file
      */
-    public void writeObjectsToXML(SARoot root, String path);
+    public void writeObjectsToXML(SARoot root, File file);
 }

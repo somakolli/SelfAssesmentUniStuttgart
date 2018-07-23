@@ -24,11 +24,13 @@ public class TwoWayHashMap {
 		AllTreeItems.add(firstkey);
 		if (secondkey.getClass().isInstance(new Question())) {
 			Questions.add((Question) secondkey);
+		} else if (secondkey.getClass().isInstance(new Answer())) {
+			Question q = (Question) forward.get(firstkey.getParent());
+			// Arraylist does allow duplicates...
+			if (!q.getAnswers().contains(secondkey)) {
+				q.getAnswers().add((Answer) secondkey);
+			}
 		}
-		 else if (secondkey.getClass().isInstance(new Answer())) {
-		 Question q = (Question) forward.get(firstkey.getParent());
-		 q.getAnswers().add((Answer) secondkey);
-		 }
 
 	}
 
@@ -166,7 +168,7 @@ public class TwoWayHashMap {
 			}
 
 		}
-		
+
 		return null;
 
 	}
