@@ -1,6 +1,7 @@
 package creator;
 
 import javafx.application.Application;
+
 import domain.*;
 import parser.*;
 import javafx.application.Platform;
@@ -22,8 +23,6 @@ import javafx.stage.Stage;
 import java.io.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -33,35 +32,9 @@ public class TextEditor extends Application {
 	public static TreeItem<String> rootitem = new TreeItem<>();
 	public static TreeItem<String> currentSelectedTreeItem = new TreeItem<>();
 	public int i = 0;
-	public static ArrayList<Question> Questions = new ArrayList<Question>();
-	public static HashMap<TreeItem<String>, SAObject> treeitems = new HashMap<TreeItem<String>, SAObject>();
 	public static TwoWayHashMap twMap = new TwoWayHashMap();
 
 	public static void main(String[] args) {
-		ArrayList<Answer> Answers = new ArrayList<Answer>();
-		ArrayList<Answer> Answers2 = new ArrayList<Answer>();
-
-		Answer Answer1 = new Answer();
-		Answer1.setContent("content");
-		Answers.add(Answer1);
-
-		Answer Answer2 = new Answer();
-		Answer2.setContent("content2");
-		Answers.add(Answer2);
-
-		Question q1 = new Question();
-		q1.setQuestion("This is a question");
-		q1.setAnswers(Answers);
-		Questions.add(q1);
-
-		Answer Answer3 = new Answer();
-		Answer3.setContent("yooooooooooooo\noooooooooooooo");
-		Answers2.add(Answer3);
-
-		Question q2 = new Question();
-		q2.setQuestion("This is a question2");
-		q2.setAnswers(Answers2);
-		Questions.add(q2);
 
 		Application.launch(args);
 
@@ -118,11 +91,10 @@ public class TextEditor extends Application {
 		// }
 
 		// Create Tree
-
 		tree.setShowRoot(false);
 		root.setLeft(tree);
 
-		// File menu - new, save, exit
+		// File menut
 		Menu fileMenu = new Menu("Datei");
 
 		MenuItem newqMenuItem = new MenuItem("New Question");
@@ -166,7 +138,7 @@ public class TextEditor extends Application {
 			if (result.get() == ButtonType.OK) {
 				// ... user chose OK
 				text.setText("");
-				
+
 				if (twMap.isQuestion(currentSelectedTreeItem)) {
 					twMap.removePair(currentSelectedTreeItem);
 					rootitem.getChildren().remove(currentSelectedTreeItem);
@@ -177,16 +149,14 @@ public class TextEditor extends Application {
 				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
 
 					twMap.removePair(currentSelectedTreeItem);
-					
+
 					for (int i = 0; i < currentSelectedTreeItem.getParent().getChildren().size(); i++) {
 						currentSelectedTreeItem.getParent().getChildren().get(i).setValue("Answer: " + (i + 1));
 					}
-					
+
 					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
-					
+
 					TreeItem<String> ti = currentSelectedTreeItem;
-					
-					
 
 				}
 
@@ -206,16 +176,26 @@ public class TextEditor extends Application {
 			}
 		});
 
+		MenuItem editMenuItem = new MenuItem("Edit");
+		editMenuItem.setOnAction(actionEvent -> {
+			if (twMap.getSAObject(currentSelectedTreeItem).getClass().isInstance(new Question())) {
+				properties((Question) twMap.getSAObject(currentSelectedTreeItem));
+			} else {
+				Question q = twMap.getQuestion((Answer) twMap.getSAObject(currentSelectedTreeItem));
+				properties(q);
+			}
+		});
+
 		MenuItem saveMenuItem = new MenuItem("Export xml");
 		saveMenuItem.setOnAction(actionEvent -> {
 			twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
 			save(primaryStage, text);
 		});
-		MenuItem exitMenuItem = new MenuItem("Programm beenden");
+		MenuItem exitMenuItem = new MenuItem("Exit");
 		exitMenuItem.setOnAction(actionEvent -> Platform.exit());
 
-		fileMenu.getItems().addAll(newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(), openMenuItem,
-				saveMenuItem, new SeparatorMenuItem(), exitMenuItem);
+		fileMenu.getItems().addAll(newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(), editMenuItem,
+				openMenuItem, saveMenuItem, new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Suche");
@@ -315,6 +295,66 @@ public class TextEditor extends Application {
 		root.setQuestions(twMap.getQuestions());
 		parser.writeObjectsToXML(root, file);
 
+	}
+
+	public void properties(Question q) {
+		Stage propStage = new Stage();
+		BorderPane root = new BorderPane();
+		Scene scene = new Scene(root, 200, 85);
+
+		HBox textBox = new HBox(4);
+		textBox.setAlignment(Pos.BOTTOM_CENTER);
+		textBox.getChildren().add(new Label("Points"));
+		TextField stext = new TextField("");
+		textBox.getChildren().add(stext);
+		stext.setText(String.valueOf(q.getPoints()));
+		
+		HBox textBox2 = new HBox(4);
+		textBox2.setAlignment(Pos.BOTTOM_CENTER);
+		textBox2.getChildren().add(new Label("Time"));
+		TextField stext2 = new TextField("");
+		stext2.setText(String.valueOf(q.getTime()));
+		textBox2.getChildren().add(stext2);
+
+		root.setTop(textBox);
+		root.setCenter(textBox2);
+
+		// CheckBox checkBox = new CheckBox("Groﬂ- / Kleinschreibung beachten");
+		// root.setCenter(checkBox);
+		HBox bBox = new HBox(3);
+
+		Button bsave = new Button("Save");
+		Label eLabel = new Label("");
+
+		bsave.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+
+				q.setPoints(Integer.parseInt(stext.getText()));
+				q.setTime(Integer.parseInt(stext2.getText()));
+				propStage.close();
+				
+			}
+		});
+
+		Button bexit = new Button("Exit");
+
+		bexit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+
+				propStage.close();
+				
+			}
+		});
+
+		bBox.getChildren().add(bsave);
+		bBox.getChildren().add(bexit);
+		bBox.getChildren().add(eLabel);
+		root.setBottom(bBox);
+		propStage.setScene(scene);
+		// primaryStage.setFullScreen(true);
+		propStage.show();
 	}
 
 	public void suche(TextArea fullText) {
