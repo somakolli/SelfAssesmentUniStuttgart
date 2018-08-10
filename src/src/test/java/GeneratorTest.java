@@ -34,13 +34,7 @@ public class GeneratorTest {
     @Before
     public void init() throws IOException {
 
-        createFile("<!DOCTYPE html>\n" +
-                "<html lang=\"en\">\n" +
-                "<head>\n" +
-                "    <meta charset=\"UTF-8\">\n" +
-                "    <title>Uni Stuttgart Self Assesment</title>\n" +
-                "</head>\n" +
-                "<body>\n" +
+        createFile(
                 "<div sa-object=\"question\">\n" +
                 "    <h1>{{question.content}}</h1>\n" +
                 "    <ul sa-for=\"answer in question.answers\">\n" +
@@ -48,9 +42,8 @@ public class GeneratorTest {
                 "            {{answer.content}}\n" +
                 "        </li>\n" +
                 "    </ul>\n" +
-                "</div>\n" +
-                "</body>\n" +
-                "</html>",testTemplatePath);
+                "</div>\n"
+                ,testTemplatePath);
         File file = new File(testTemplatePath);
         generator = new Generator(file);
     }

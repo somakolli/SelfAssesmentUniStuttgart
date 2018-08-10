@@ -1,6 +1,7 @@
 package generator;
 
 import domain.Question;
+import domain.SAObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -64,7 +65,11 @@ public class Generator implements GeneratorInterface{
 
     }
 
-    @Override
+
+    public void replaceStringContent(TemplateObject object, String variableName, SAObject saObject) {
+
+    }
+
     public void replaceStringContent(TemplateObject object, String variableName, Question question) {
         String innerObjectString = object.getHtmlElement().children().toString();
         List<TemplateVariable> templateVariables = getVariables(innerObjectString);
