@@ -1,18 +1,25 @@
-var currentTime = new Date();
-currentTime.setMinutes(currentTime.getMinutes() + 1);
-var x = setInterval(function () {
+function setTimer(binary) {
+    if (binary == 1) {
+        $("#timer").show();
+        var currentTime = new Date();
+        currentTime.setMinutes(currentTime.getMinutes() + 1);
+        var x = setInterval(function () {
 
-    var now = new Date().getTime();
-
-    var distance = currentTime.getTime() - now;
-
-    //var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    $("#timer").text("Timer: " + seconds + "s ");
-
-    if (distance <= 0) {
-        clearInterval(x);
-        $("#timer").text("EXPIRED");
+            var now = new Date().getTime();
+    
+            var distance = currentTime.getTime() - now;
+    
+            //var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+            $("#timer").text("Timer: " + seconds + "s ");
+    
+            if (distance <= 0) {
+                clearInterval(x);
+                $("#timer").text("EXPIRED");
+            }
+        }, 1000);
+    } else {
+        $("#timer").hide();
     }
-}, 1000);
+}

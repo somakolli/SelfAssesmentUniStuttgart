@@ -1,11 +1,15 @@
-.container-overview {
+.container-fluid{
     margin-top: 50px;
-    width: 65%;
     margin: 0 auto;
+    width: 65%;
 }
+
 .list-group {
+    height: 100%;
+    width: 100%;
     border: double;
     margin-bottom: 20px;
+    margin: 0 auto;
     text-align: center;
 }
 
@@ -14,8 +18,12 @@
     font-weight: bold;
 }
 
+#active {
+    background-color: lightsteelblue;
+}
+
 @media(max-width: 500px) {
-    .container-overview {
+    .container-fluid{
         margin: 0 auto;
         margin-left: 50px;
         width: 500px;
