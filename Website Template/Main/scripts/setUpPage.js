@@ -67,6 +67,61 @@ var content = [
             }
         ],
         "category": "Memes"
+    },
+    {
+        "questionID": ["question_5"],
+        "Type": "videoQuestion",
+        "questionString": ["Warum ist Hearthstone so gut?"],
+        "video" : {"src" : "images/2018-06-13-0149-19.mp4", "video_type" : "video/mp4"},
+        "timer": false,
+        "answers": [
+            {
+                "answerID": "answer5_1",
+                "answerVal": "option5_1",
+                "answer": "Wegen goldenen packs"
+            },
+            {
+                "answerID": "answer5_2",
+                "answerVal": "option5_2",
+                "answer": "Wegen goldenen karten"
+            },
+            {
+                "answerID": "answer5_3",
+                "answerVal": "option5_3",
+                "answer": "Wegen Kripp"
+            },
+            {
+                "answerID": "answer5_4",
+                "answerVal": "option5_4",
+                "answer": "ist es gar nicht, es ist thrash."
+            }
+        ],
+        "category": "Memes"
+    },
+    {
+        "questionID": ["question_6"],
+        "Type": "imageQuestion",
+        "questionString": ["Wie würden Sie dieses Spiel beschreiben?"],
+        "image" : "images/hearthstone_6015934.jpg",
+        "timer": false,
+        "answers": [
+            {
+                "answerID": "answer6_1",
+                "answerVal": "option6_1",
+                "answer": "Thrash"
+            },
+            {
+                "answerID": "answer6_2",
+                "answerVal": "option6_2",
+                "answer": "Garbage"
+            },
+            {
+                "answerID": "answer6_3",
+                "answerVal": "option6_3",
+                "answer": "Der HSV unter den TCG's"
+            },
+        ],
+        "category": "Memes"
     }
 ]
 
@@ -118,6 +173,20 @@ function setUpPage(dir) {
         setHeader(content[currentPage].category);
         addStyleSheet("multiQuestion");
         //current page displays the overview
+    } else if(content[currentPage].Type == "imageQuestion") {
+        showProgressBar();
+        showHeader();
+        insertImageQuestion(content[currentPage].questionID, content[currentPage].questionString, content[currentPage].image);
+        insertImageAnswers(content[currentPage].questionID, content[currentPage].answers);
+        setHeader(content[currentPage].category);
+        addStyleSheet("singleQuestion");
+    } else if(content[currentPage].Type == "videoQuestion") {
+        showProgressBar();
+        showHeader();
+        insertVideoQuestion(content[currentPage].questionID, content[currentPage].questionString, content[currentPage].video);
+        insertVideoAnswers(content[currentPage].questionID, content[currentPage].answers);
+        setHeader(content[currentPage].category);
+        addStyleSheet("singleQuestion");
     } else if (content[currentPage].Type == "overview") {
         insertOverview(content[currentPage].categories, content[currentPage].active);
         hideProgressBar();
