@@ -18,7 +18,7 @@
     text-align: center;
 }
 
-.card-body > ul > li > .checkbox > label > input{
+.card-body > ul > li > .radio > label > input{
     margin-right: 55px;
 }
 

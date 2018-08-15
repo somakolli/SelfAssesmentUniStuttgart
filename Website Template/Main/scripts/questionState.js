@@ -1,51 +1,22 @@
 
-/* function saveQuestionState() {
-    var url1 = window.location.href;
-    url1 = url1.substring(url1.indexOf('#'), url1.length-1);
-    var url = "";
-    var questions = [];
-    var inputs = $('body :input');
-    inputs.each(function () {
-        questions.push($(this).attr("id"));
-        if($(this).is(":checked")){
-            url += $(this).attr("id") + $(this).val() + "#";
-        }
-    });
-    return url;
-} */
-
-/* function updateUrl(oldState) {
-    var url = window.location.href + "#" + "hi";
-    state = {
-        "location" : url
+function updateUrl(questionState){
+    var currState = window.history.state;
+    console.log(currState);
+    var newState = {
+        "state" : []
     }
-    console.log(oldUrl);
-    history.replaceState(null, null, url);
-
-    //window.location.href = url;
-    //window.history.replaceState({}, "", url);
-    return url;
-} */
-
-function updateUrl(oldState, questionState) {
-    if (questionState) {
-        var questionIDs = "";
-        for(var i = 0; i < questionState.questionID.length; i++){
-            questionIDs += questionState.questionID[i] + "/";
+    if(currState != null){
+        for(var i = 0; i < currState.state.length; i++){
+            newState.state.push(currState.state[i]);
         }
-        var answerIDs = "";
-        for(var j = 0; j < questionState.checkedAnswers.length; j++){
-            answerIDs += questionState.checkedAnswers[j] + "/";
-        }
-        var url = window.location.href + questionIDs + answerIDs;
-        state = {
-            "location": url
-        }
-        history.replaceState(null, null, url);
-        return url;
+    }
+    if(questionState != null){
+        newState.state.push([questionState.questionID, questionState.checkedAnswers]);
+        history.replaceState(newState, null, "#");
     } else {
-        return "";
+        history.replaceState(currState, null, "#");
     }
+    console.log(window.history.state);
 }
 
 function saveSinglePageState() {
@@ -76,7 +47,6 @@ function saveMultiPageState() {
         }
         questionState.checkedAnswers.push(checked);
     });
-    //console.log(questionState);
     return questionState;
 }
 

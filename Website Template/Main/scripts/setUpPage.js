@@ -141,12 +141,13 @@ function setUpPage(dir) {
         initializeProgressBar(content.length);
         initializeHeader(categories);
     } else {
-        var pageState = " ";
+        var pageState = null;
         if (content[currentPage].Type == "singleQuestion") {
             pageState = saveSinglePageState();
         } else if (content[currentPage].Type == "multiQuestion") {
             pageState = saveMultiPageState();
         }
+        updateUrl(pageState);
     }
     //go to next page
     if (dir == 1) {
@@ -172,7 +173,7 @@ function setUpPage(dir) {
         insertMultiQuestion(content[currentPage].questionID, content[currentPage].questionString, content[currentPage].answers);
         setHeader(content[currentPage].category);
         addStyleSheet("multiQuestion");
-        //current page displays the overview
+    //current page displays a pictured question
     } else if(content[currentPage].Type == "imageQuestion") {
         showProgressBar();
         showHeader();
@@ -180,6 +181,7 @@ function setUpPage(dir) {
         insertImageAnswers(content[currentPage].questionID, content[currentPage].answers);
         setHeader(content[currentPage].category);
         addStyleSheet("singleQuestion");
+    //current page includes a video alongside questions
     } else if(content[currentPage].Type == "videoQuestion") {
         showProgressBar();
         showHeader();
@@ -187,6 +189,7 @@ function setUpPage(dir) {
         insertVideoAnswers(content[currentPage].questionID, content[currentPage].answers);
         setHeader(content[currentPage].category);
         addStyleSheet("singleQuestion");
+    //current page displays the overview
     } else if (content[currentPage].Type == "overview") {
         insertOverview(content[currentPage].categories, content[currentPage].active);
         hideProgressBar();
@@ -201,6 +204,7 @@ function setUpPage(dir) {
     } else {
         setTimer(0);
     }
+    //console.log(window.history.state);
 }
 
 

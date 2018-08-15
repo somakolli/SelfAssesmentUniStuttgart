@@ -10,8 +10,8 @@ function insertImageAnswers(questionID, answers) {
 
 function insertImageQuestion(questionID, questionString, img_src) {
     var beforeString = '<div class="card border-dark mb-3"> <div class="card-header"> <h5>';
-    var afterString = '</h5> </div> <img style="max-width: 100%; max-height: 100%"class="img-responsive" src="';
-    var beforeID = '"> <div class="card-body"> <ul id="';
+    var afterString = '</h5> </div> <div id="imageContainer"> <img style="max-width: 100%; max-height: 100%"class="img-responsive" src="';
+    var beforeID = '"> </div> <div class="card-body"> <ul id="';
     var afterID = '" class="list-group list-group-flush">';
     var botPiece = '</ul> </div> </div>'
     $(".card.border-dark.mb-3").replaceWith(beforeString + questionString + afterString + img_src + beforeID + questionID + afterID + botPiece);
