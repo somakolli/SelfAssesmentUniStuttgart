@@ -120,6 +120,15 @@ public class TextEditor extends Application {
 
 					makeBranch(currentSelectedTreeItem.getParent(), a);
 
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Can't create Answer!");
+
+					// Header Text: null
+					alert.setHeaderText(null);
+					alert.setContentText("You need to select a Question to add an Answer!");
+
+					alert.showAndWait();
 				}
 
 			}
@@ -210,6 +219,99 @@ public class TextEditor extends Application {
 		primaryStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
 		primaryStage.show();
+
+		// Treeview Context Menu
+		ContextMenu cm = new ContextMenu();
+		MenuItem mi1 = new MenuItem("New Question");
+		mi1.setOnAction(actionEvent -> {
+
+			System.out.println("ROOTITEM: " + rootitem);
+			Question q = new Question();
+			makeBranch(rootitem, q);
+			twMap.printContents();
+
+		});
+		MenuItem mi2 = new MenuItem("New Answer");
+		mi2.setOnAction(actionEvent -> {
+
+			Answer a = new Answer();
+
+			if (currentSelectedTreeItem != null) {
+
+				if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem, a);
+
+				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem.getParent(), a);
+
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Can't create Answer!");
+
+					// Header Text: null
+					alert.setHeaderText(null);
+					alert.setContentText("You need to select a Question to add an Answer!");
+
+					alert.showAndWait();
+				}
+
+			}
+
+		});
+		MenuItem mi3 = new MenuItem("Edit");
+		mi3.setOnAction(actionEvent -> {
+			if (twMap.getSAObject(currentSelectedTreeItem).getClass().isInstance(new Question())) {
+				properties((Question) twMap.getSAObject(currentSelectedTreeItem));
+			} else {
+				Question q = twMap.getQuestion((Answer) twMap.getSAObject(currentSelectedTreeItem));
+				properties(q);
+			}
+		});
+		MenuItem mi4 = new MenuItem("Delete");
+		mi4.setOnAction(actionEvent -> {
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete Tree Item?");
+			alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
+			alert.setContentText("Do you want this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				// ... user chose OK
+				text.setText("");
+
+				if (twMap.isQuestion(currentSelectedTreeItem)) {
+					twMap.removePair(currentSelectedTreeItem);
+					rootitem.getChildren().remove(currentSelectedTreeItem);
+					for (int i = 0; i < twMap.getQuestionTreeItems().size(); i++) {
+						twMap.getQuestionTreeItems().get(i).setValue("Question: " + (i + 1));
+					}
+
+				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+					twMap.removePair(currentSelectedTreeItem);
+
+					for (int i = 0; i < currentSelectedTreeItem.getParent().getChildren().size(); i++) {
+						currentSelectedTreeItem.getParent().getChildren().get(i).setValue("Answer: " + (i + 1));
+					}
+
+					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+
+					TreeItem<String> ti = currentSelectedTreeItem;
+
+				}
+
+			} else {
+				// ... user chose CANCEL or closed the dialog
+
+			}
+
+		});
+		cm.getItems().addAll(mi1, mi2, new SeparatorMenuItem(), mi3, mi4);
+		tree.setContextMenu(cm);
+
 	}
 
 	private void makeBranch(TreeItem<String> root, SAObject obj) {
@@ -308,7 +410,7 @@ public class TextEditor extends Application {
 		TextField stext = new TextField("");
 		textBox.getChildren().add(stext);
 		stext.setText(String.valueOf(q.getPoints()));
-		
+
 		HBox textBox2 = new HBox(4);
 		textBox2.setAlignment(Pos.BOTTOM_CENTER);
 		textBox2.getChildren().add(new Label("Time"));
@@ -333,7 +435,7 @@ public class TextEditor extends Application {
 				q.setPoints(Integer.parseInt(stext.getText()));
 				q.setTime(Integer.parseInt(stext2.getText()));
 				propStage.close();
-				
+
 			}
 		});
 
@@ -344,7 +446,7 @@ public class TextEditor extends Application {
 			public void handle(ActionEvent e) {
 
 				propStage.close();
-				
+
 			}
 		});
 
