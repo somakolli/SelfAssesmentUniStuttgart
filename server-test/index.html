@@ -5,9 +5,9 @@
             $(document).ready(function () {
                 $("#nextButton").click(function () {
                     let stateObj = {state : ""};
-                    let questionList = stateToQuestionList();
+                    let questionList = stateToAnswerList();
                     questionList.push(answerListToBitString(getAnswerList()));
-                    let questionListString = questionListToBinary(questionList);
+                    let questionListString = answerListToBinary(questionList);
                     history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
                     console.log(questionList);
                 })
@@ -43,10 +43,10 @@
                 return bitString;
             };
 
-            let stateToQuestionList = function () {
+            let stateToAnswerList = function () {
                 let stateBinaryString = stateToBinaryString();
                 let i = 0;
-                let questionList = [];
+                let answerList = [];
                 let questionCount = 0;
                 while (i < stateBinaryString.length) {
                     let bitStringLength = parseInt(stateBinaryString.substring(i, i+5), 2);
@@ -54,17 +54,18 @@
                     i+=5;
                     let answersSubstring = stateBinaryString.substring(i, i+bitStringLength);
                     i += bitStringLength;
-                    questionList.push(answersSubstring);
+                    answerList.push(answersSubstring);
                     questionCount++;
                 }
-                return questionList;
+                return answerList;
             };
 
 
-            let questionListToBinary = function (questionList) {
+            //expects a answerList [answerBitString]
+            let answerListToBinary = function (answerList) {
                 let stateString = "";
-                for(let i=0; i < questionList.length; i++){
-                    let bitString = questionList[i];
+                for(let i=0; i < answerList.length; i++){
+                    let bitString = answerList[i];
                     let bitStringLength = bitString.length.toString(2);
                     //making length string larger if it is smaller than 5 bit
                     let bitStringPrefix = "";
