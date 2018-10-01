@@ -50,6 +50,7 @@
                 let questionCount = 0;
                 while (i < stateBinaryString.length) {
                     let bitStringLength = parseInt(stateBinaryString.substring(i, i+5), 2);
+                    console.log("bitString: " + bitStringLength)
                     i+=5;
                     let answersSubstring = stateBinaryString.substring(i, i+bitStringLength);
                     i += bitStringLength;
