@@ -4,6 +4,7 @@ import javafx.application.Application;
 
 import domain.*;
 import parser.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,14 +14,21 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
-
 import javafx.stage.Stage;
-
+import javafx.util.Callback;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
 import java.io.*;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.BooleanStringConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +37,11 @@ import java.util.Optional;
 
 public class TextEditor extends Application {
 
-	public static TreeItem<String> rootitem = new TreeItem<>();
+	public static final TreeItem<String> rootitem = new TreeItem<>();
 	public static TreeItem<String> currentSelectedTreeItem = new TreeItem<>();
 	public int i = 0;
-	public static TwoWayHashMap twMap = new TwoWayHashMap();
+	public static final TwoWayHashMap twMap = new TwoWayHashMap();
+	public static final TableView<SAObject> table = new TableView<SAObject>();
 
 	public static void main(String[] args) {
 
@@ -42,6 +51,7 @@ public class TextEditor extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 800, 600);
 		TextArea text = new TextArea();
@@ -51,12 +61,22 @@ public class TextEditor extends Application {
 		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
 		root.setTop(menuBar);
 
+		// Tabelle zum ändern der eigenschaften
+
+		table.setPrefHeight(60);
+		root.setBottom(table);
+		table.setEditable(true);
+		table.setFixedCellSize(40.0);
+
 		// Tree
 		rootitem.setExpanded(true);
 		TreeView<String> tree = new TreeView<>(rootitem);
-
 		tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 
+			
+
+			
+			
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 
@@ -72,23 +92,53 @@ public class TextEditor extends Application {
 					text.setText(twMap.getContent(selectedItem));
 				}
 
+				table.getColumns().clear();
+				table.getItems().clear();
+
+				if (twMap.isQuestion(selectedItem)) {
+
+					TableColumn<SAObject, Integer> pointsCol = new TableColumn<SAObject, Integer>("Points");
+					TableColumn<SAObject, Integer> timeCol = new TableColumn<SAObject, Integer>("Time");
+
+					pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
+					pointsCol.setCellFactory(TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
+					pointsCol.setOnEditCommit((CellEditEvent<SAObject, Integer> t) -> {
+						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
+					});
+					
+					
+					
+					timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+					timeCol.setCellFactory(TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
+					timeCol.setOnEditCommit((CellEditEvent<SAObject, Integer> t) -> {
+						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setTime(t.getNewValue());
+					});
+
+					table.getColumns().add(pointsCol);
+					table.getColumns().add(timeCol);
+
+					table.getItems().add(twMap.getSAObject(selectedItem));
+
+				} else if (twMap.isAnswer(selectedItem)) {
+
+					TableColumn<SAObject, Boolean> correctCol = new TableColumn<SAObject, Boolean>("Correct");
+					correctCol.setCellValueFactory(new PropertyValueFactory<>("correct"));
+					correctCol.setCellFactory(TextFieldTableCell.<SAObject, Boolean>forTableColumn(new BooleanStringConverter()));
+					correctCol.setOnEditCommit((CellEditEvent<SAObject, Boolean> t) -> {
+						((Answer) t.getTableView().getItems().get(t.getTablePosition().getRow())).setCorrect(t.getNewValue());
+					});
+					table.getColumns().add(correctCol);
+					table.getItems().add(twMap.getSAObject(selectedItem));
+
+					table.setEditable(true);
+
+				}
+
 				// do what ever you want
 
 			}
 
 		});
-
-		// Add Custom Questions to tree
-		// for (int i = 0; i < twMap.getQuestionAmount(); i++) {
-		// Question q = twMap.getQuestions().get(i);
-		// makeBranch(rootitem, q);
-		// TreeItem<String> Question = twMap.getTreeItem(q);
-		// for (int j = 0; j < q.getAnswers().size(); j++) {
-		// Answer a = q.getAnswers().get(j);
-		// makeBranch(Question, a);
-		// }
-		//
-		// }
 
 		// Create Tree
 		tree.setShowRoot(false);
