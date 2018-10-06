@@ -67,12 +67,21 @@
                 let stateString = "";
                 for(let i=0; i < answerList.length; i++){
                     let bitString = answerList[i];
+                    
+                    /*
+                    * reverse bitstring so parseInt() returns the correct bit string later
+                    */
+                    //let bitStringLength = bitString.length.toString(2).split("").reverse().join("");
                     let bitStringLength = bitString.length.toString(2);
                     //making length string larger if it is smaller than 5 bit
                     let bitStringPrefix = "";
                     for(let i = bitStringLength.length; i < 5; i++){
                         bitStringPrefix += "0";
                     }
+                    /*
+                    * also convert the prefix to a suffix so the padding is still correct
+                    */
+                    //stateString += bitStringLength + bitStringPrefix + bitString;
                     stateString += bitStringPrefix + bitStringLength + bitString;
                 }
                 return stateString;
@@ -80,6 +89,7 @@
         </script>
     </head>
     <body>
+        <script src="load-question.js"></script>
         <h1>Question</h1>
         <label for="0">Answer 0</label><input id="0" type="checkbox" value="0"><br>
         <label for="1">Answer 1</label><input id="1" type="checkbox" value="1"><br>
