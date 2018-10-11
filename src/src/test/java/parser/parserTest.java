@@ -1,9 +1,8 @@
-package test.java.parser; // TODO change back to original
+package parser; 
 
 import domain.Answer;
 import domain.Question;
 import domain.SARoot;
-import parser.parser; // TODO Delete
 import domain.Category;
 
 import org.junit.After;
@@ -75,7 +74,7 @@ public class parserTest {
          //Assert.assertEquals(testQuestion.getAnswers().get(1).getMediaPath().get(1), parser.getGeneratedAnswers().get(1).getMediaPath().get(1));
 
         //System.out.println("finished parsing.");
-        
+
         Assert.assertEquals(testQuestion.getCategory().getCategoryName(), parser.getGeneratedQuestions().get(0).getCategory().getCategoryName());
     }
 
