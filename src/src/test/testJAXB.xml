@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <saRoot>
+	<categories>
+	<categoryName>testCategoryName</categoryName>
+	</categories>
     <questions>
+    	<category>
+    		<categoryName>testCategoryName</categoryName>
+    	</category>
         <question>testQuestion</question>
         <points>5</points>
         <time>60</time>

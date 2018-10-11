@@ -1,8 +1,11 @@
-package parser;
+package test.java.parser; // TODO change back to original
 
 import domain.Answer;
 import domain.Question;
 import domain.SARoot;
+import parser.parser; // TODO Delete
+import domain.Category;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,25 +18,26 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class parserTest {
-    private parser parser = new parser();
+    private parser parser = new parser(true);
     private Question testQuestion = new Question();
     private Question testQuestion2 = new Question();
     private Answer testAnswer1 = new Answer();
     private Answer testAnswer2 = new Answer();
     private List<Answer> testAnswers = new ArrayList<>();
-    private List<String> testMedia = new ArrayList<>();
+    //private List<String> testMedia = new ArrayList<>();
     private String testOutputPath = "src/test/testOutputJAXB.xml";
+    private Category testCategory = new Category();
 
     @Before
     public void setUp() throws Exception {
         // init Mediapaths
-        testMedia.add("defaultpath");
-        testMedia.add("defaultpath2");
+        //testMedia.add("defaultpath");
+        //testMedia.add("defaultpath2");
         // init Answers
         testAnswer1.setContent("My first answer");
-        testAnswer1.setMediaPath(testMedia);
+        //testAnswer1.setMediaPath(testMedia);
         testAnswer2.setContent("My second answer");
-        testAnswer2.setMediaPath(testMedia);
+        //testAnswer2.setMediaPath(testMedia);
         testAnswers.add(testAnswer1);
         testAnswers.add(testAnswer2);
         // init Questions
@@ -41,7 +45,9 @@ public class parserTest {
         testQuestion.setPoints(5);
         testQuestion.setTime(60);
         testQuestion.setAnswers(testAnswers);
-        testQuestion.setMediaPaths(testMedia);
+        //testQuestion.setMediaPaths(testMedia);
+        testQuestion.setCategory(testCategory);
+        testQuestion.getCategory().setCategoryName("testCategoryName");
     }
 
 
@@ -63,12 +69,14 @@ public class parserTest {
         Assert.assertEquals(testQuestion.getAnswers().get(0).getContent(), parser.getGeneratedAnswers().get(0).getContent());
         Assert.assertEquals(testQuestion.getAnswers().get(1).getContent(), parser.getGeneratedAnswers().get(1).getContent());
         //media Path
-        Assert.assertEquals(testQuestion.getAnswers().get(0).getMediaPath().get(0), parser.getGeneratedAnswers().get(0).getMediaPath().get(0));
-        Assert.assertEquals(testQuestion.getAnswers().get(0).getMediaPath().get(1), parser.getGeneratedAnswers().get(0).getMediaPath().get(1));
-        Assert.assertEquals(testQuestion.getAnswers().get(1).getMediaPath().get(0), parser.getGeneratedAnswers().get(1).getMediaPath().get(0));
-        Assert.assertEquals(testQuestion.getAnswers().get(1).getMediaPath().get(1), parser.getGeneratedAnswers().get(1).getMediaPath().get(1));
+         //Assert.assertEquals(testQuestion.getAnswers().get(0).getMediaPath().get(0), parser.getGeneratedAnswers().get(0).getMediaPath().get(0));
+         //Assert.assertEquals(testQuestion.getAnswers().get(0).getMediaPath().get(1), parser.getGeneratedAnswers().get(0).getMediaPath().get(1));
+         //Assert.assertEquals(testQuestion.getAnswers().get(1).getMediaPath().get(0), parser.getGeneratedAnswers().get(1).getMediaPath().get(0));
+         //Assert.assertEquals(testQuestion.getAnswers().get(1).getMediaPath().get(1), parser.getGeneratedAnswers().get(1).getMediaPath().get(1));
 
         //System.out.println("finished parsing.");
+        
+        Assert.assertEquals(testQuestion.getCategory().getCategoryName(), parser.getGeneratedQuestions().get(0).getCategory().getCategoryName());
     }
 
     /**
