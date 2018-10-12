@@ -20,6 +20,7 @@ public class parser implements parserInterface {
 	private List<Question> generatedQuestions = new ArrayList<>();
 	private List<Answer> generatedAnswers = new ArrayList<>();
 	private SARoot rootElement = new SARoot();
+	private boolean manually = false;
 
 	/**
 	 * standard constructor, sets the default Path
@@ -27,6 +28,13 @@ public class parser implements parserInterface {
 	public parser() {
 
 		this.file = new File("src/test/testJAXB.xml");
+	}
+	
+	/**
+	 * constructor for manual use, user MUST specify a Path for XML Files
+	 */
+	public parser(final boolean manually) {
+		this.manually = true;
 	}
 
 	/**
@@ -59,19 +67,21 @@ public class parser implements parserInterface {
 	 */
 	@Override
 	public void startParser() {
-		// Console interaction currently deactivated
-		// init();
+		// Manually started parser will have a console Interaction
+		if (manually) {
+			init();
+		}
 
 		try {
 			// setup marshaller
-			JAXBContext jaxbContext = JAXBContext.newInstance(SARoot.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SARoot.class, Category.class, Question.class, Answer.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			// start marshaller to read XML file
 			SARoot rootElement = (SARoot) jaxbUnmarshaller.unmarshal(this.file);
 			// generate Lists for Objects
 			this.generatedQuestions = generateQuestionList(rootElement);
 			this.generatedAnswers = generateAnswerList(rootElement);
-			
+
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

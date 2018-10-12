@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"question", "points", "time", "mediaPaths", "answers"})
+@XmlType(propOrder = {"category", "question", "points", "time", "answers"})
 public class Question implements SAObject {
     private String question = "";
     private List<Answer> answers = new ArrayList<>();
-    private List<String> mediaPaths = new ArrayList<>();
+    //private List<String> mediaPaths = new ArrayList<>();
     private int points = 0;
     //wen die zeit 0 ist dann ist es keine
     private int time = 0;
+    private Category category = new Category();
 
     public Question() {
     }
@@ -53,14 +56,14 @@ public class Question implements SAObject {
         this.answers = answers;
     }
 
-    public List<String> getMediaPaths() {
-        return mediaPaths;
-    }
+//    public List<String> getMediaPaths() {
+//        return mediaPaths;
+//    }
 
-    @XmlElement
-    public void setMediaPaths(List<String> mediaPaths) {
-        this.mediaPaths = mediaPaths;
-    }
+//    @XmlElement
+//    public void setMediaPaths(List<String> mediaPaths) {
+//        this.mediaPaths = mediaPaths;
+//    }
 
     public int getPoints() {
         return points;
@@ -82,6 +85,23 @@ public class Question implements SAObject {
         listVariables.put("answers", this.answers);
         return listVariables;
     }
+
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return this.category;
+	}
+
+	
+	/**
+	 * @param category the category to set
+	 */
+	@XmlElement
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 
 }
