@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -16,22 +17,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
 import java.io.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.BooleanStringConverter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,17 +68,13 @@ public class TextEditor extends Application {
 		TreeView<String> tree = new TreeView<>(rootitem);
 		tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 
-			
-
-			
-			
 			@Override
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 
 				TreeItem<String> oldSelected = (TreeItem<String>) oldValue;
 				TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+
 				currentSelectedTreeItem = selectedItem;
-				System.out.println("Selected Text : " + selectedItem.getValue());
 
 				if (oldSelected != null && twMap.getSAObject(oldSelected) != null) {
 					twMap.setContent(twMap.getSAObject(oldSelected), text.getText());
@@ -95,37 +86,58 @@ public class TextEditor extends Application {
 				table.getColumns().clear();
 				table.getItems().clear();
 
-				if (twMap.isQuestion(selectedItem)) {
+				if (twMap.isCategory(selectedItem)) {
+					TableColumn<SAObject, String> nameCol = new TableColumn<SAObject, String>("Name");
+					nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
+					nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+					nameCol.setOnEditCommit((CellEditEvent<SAObject, String> t) -> {
+						((Category) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setCategoryName(t.getNewValue());
+						selectedItem.setValue(t.getNewValue());
+
+					});
+					table.getColumns().add(nameCol);
+					table.getItems().add(twMap.getSAObject(selectedItem));
+					table.setEditable(true);
+
+				} else if (twMap.isQuestion(selectedItem)) {
 
 					TableColumn<SAObject, Integer> pointsCol = new TableColumn<SAObject, Integer>("Points");
 					TableColumn<SAObject, Integer> timeCol = new TableColumn<SAObject, Integer>("Time");
 
 					pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
-					pointsCol.setCellFactory(TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
+					pointsCol.setCellFactory(
+							TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
 					pointsCol.setOnEditCommit((CellEditEvent<SAObject, Integer> t) -> {
-						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setPoints(t.getNewValue());
+
+						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setPoints(t.getNewValue());
+
 					});
-					
-					
-					
+
 					timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-					timeCol.setCellFactory(TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
+					timeCol.setCellFactory(
+							TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
 					timeCol.setOnEditCommit((CellEditEvent<SAObject, Integer> t) -> {
-						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow())).setTime(t.getNewValue());
+						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setTime(t.getNewValue());
 					});
 
 					table.getColumns().add(pointsCol);
 					table.getColumns().add(timeCol);
 
 					table.getItems().add(twMap.getSAObject(selectedItem));
+					table.setEditable(true);
 
 				} else if (twMap.isAnswer(selectedItem)) {
 
 					TableColumn<SAObject, Boolean> correctCol = new TableColumn<SAObject, Boolean>("Correct");
 					correctCol.setCellValueFactory(new PropertyValueFactory<>("correct"));
-					correctCol.setCellFactory(TextFieldTableCell.<SAObject, Boolean>forTableColumn(new BooleanStringConverter()));
+					correctCol.setCellFactory(
+							TextFieldTableCell.<SAObject, Boolean>forTableColumn(new BooleanStringConverter()));
 					correctCol.setOnEditCommit((CellEditEvent<SAObject, Boolean> t) -> {
-						((Answer) t.getTableView().getItems().get(t.getTablePosition().getRow())).setCorrect(t.getNewValue());
+						((Answer) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setCorrect(t.getNewValue());
 					});
 					table.getColumns().add(correctCol);
 					table.getItems().add(twMap.getSAObject(selectedItem));
@@ -147,12 +159,46 @@ public class TextEditor extends Application {
 		// File menut
 		Menu fileMenu = new Menu("Datei");
 
+		MenuItem newcMenuItem = new MenuItem("New Category");
+		newcMenuItem.setOnAction(actionEvent -> {
+
+			Category c = new Category();
+			makeBranch(rootitem, c);
+
+		});
+
 		MenuItem newqMenuItem = new MenuItem("New Question");
 		newqMenuItem.setOnAction(actionEvent -> {
-			System.out.println("ROOTITEM: " + rootitem);
+
 			Question q = new Question();
-			makeBranch(rootitem, q);
-			twMap.printContents();
+
+			if (currentSelectedTreeItem != null) {
+
+				if (twMap.isCategory(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem, q);
+
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem.getParent(), q);
+
+				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem.getParent().getParent(), q);
+
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Can't create Answer!");
+
+					// Header Text: null
+					alert.setHeaderText(null);
+					alert.setContentText("You need to select a Category to add a Question!");
+
+					alert.showAndWait();
+				}
+
+			}
+
 		});
 
 		MenuItem newaMenuItem = new MenuItem("New Answer");
@@ -162,7 +208,18 @@ public class TextEditor extends Application {
 
 			if (currentSelectedTreeItem != null) {
 
-				if (twMap.isQuestion(currentSelectedTreeItem)) {
+				if (twMap.isCategory(currentSelectedTreeItem)) {
+
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Can't create Answer!");
+
+					// Header Text: null
+					alert.setHeaderText(null);
+					alert.setContentText("You need to select a Question to add an Answer!");
+
+					alert.showAndWait();
+
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
 
 					makeBranch(currentSelectedTreeItem, a);
 
@@ -198,24 +255,39 @@ public class TextEditor extends Application {
 				// ... user chose OK
 				text.setText("");
 
-				if (twMap.isQuestion(currentSelectedTreeItem)) {
+				if (twMap.isCategory(currentSelectedTreeItem)) {
 					twMap.removePair(currentSelectedTreeItem);
 					rootitem.getChildren().remove(currentSelectedTreeItem);
-					for (int i = 0; i < twMap.getQuestionTreeItems().size(); i++) {
-						twMap.getQuestionTreeItems().get(i).setValue("Question: " + (i + 1));
+					// No need to update since category names are unique
+					// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
+					// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
+					// }
+
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+					twMap.removePair(currentSelectedTreeItem);
+
+					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
+
+					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+
+					for (int i = 0; i < ol.size(); i++) {
+
+						ol.get(i).setValue("Question: " + (i + 1));
+
 					}
 
 				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
 
 					twMap.removePair(currentSelectedTreeItem);
 
-					for (int i = 0; i < currentSelectedTreeItem.getParent().getChildren().size(); i++) {
-						currentSelectedTreeItem.getParent().getChildren().get(i).setValue("Answer: " + (i + 1));
-					}
+					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
 
 					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
 
-					TreeItem<String> ti = currentSelectedTreeItem;
+					for (int i = 0; i < ol.size(); i++) {
+						ol.get(i).setValue("Answer: " + (i + 1));
+					}
 
 				}
 
@@ -235,32 +307,37 @@ public class TextEditor extends Application {
 			}
 		});
 
-		MenuItem editMenuItem = new MenuItem("Edit");
-		editMenuItem.setOnAction(actionEvent -> {
-			if (twMap.getSAObject(currentSelectedTreeItem).getClass().isInstance(new Question())) {
-				properties((Question) twMap.getSAObject(currentSelectedTreeItem));
-			} else {
-				Question q = twMap.getQuestion((Answer) twMap.getSAObject(currentSelectedTreeItem));
-				properties(q);
-			}
-		});
-
 		MenuItem saveMenuItem = new MenuItem("Export xml");
 		saveMenuItem.setOnAction(actionEvent -> {
 			twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
 			save(primaryStage, text);
 		});
-		MenuItem exitMenuItem = new MenuItem("Exit");
-		exitMenuItem.setOnAction(actionEvent -> Platform.exit());
 
-		fileMenu.getItems().addAll(newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(), editMenuItem,
+		MenuItem exitMenuItem = new MenuItem("Exit");
+		exitMenuItem.setOnAction(actionEvent -> {
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Exit Platform?");
+			alert.setHeaderText("All unsaved changes will be lost.");
+			alert.setContentText("Do you want this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				Platform.exit();
+			} else {
+
+			}
+
+		});
+
+		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(),
 				openMenuItem, saveMenuItem, new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
-		Menu sMenu = new Menu("Suche");
-		MenuItem sucheMenuItem = new MenuItem("Suche");
+		Menu sMenu = new Menu("Search");
+		MenuItem sucheMenuItem = new MenuItem("Search");
 		sucheMenuItem.setOnAction(actionEvent -> suche(text));
-		MenuItem esucheMenuItem = new MenuItem("Suche und ersetz");
+		MenuItem esucheMenuItem = new MenuItem("Search and Replace");
 		esucheMenuItem.setOnAction(actionEvent -> esuche(text));
 		sMenu.getItems().addAll(sucheMenuItem, esucheMenuItem);
 		menuBar.getMenus().addAll(sMenu);
@@ -272,23 +349,65 @@ public class TextEditor extends Application {
 
 		// Treeview Context Menu
 		ContextMenu cm = new ContextMenu();
-		MenuItem mi1 = new MenuItem("New Question");
+		MenuItem mi1 = new MenuItem("New Category");
 		mi1.setOnAction(actionEvent -> {
 
-			System.out.println("ROOTITEM: " + rootitem);
-			Question q = new Question();
-			makeBranch(rootitem, q);
-			twMap.printContents();
+			Category c = new Category();
+			makeBranch(rootitem, c);
 
 		});
-		MenuItem mi2 = new MenuItem("New Answer");
+		MenuItem mi2 = new MenuItem("New Question");
 		mi2.setOnAction(actionEvent -> {
+
+			Question q = new Question();
+
+			if (currentSelectedTreeItem != null) {
+
+				if (twMap.isCategory(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem, q);
+
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem.getParent(), q);
+
+				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+					makeBranch(currentSelectedTreeItem.getParent().getParent(), q);
+
+				} else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Can't create Answer!");
+
+					// Header Text: null
+					alert.setHeaderText(null);
+					alert.setContentText("You need to select a Category to add a Question!");
+
+					alert.showAndWait();
+				}
+
+			}
+
+		});
+		MenuItem mi3 = new MenuItem("New Answer");
+		mi3.setOnAction(actionEvent -> {
 
 			Answer a = new Answer();
 
 			if (currentSelectedTreeItem != null) {
 
-				if (twMap.isQuestion(currentSelectedTreeItem)) {
+				if (twMap.isCategory(currentSelectedTreeItem)) {
+
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Can't create Answer!");
+
+					// Header Text: null
+					alert.setHeaderText(null);
+					alert.setContentText("You need to select a Question to add an Answer!");
+
+					alert.showAndWait();
+
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
 
 					makeBranch(currentSelectedTreeItem, a);
 
@@ -310,15 +429,7 @@ public class TextEditor extends Application {
 			}
 
 		});
-		MenuItem mi3 = new MenuItem("Edit");
-		mi3.setOnAction(actionEvent -> {
-			if (twMap.getSAObject(currentSelectedTreeItem).getClass().isInstance(new Question())) {
-				properties((Question) twMap.getSAObject(currentSelectedTreeItem));
-			} else {
-				Question q = twMap.getQuestion((Answer) twMap.getSAObject(currentSelectedTreeItem));
-				properties(q);
-			}
-		});
+
 		MenuItem mi4 = new MenuItem("Delete");
 		mi4.setOnAction(actionEvent -> {
 
@@ -332,24 +443,39 @@ public class TextEditor extends Application {
 				// ... user chose OK
 				text.setText("");
 
-				if (twMap.isQuestion(currentSelectedTreeItem)) {
+				if (twMap.isCategory(currentSelectedTreeItem)) {
 					twMap.removePair(currentSelectedTreeItem);
 					rootitem.getChildren().remove(currentSelectedTreeItem);
-					for (int i = 0; i < twMap.getQuestionTreeItems().size(); i++) {
-						twMap.getQuestionTreeItems().get(i).setValue("Question: " + (i + 1));
+					//// No need to update since category names are unique
+					// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
+					// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
+					// }
+
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+					twMap.removePair(currentSelectedTreeItem);
+
+					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
+
+					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+
+					for (int i = 0; i < ol.size(); i++) {
+
+						ol.get(i).setValue("Question: " + (i + 1));
+
 					}
 
 				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
 
 					twMap.removePair(currentSelectedTreeItem);
 
-					for (int i = 0; i < currentSelectedTreeItem.getParent().getChildren().size(); i++) {
-						currentSelectedTreeItem.getParent().getChildren().get(i).setValue("Answer: " + (i + 1));
-					}
+					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
 
 					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
 
-					TreeItem<String> ti = currentSelectedTreeItem;
+					for (int i = 0; i < ol.size(); i++) {
+						ol.get(i).setValue("Answer: " + (i + 1));
+					}
 
 				}
 
@@ -359,7 +485,7 @@ public class TextEditor extends Application {
 			}
 
 		});
-		cm.getItems().addAll(mi1, mi2, new SeparatorMenuItem(), mi3, mi4);
+		cm.getItems().addAll(mi1, mi2, mi3, new SeparatorMenuItem(), mi4);
 		tree.setContextMenu(cm);
 
 	}
@@ -369,18 +495,44 @@ public class TextEditor extends Application {
 		TreeItem<String> item = new TreeItem<>();
 
 		item.setExpanded(true);
-		System.out.println(root);
-		System.out.println(root.getChildren());
 		root.getChildren().add(item);
 
 		if (!twMap.contains(obj)) {
 			twMap.put(item, obj);
 		}
 
-		if (twMap.isQuestion(obj)) {
+		if (twMap.isCategory(obj)) {
 
-			for (int i = 0; i < twMap.getQuestionTreeItems().size(); i++) {
-				twMap.getQuestionTreeItems().get(i).setValue("Question: " + (i + 1));
+			// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
+			//
+			// twMap.getTreeItem(obj).getParent().getChildren().get(i).setValue("Category: "
+			// + (i + 1));
+			// }
+
+			// TODO Set Cat Name
+			TextInputDialog dialog = new TextInputDialog("Category");
+
+			dialog.setTitle("Category Name");
+			dialog.setHeaderText("Enter category name:");
+			dialog.setContentText("Name:");
+
+			Optional<String> result = dialog.showAndWait();
+			Category c = (Category) obj;
+
+			item = new TreeItem<>("Category: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
+
+			result.ifPresent(name -> {
+				twMap.getTreeItem(obj).setValue(name);
+				c.setCategoryName(name);
+
+			});
+
+		} else if (twMap.isQuestion(obj)) {
+			Question q = (Question) obj;
+			q.setCategory((Category) twMap.getSAObject(twMap.getTreeItem(q).getParent()));
+			Category c = twMap.getCategory(q);
+			for (int i = 0; i < twMap.getQuestionTreeItems(c).size(); i++) {
+				twMap.getQuestionTreeItems(c).get(i).setValue("Question: " + (i + 1));
 			}
 
 			item = new TreeItem<>("Question: " + (twMap.getQuestionTreeItems().size() + 1));
@@ -515,14 +667,14 @@ public class TextEditor extends Application {
 		Scene scene = new Scene(root, 400, 100);
 		HBox textBox = new HBox(4);
 		textBox.setAlignment(Pos.BOTTOM_CENTER);
-		textBox.getChildren().add(new Label("Suche nach"));
+		textBox.getChildren().add(new Label("Search for"));
 		TextField stext = new TextField("");
 		textBox.getChildren().add(stext);
 		root.setTop(textBox);
-		CheckBox checkBox = new CheckBox("Groﬂ- / Kleinschreibung beachten");
+		CheckBox checkBox = new CheckBox("Take Capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
-		Button bsuche = new Button("Suche");
+		Button bsuche = new Button("Search");
 		Label eLabel = new Label("");
 		List<Integer> fList = new ArrayList<Integer>(1);
 
@@ -578,21 +730,21 @@ public class TextEditor extends Application {
 		VBox textboxV = new VBox(2);
 		HBox textBox1 = new HBox(4);
 		textBox1.setAlignment(Pos.BOTTOM_CENTER);
-		textBox1.getChildren().add(new Label("Suche nach"));
+		textBox1.getChildren().add(new Label("Search for"));
 		TextField stext = new TextField("");
 		textBox1.getChildren().add(stext);
 		HBox textBox2 = new HBox(4);
 		textBox2.setAlignment(Pos.BOTTOM_CENTER);
-		textBox2.getChildren().add(new Label("Ersetz Mit"));
+		textBox2.getChildren().add(new Label("Replace with"));
 		TextField stext2 = new TextField("");
 		textBox2.getChildren().add(stext2);
 		textboxV.getChildren().add(textBox1);
 		textboxV.getChildren().add(textBox2);
 		root.setTop(textboxV);
-		CheckBox checkBox = new CheckBox("Groﬂ- / Kleinschreibung beachten");
+		CheckBox checkBox = new CheckBox("Take Capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
-		Button bsuche = new Button("Suche");
+		Button bsuche = new Button("Search");
 		Label eLabel = new Label("");
 		List<Integer> fList = new ArrayList<Integer>(1);
 
@@ -636,7 +788,7 @@ public class TextEditor extends Application {
 			}
 		});
 
-		Button replace = new Button("ersetzen");
+		Button replace = new Button("replace");
 		replace.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -664,7 +816,7 @@ public class TextEditor extends Application {
 			}
 		});
 
-		Button replaceAll = new Button("alles ersetzen");
+		Button replaceAll = new Button("replace all");
 		replaceAll.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
@@ -696,7 +848,7 @@ public class TextEditor extends Application {
 		sucheStage.show();
 	};
 
-	public void checkindex(CheckBox checkBox, List fList, TextArea fullText, TextField stext) {
+	public void checkindex(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext) {
 		if (checkBox.isSelected()) {
 			fList.clear();
 			int x = fullText.getText().toLowerCase().indexOf(stext.getText().toLowerCase());
