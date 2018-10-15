@@ -1,8 +1,8 @@
-var example = "001001100000101100011110";
+const example = "001001100000101100011110";
 
 function evaluate(solution, answers){
-    var result = "";
-    for(var i = 0; i < solution.length; i++){
+    let result = "";
+    for(leti = 0; i < solution.length; i++){
         result += solution.charAt(i) == answers.charAt(i) ? "1" : "0";
 
     }
@@ -12,12 +12,12 @@ function evaluate(solution, answers){
 
 
 function stateToAnswers(state){
-    var alLength = 5;
-    var nextQ = 0;
-    var i = 0;
-    var answerString = "";
+    let alLength = 5;
+    let nextQ = 0;
+    let i = 0;
+    let answerString = "";
     while(i < state.length){
-        var answerCount = parseInt(state.substring(i, i+alLength),2);
+        let answerCount = parseInt(state.substring(i, i+alLength),2);
         i += alLength;
         nextQ = i + answerCount;
         while(i < nextQ){
