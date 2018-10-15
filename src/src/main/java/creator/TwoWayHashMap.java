@@ -11,6 +11,7 @@ public class TwoWayHashMap {
 	private HashMap<TreeItem<String>, SAObject> forward = new HashMap<TreeItem<String>, SAObject>();
 	private HashMap<SAObject, TreeItem<String>> backward = new HashMap<SAObject, TreeItem<String>>();
 	private ArrayList<Question> Questions = new ArrayList<Question>();
+	private ArrayList<Category> Categories = new ArrayList<Category>();
 	public ArrayList<TreeItem<String>> AllTreeItems = new ArrayList<TreeItem<String>>();
 
 	public TwoWayHashMap() {
@@ -22,7 +23,10 @@ public class TwoWayHashMap {
 		forward.put(firstkey, secondkey);
 		backward.put(secondkey, firstkey);
 		AllTreeItems.add(firstkey);
-		if (secondkey.getClass().isInstance(new Question())) {
+		if (secondkey.getClass().isInstance(new Category())) {
+			Category c = (Category) forward.get(firstkey.getParent());
+			Categories.add(c);
+		} else if (secondkey.getClass().isInstance(new Question())) {
 			Questions.add((Question) secondkey);
 		} else if (secondkey.getClass().isInstance(new Answer())) {
 			Question q = (Question) forward.get(firstkey.getParent());
@@ -34,7 +38,22 @@ public class TwoWayHashMap {
 
 	}
 
+	public ArrayList<TreeItem<String>> getQuestionTreeItems(Category c) {
+		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
+		for (int i = 0; i < AllTreeItems.size(); i++) {
+
+			if (isQuestion(AllTreeItems.get(i))) {
+				Question q = (Question) forward.get(AllTreeItems.get(i));
+				if (q.getCategory().equals(c)) {
+					tis.add(AllTreeItems.get(i));
+				}
+			}
+		}
+		return tis;
+	}
+
 	public ArrayList<TreeItem<String>> getQuestionTreeItems() {
+
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
 		for (int i = 0; i < AllTreeItems.size(); i++) {
 			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Question())) {
@@ -44,9 +63,21 @@ public class TwoWayHashMap {
 		return tis;
 	}
 
+	public ArrayList<TreeItem<String>> getCategoryTreeItems() {
+		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
+		for (int i = 0; i < AllTreeItems.size(); i++) {
+			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Category())) {
+				tis.add(AllTreeItems.get(i));
+			}
+		}
+		return tis;
+	}
+
 	public void removePair(TreeItem<String> firstkey) {
 
-		if (forward.get(firstkey).getClass().isInstance(new Question())) {
+		if (forward.get(firstkey).getClass().isInstance(new Category())) {
+			Categories.remove(forward.get(firstkey));
+		} else if (forward.get(firstkey).getClass().isInstance(new Question())) {
 			Questions.remove(forward.get(firstkey));
 		} else if (forward.get(firstkey).getClass().isInstance(new Answer())) {
 			for (int i = 0; i < Questions.size(); i++) {
@@ -59,10 +90,10 @@ public class TwoWayHashMap {
 		backward.values().remove(firstkey);
 
 		AllTreeItems.remove(firstkey);
-
 	}
 
 	public void printContents() {
+		System.out.println("Amount of Categories: " + Categories.size());
 		System.out.println("Amount of Questions: " + Questions.size());
 		System.out.println("Amount of TreeItems: " + AllTreeItems.size());
 		System.out.println("forward Pairs: ");
@@ -73,7 +104,9 @@ public class TwoWayHashMap {
 	}
 
 	public void removePair(SAObject secondkey) {
-		if (secondkey.getClass().isInstance(new Question())) {
+		if (secondkey.getClass().isInstance(new Category())) {
+			Categories.remove(secondkey);
+		} else if (secondkey.getClass().isInstance(new Question())) {
 			Questions.remove(secondkey);
 		} else if (secondkey.getClass().isInstance(new Answer())) {
 			for (int i = 0; i < Questions.size(); i++) {
@@ -103,34 +136,74 @@ public class TwoWayHashMap {
 		return backward.get(secondkey);
 	}
 
+	public boolean isCategory(SAObject secondkey) {
+		try {
+			if (secondkey.getClass().isInstance(new Category())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public boolean isCategory(TreeItem<String> firstkey) {
+		try {
+			if (forward.get(firstkey).getClass().isInstance(new Category())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public boolean isQuestion(SAObject secondkey) {
-		if (secondkey.getClass().isInstance(new Question())) {
-			return true;
-		} else {
+		try {
+			if (secondkey.getClass().isInstance(new Question())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	public boolean isQuestion(TreeItem<String> firstkey) {
-		if (forward.get(firstkey).getClass().isInstance(new Question())) {
-			return true;
-		} else {
+		try {
+			if (forward.get(firstkey).getClass().isInstance(new Question())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	public boolean isAnswer(SAObject secondkey) {
-		if (secondkey.getClass().isInstance(new Answer())) {
-			return true;
-		} else {
+		try {
+			if (secondkey.getClass().isInstance(new Answer())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 	public boolean isAnswer(TreeItem<String> firstkey) {
-		if (forward.get(firstkey).getClass().isInstance(new Answer())) {
-			return true;
-		} else {
+		try {
+			if (forward.get(firstkey).getClass().isInstance(new Answer())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -152,8 +225,23 @@ public class TwoWayHashMap {
 		}
 	}
 
+
+	public ArrayList<Question> getQuestionsforCategory(Category c) {
+		ArrayList<Question> res = new ArrayList<Question>();
+		for (int i = 0; i < Questions.size(); i++) {
+			if (c.equals(Questions.get(i).getCategory())) {
+				res.add(Questions.get(i));
+			}
+		}
+		return res;
+	}
+
 	public ArrayList<Question> getQuestions() {
 		return this.Questions;
+	}
+
+	public ArrayList<Category> getCategories() {
+		return this.Categories;
 	}
 
 	public ArrayList<TreeItem<String>> getTreeItems() {
@@ -173,8 +261,29 @@ public class TwoWayHashMap {
 
 	}
 
+	public Category getCategory(Answer a) {
+		Question q = null;
+		for (int i = 0; i < Questions.size(); i++) {
+			if (Questions.get(i).getAnswers().contains(a)) {
+				q = Questions.get(i);
+			}
+		}
+
+		return q.getCategory();
+
+	}
+
+	public Category getCategory(Question q) {
+
+		return q.getCategory();
+
+	}
+
 	public void setContent(SAObject Object, String content) {
-		if (Object.getClass().isInstance(new Question())) {
+		if (Object.getClass().isInstance(new Category())) {
+			Category category = (Category) Object;
+			category.setContent(content);
+		} else if (Object.getClass().isInstance(new Question())) {
 			Question question = (Question) Object;
 			question.setQuestion(content);
 		} else if (Object.getClass().isInstance(new Answer())) {
@@ -184,7 +293,10 @@ public class TwoWayHashMap {
 	}
 
 	public String getContent(SAObject Object) {
-		if (Object.getClass().isInstance(new Question())) {
+		if (Object.getClass().isInstance(new Category())) {
+			Category category = (Category) Object;
+			return category.getContent();
+		} else if (Object.getClass().isInstance(new Question())) {
 			Question q = (Question) Object;
 			return q.getQuestion();
 		} else if (Object.getClass().isInstance(new Answer())) {
@@ -196,7 +308,10 @@ public class TwoWayHashMap {
 	}
 
 	public void setContent(TreeItem<String> Object, String content) {
-		if (Object.getClass().isInstance(new Question())) {
+		if (Object.getClass().isInstance(new Category())) {
+			Category category = (Category) forward.get(Object);
+			category.setContent(content);
+		} else if (Object.getClass().isInstance(new Question())) {
 			Question question = (Question) forward.get(Object);
 			question.setQuestion(content);
 		} else if (Object.getClass().isInstance(new Answer())) {
@@ -206,7 +321,10 @@ public class TwoWayHashMap {
 	}
 
 	public String getContent(TreeItem<String> Object) {
-		if (forward.get(Object).getClass().isInstance(new Question())) {
+		if (forward.get(Object).getClass().isInstance(new Category())) {
+			Category c = (Category) forward.get(Object);
+			return c.getContent();
+		} else if (forward.get(Object).getClass().isInstance(new Question())) {
 			Question q = (Question) forward.get(Object);
 			return q.getQuestion();
 		} else if (forward.get(Object).getClass().isInstance(new Answer())) {
@@ -229,12 +347,18 @@ public class TwoWayHashMap {
 
 	}
 
-	public void updateQuestionItemValues() {
+	public int getCategoryAmount() {
+
+		return Categories.size();
 
 	}
 
-	public void updateAnswerItemValues(Question q) {
-
-	}
+	// public void updateQuestionItemValues() {
+	//
+	// }
+	//
+	// public void updateAnswerItemValues(Question q) {
+	//
+	// }
 
 }
