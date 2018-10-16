@@ -18,6 +18,11 @@ public class TwoWayHashMap {
 		// this.Questions = Questions;
 	}
 
+	/**
+	 * @param TreeItem<String>
+	 *            firstkey, SAObject secondkey Links the elements together and saves
+	 *            them in their respective Lists
+	 */
 	public void put(TreeItem<String> firstkey, SAObject secondkey) {
 
 		forward.put(firstkey, secondkey);
@@ -38,6 +43,7 @@ public class TwoWayHashMap {
 
 	}
 
+	
 	public ArrayList<TreeItem<String>> getQuestionTreeItems(Category c) {
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
 		for (int i = 0; i < AllTreeItems.size(); i++) {
@@ -52,6 +58,13 @@ public class TwoWayHashMap {
 		return tis;
 	}
 
+	/**
+	 * Returns an ArrayList containing all treeitems for all Questions
+	 * 
+	 * @param
+	 * 
+	 * @return ArrayList<TreeItem<String>>
+	 */
 	public ArrayList<TreeItem<String>> getQuestionTreeItems() {
 
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
@@ -224,7 +237,6 @@ public class TwoWayHashMap {
 			return false;
 		}
 	}
-
 
 	public ArrayList<Question> getQuestionsforCategory(Category c) {
 		ArrayList<Question> res = new ArrayList<Question>();

@@ -27,6 +27,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.BooleanStringConverter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -289,6 +290,12 @@ public class TextEditor extends Application {
 						ol.get(i).setValue("Answer: " + (i + 1));
 					}
 
+				}
+
+				System.out.println(twMap.AllTreeItems.size());
+				if (twMap.AllTreeItems.size() == 0) {
+					table.getColumns().clear();
+					table.getItems().clear();
 				}
 
 			} else {
@@ -562,18 +569,39 @@ public class TextEditor extends Application {
 		 * text.setText(out.toString()); reader.close(); in.close(); }
 		 */
 
-		// open parser
+		//
 		parser parser = new parser();
 		if (file != null) {
 			parser.setFile(file);
 			parser.startParser();
 
+			ArrayList<Category> Categories = new ArrayList<Category>();
+			ArrayList<Question> Questions = new ArrayList<Question>();
+
 			for (Question q : parser.getGeneratedQuestions()) {
 
-				makeBranch(rootitem, q);
+				Categories.add(q.getCategory());
+				Questions.add(q);
 
-				for (Answer a : q.getAnswers()) {
-					makeBranch(twMap.getTreeItem(q), a);
+			}
+
+			for (Category category : Categories) {
+
+				makeBranch(rootitem, category);
+
+				for (Question question : Questions) {
+
+					if (question.getCategory().equals(category)) {
+
+						makeBranch(twMap.getTreeItem(question), category);
+
+					}
+
+					for (Answer a : question.getAnswers()) {
+
+						makeBranch(twMap.getTreeItem(question), a);
+
+					}
 
 				}
 
