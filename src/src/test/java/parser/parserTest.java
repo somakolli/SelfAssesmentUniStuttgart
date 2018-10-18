@@ -1,10 +1,10 @@
-package test.java.parser; // TODO change to parser
+package parser; 
 
 import domain.Answer;
 import domain.Question;
 import domain.SARoot;
 import domain.Category;
-import parser.Parser; // TODO change to Parser
+import Parser; 
 
 import org.junit.After;
 import org.junit.Assert;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParserTest {
-	private Parser parser = new Parser(true);
+	private Parser parser = new Parser(); // change Argument to "true" if you want to test the StandAlone parser
 	private Question testQuestion = new Question();
 	private Question testQuestion2 = new Question();
 	private Answer testAnswer1 = new Answer();
