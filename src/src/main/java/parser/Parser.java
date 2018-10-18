@@ -14,7 +14,7 @@ import javax.xml.bind.Unmarshaller;
 /**
  * @author tjehr Class to parse a XML file (read and write possible)
  */
-public class parser implements parserInterface {
+public class Parser implements IParser {
 
 	private File file;
 	private List<Question> generatedQuestions = new ArrayList<>();
@@ -25,15 +25,15 @@ public class parser implements parserInterface {
 	/**
 	 * standard constructor, sets the default Path
 	 */
-	public parser() {
+	public Parser() {
 
 		this.file = new File("src/test/testJAXB.xml");
 	}
-	
+
 	/**
 	 * constructor for manual use, user MUST specify a Path for XML Files
 	 */
-	public parser(final boolean manually) {
+	public Parser(final boolean manually) {
 		this.manually = true;
 	}
 
@@ -43,22 +43,31 @@ public class parser implements parserInterface {
 	@Override
 	public void init() {
 		// Scanner to read from Console
-		System.out.println("starting parser...");
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Do you want to specify a new path for the XML source file?");
-		System.out.println("[Y/N]");
-		if (scanner.nextLine().toUpperCase().equals("Y")) {
+		boolean invalidPath = true;
+		System.out.println("starting parser...");
+		System.out.println("Please specify a new path for the XML source file:");
+		while (invalidPath) {
+
 			System.out.println("Enter new path:");
+
 			String newPath = scanner.nextLine();
 			try {
 				this.file = new File(newPath);
-				scanner.close();
+				invalidPath = !this.file.canWrite();
+
 			} catch (Exception e) {
 				scanner.close();
 				e.printStackTrace();
 				System.out.println("File has not been changed!");
 			}
+
+			if (invalidPath) {
+				System.out.println("The path you entered seems to be invalid or the File does not exist!");
+				System.out.println("Please try again:");
+			}
 		}
+		scanner.close();
 
 	}
 
@@ -74,7 +83,8 @@ public class parser implements parserInterface {
 
 		try {
 			// setup marshaller
-			JAXBContext jaxbContext = JAXBContext.newInstance(SARoot.class, Category.class, Question.class, Answer.class);
+			JAXBContext jaxbContext = JAXBContext.newInstance(SARoot.class, Category.class, Question.class,
+					Answer.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			// start marshaller to read XML file
 			SARoot rootElement = (SARoot) jaxbUnmarshaller.unmarshal(this.file);
@@ -91,8 +101,8 @@ public class parser implements parserInterface {
 	/**
 	 * Stores All questions (including the answers/...) in a XML file
 	 *
-	 * @param questions List of all Questions
-	 * @param path      path for the new XML file
+	 * @param root The root Object for the XML file
+	 * @param file the (XML) File for storing
 	 */
 	@Override
 	public void writeObjectsToXML(SARoot root, File file) {

@@ -9,7 +9,7 @@ import java.util.List;
  * @author tjehr
  * Interface for the parser
  */
-public interface parserInterface {
+public interface IParser {
     /**
      * starts this parserTry, source File may be given via Console <br/>
      * will create a JAXB Marshaller to handle the file.
@@ -44,8 +44,8 @@ public interface parserInterface {
     /**
      * Stores All questions (including the answers/...) in a XML file
      *
-     * @param root SARoot that contains the List of all Questions
-     * @param path      path for the new XML file
+	 * @param root The root Object for the XML file
+	 * @param file the (XML) File for storing
      */
     public void writeObjectsToXML(SARoot root, File file);
 }
