@@ -570,7 +570,7 @@ public class TextEditor extends Application {
 		 */
 
 		//
-		parser parser = new parser();
+		Parser parser = new Parser();
 		if (file != null) {
 			parser.setFile(file);
 			parser.startParser();
@@ -622,7 +622,7 @@ public class TextEditor extends Application {
 		 * 
 		 * }
 		 */
-		parser parser = new parser();
+		Parser parser = new Parser();
 		SARoot root = new SARoot();
 		root.setQuestions(twMap.getQuestions());
 		parser.writeObjectsToXML(root, file);
