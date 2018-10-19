@@ -509,7 +509,10 @@ public class TextEditor extends Application {
 		}
 
 		if (twMap.isCategory(obj)) {
-			//unnecesary change2
+			//unnecesary change2s
+			
+			//sda
+			
 			// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
 			//
 			// twMap.getTreeItem(obj).getParent().getChildren().get(i).setValue("Category: "
@@ -570,7 +573,7 @@ public class TextEditor extends Application {
 		 */
 
 		//
-		parser parser = new parser();
+		Parser parser = new Parser();
 		if (file != null) {
 			parser.setFile(file);
 			parser.startParser();
@@ -622,7 +625,7 @@ public class TextEditor extends Application {
 		 * 
 		 * }
 		 */
-		parser parser = new parser();
+		Parser parser = new Parser();
 		SARoot root = new SARoot();
 		root.setQuestions(twMap.getQuestions());
 		parser.writeObjectsToXML(root, file);
