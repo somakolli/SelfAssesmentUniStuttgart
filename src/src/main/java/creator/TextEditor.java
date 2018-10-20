@@ -27,7 +27,6 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.BooleanStringConverter;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -164,7 +163,7 @@ public class TextEditor extends Application {
 		root.setLeft(tree);
 
 		// File menut
-		Menu fileMenu = new Menu("Datei");
+		Menu fileMenu = new Menu("  File  ");
 
 		MenuItem newcMenuItem = new MenuItem("New Category");
 		newcMenuItem.setOnAction(actionEvent -> {
@@ -526,17 +525,14 @@ public class TextEditor extends Application {
 		}
 
 		if (twMap.isCategory(obj)) {
-			// unnecesary change2s
-
-			// sda
-
+			
 			// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
 			//
 			// twMap.getTreeItem(obj).getParent().getChildren().get(i).setValue("Category: "
 			// + (i + 1));
 			// }
 
-			// TODO Set Cat Name
+			
 			TextInputDialog dialog = new TextInputDialog("Category");
 
 			dialog.setTitle("Category Name");
@@ -583,13 +579,15 @@ public class TextEditor extends Application {
 	 * @param text
 	 * @throws IOException
 	 */
+	
 	public void open(Stage primaryStage, TextArea text) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
 		fileChooser.setInitialFileName("file.xml");
 		File file = fileChooser.showOpenDialog(primaryStage);
-		/**
+		
+		/*
 		 * if (file != null) { InputStream in = new FileInputStream(file);
 		 * BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		 * StringBuilder out = new StringBuilder(); String line; while ((line =
@@ -597,7 +595,7 @@ public class TextEditor extends Application {
 		 * text.setText(out.toString()); reader.close(); in.close(); }
 		 */
 
-		//
+		
 		Parser parser = new Parser();
 		if (file != null) {
 			parser.setFile(file);
@@ -638,7 +636,7 @@ public class TextEditor extends Application {
 	}
 
 	/**
-	 * Saves the current state of Test to a xml-file.
+	 * Saves the current state of Test to a XML-file.
 	 * 
 	 * @param primaryStage
 	 * @param text
@@ -728,7 +726,7 @@ public class TextEditor extends Application {
 	 * @param fullText
 	 */
 	public void suche(TextArea fullText) {
-		Stage sucheStage = new Stage();
+		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 100);
 		HBox textBox = new HBox(4);
@@ -737,7 +735,7 @@ public class TextEditor extends Application {
 		TextField stext = new TextField("");
 		textBox.getChildren().add(stext);
 		root.setTop(textBox);
-		CheckBox checkBox = new CheckBox("Take Capital letters into account?");
+		CheckBox checkBox = new CheckBox("Take capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
 		Button bsuche = new Button("Search");
@@ -784,16 +782,16 @@ public class TextEditor extends Application {
 		bBox.getChildren().add(bnext);
 		bBox.getChildren().add(eLabel);
 		root.setBottom(bBox);
-		sucheStage.setScene(scene);
+		searchStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
-		sucheStage.show();
+		searchStage.show();
 	};
 /**
  * Searches a user input in the text contained by the Textarea and replaces the results with another User Imput.
  * @param fullText
  */
 	public void esuche(TextArea fullText) {
-		Stage sucheStage = new Stage();
+		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 150);
 		VBox textboxV = new VBox(2);
@@ -810,7 +808,7 @@ public class TextEditor extends Application {
 		textboxV.getChildren().add(textBox1);
 		textboxV.getChildren().add(textBox2);
 		root.setTop(textboxV);
-		CheckBox checkBox = new CheckBox("Take Capital letters into account?");
+		CheckBox checkBox = new CheckBox("Don't take capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
 		Button bsuche = new Button("Search");
@@ -912,9 +910,9 @@ public class TextEditor extends Application {
 		bBoxV.getChildren().add(eLabel);
 		bBoxV.getChildren().add(bBox);
 		root.setBottom(bBoxV);
-		sucheStage.setScene(scene);
+		searchStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
-		sucheStage.show();
+		searchStage.show();
 	};
 
 	public void checkindex(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext) {
@@ -993,5 +991,6 @@ public class TextEditor extends Application {
 			}
 		}
 
+		
 	}
 }
