@@ -5,10 +5,10 @@ const exampleString = "00101101001111100010101010";
 //load currently to be shown question
 function loadQuestion(currNum) {
     $.get("questions/" + currNum + ".json", function (data) {
-        let qObj = $.parseJSON(data);
-        $(".container-fluid").children().first().append(qObj.question);
-        if(qObj.time > 0){
-            startTimer(qObj.time);
+        //let qObj = $.parseJSON(data);
+        $(".container-fluid").children().first().replaceWith(data.question);
+        if(data.time > 0){
+            startTimer(data.time);
         } else {
             hideTimer();
         }
@@ -17,15 +17,11 @@ function loadQuestion(currNum) {
 
 //convert state into number of current question
 function calcQNr(state){
-    if(state == ""){
-        return 0;
-    }
-    let alLength = 4;
+    let alLength = 5;
     let currNum = 0;
-    let i = 0;
+    let i = 5;
     while(i < state.length){
         currNum++;
-        //console.log("number of answers: " + parseInt(state.substring(i, i+alLength),2))
         let answerCount = alLength + parseInt(state.substring(i, i+alLength),2);
         i += answerCount;
     }

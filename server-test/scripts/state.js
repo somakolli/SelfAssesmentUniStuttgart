@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    //updateState();
-    loadQuestion(0);
+    updateState();
+    /* loadQuestion(0); */
 });
 
 function updateState() {
@@ -9,13 +9,19 @@ function updateState() {
         let questionList = stateToAnswerList();
         questionList.push(answerListToBitString(getAnswerList()));
         let questionListString = answerListToBinary(questionList);
-        let curr = calcQNr(questionListString);
-        if (getQCount() == curr) {
-            loadEvaluation(questionListString);
+        if(questionListString == "00000"){
+            loadQuestion(0);
+            history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
         } else {
-            loadQuestion(curr);
+            let curr = calcQNr(questionListString);
+            //console.log("curr :" + curr + ", " + questionListString)
+            if (getQcount() == curr) {
+                loadEvaluation(questionListString);
+            } else {
+                loadQuestion(curr);
+            }
+            history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
         }
-        history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
 
     });
 }
@@ -30,7 +36,7 @@ let stateToBinaryString = function () {
     }
 };
 let binaryStringToState = function (binaryString) {
-    console.log("binaryString:", binaryString);
+    //console.log("binaryString:", binaryString);
     return btoa(binaryString);
 };
 let getAnswerList = function () {
@@ -42,7 +48,7 @@ let getAnswerList = function () {
     answers.each(function () {
         answersList.push({ id: this.id, checked: this.checked });
     });
-    console.log("answerListLength:", answersList.length);
+    //console.log("answerListLength:", answersList.length);
     return answersList;
 };
 let answerListToBitString = function (answerList) {
@@ -61,7 +67,7 @@ let stateToAnswerList = function () {
     let questionCount = 0;
     while (i < stateBinaryString.length) {
         let bitStringLength = parseInt(stateBinaryString.substring(i, i + 5), 2);
-        console.log("bitString: " + bitStringLength)
+        //console.log("bitString: " + bitStringLength)
         i += 5;
         let answersSubstring = stateBinaryString.substring(i, i + bitStringLength);
         i += bitStringLength;

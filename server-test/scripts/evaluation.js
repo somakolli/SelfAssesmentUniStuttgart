@@ -11,10 +11,10 @@ function loadEvaluation(state) {
     $(".container-fluid").replaceWith('<div class="accordion" id="evaluation"></div>');
     $(".header").remove();
     $(".progress").remove();
-    $.get("questions/evluation.json", function (data) {
-        let evaObj = $.parseJSON(data);
-        $("body").append(evaObj.header);
-        $("#evaluation").append(evaObj.categories);
+    $.get("questions/evaluation.json", function (data) {
+        //let evaObj = $.parseJSON(data);
+        $("body").prepend(data.header);
+        $("#evaluation").append(data.categories);
     })
     let answersAndCount = stateToAnswers(state);
     let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
@@ -91,14 +91,14 @@ function setUpEvaluation(categories, result) {
 function showFraction(id, correct, total) {
     let fraction = correct / total;
     if (fraction < 0.25) {
-        $(id).next().children().first().append('<div class="progressBarLow" style="width:' + fraction + '">' + correct + '</div>');
-        $(id).next().children().first().append(total);
+        $(id).append('<div class="progressBarLow" style="width:' + fraction + '">' + correct + '</div>');
+        $(id).append(total);
     } else if (fraction >= 0.25 && fraction < 0.75) {
-        $(id).next().children().first().append('<div class="progressBarAverage" style="width:' + fraction + '">' + correct + '</div>');
-        $(id).next().children().first().append(total);
+        $(id).next().append('<div class="progressBarAverage" style="width:' + fraction + '">' + correct + '</div>');
+        $(id).next().append(total);
     } else {
-        $(id).next().children().first().append('<div class="progressBarGood" style="width:' + fraction + '">' + correct + '</div>');
-        $(id).next().children().first().append(total);
+        $(id).next().append('<div class="progressBarGood" style="width:' + fraction + '">' + correct + '</div>');
+        $(id).next().append(total);
     }
 }
 
