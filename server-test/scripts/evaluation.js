@@ -16,9 +16,10 @@ function loadEvaluation(state) {
         $("body").append(evaObj.header);
         $("#evaluation").append(evaObj.categories);
     })
-    let result = evaluate(getSolution(), stateToAnswers(state));
+    let answersAndCount = stateToAnswers(state);
+    let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
     let fazitData = setUpEvaluation(getCategories(), result);
-    addFazit(fazitData);
+    //addFazit(fazitData);
 }
 
 //convert state to binary string of answers
@@ -27,8 +28,10 @@ function stateToAnswers(state) {
     let nextQ = 0;
     let i = 0;
     let answerString = "";
+    let allAnswers = [];
     while (i < state.length) {
         let answerCount = parseInt(state.substring(i, i + alLength), 2);
+        allAnswers.push(answerCount);
         i += alLength;
         nextQ = i + answerCount;
         while (i < nextQ) {
@@ -37,17 +40,28 @@ function stateToAnswers(state) {
         }
         //console.log(answerString)
     }
-    return answerString;
+    return [answerString, allAnswers];
 }
 
-//calculate how many answers were right by AND-ing binary answer string and binary solution string
-function evaluate(solution, answers) {
-    let result = "";
-    for (leti = 0; i < solution.length; i++) {
-        result += solution.charAt(i) == answers.charAt(i) ? "1" : "0";
-
-    }
-    //alert("solution: " + solution + "\nyour answers " + answers + "\nyour score: " + result);
+/**
+ * check for each individual question, if it was answered correctly
+ * returns an array of 1's and 0's in order of the questions, 1 representing a correctly answered question etc.
+ */
+function evaluate(solution, answers, allAnswers) {
+    let result = [];
+    let pointer = 0;
+    for(let i = 0; i < allAnswers.length; i++){
+        let currCorrect = true;
+        //pointer indicates the beginn of all answers for one indiv. question, pointer + allAnswers[i] the end
+        for(let j = pointer; pointer < pointer + allAnswers[i]; j++){
+            if(solution.charAt(j) != answers.charAt(j)){
+                currCorrect = false;
+                break;
+            }
+        }
+        currCorrect == true ? result.push(1) : result.push(0);
+        pointer += allAnswers[i];
+    }    
     return result;
 }
 
@@ -61,8 +75,10 @@ function setUpEvaluation(categories, result) {
     //value corresponds with the total amount of questions for this category
     for (let [key, value] of categories) {
         let correct = 0;
+        //j + value includes all questions that the current category consists of
         for (let i = j; i < j + value; i++) {
-            correct += result[j] == "1" ? 1 : 0;
+            //sum up the 1's (correctly answered question) for each category
+            correct += result[j];
         }
         showFraction(key, correct, value);
         overall.push([correct, value]);
@@ -90,4 +106,8 @@ function addFazit(fazitData){
     $("#fazit").append();
 }
 
-stateToAnswers(example);
+//stateToAnswers(example);
+
+
+
+    
