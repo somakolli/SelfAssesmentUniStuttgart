@@ -17,6 +17,9 @@ function loadQuestion(currNum) {
 
 //convert state into number of current question
 function calcQNr(state){
+    if(state == ""){
+        return 0;
+    }
     let alLength = 4;
     let currNum = 0;
     let i = 0;
