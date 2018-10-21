@@ -7,3 +7,7 @@ function setQcount(count){
 function getQcount(){
     return Qcount;
 }
+
+/* Example */
+setQcount(2);
+/* Example */

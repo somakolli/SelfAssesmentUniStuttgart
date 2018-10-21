@@ -7,3 +7,7 @@ function setSolution(input){
 function getSolution(){
     return solution;
 }
+
+/* Example */
+setSolution("1101");
+/* Example */

@@ -1,7 +1,14 @@
+$(document).ready(function () {
+    updateState();
+});
+
 function updateState() {
     $(document).ready(function () {
         let stateObj = { state: "" };
         let questionList = stateToAnswerList();
+        if(questionList == []){
+            loadQuestion(0);
+        }
         questionList.push(answerListToBitString(getAnswerList()));
         let questionListString = answerListToBinary(questionList);
         let curr = calcQNr(questionListString);
