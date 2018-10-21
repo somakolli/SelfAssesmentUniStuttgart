@@ -1,0 +1,83 @@
+.card {
+    border-color: gray;
+}
+
+.card-header {
+    color: black;
+    border-color: gray;
+}
+
+.progress-bar-active {
+    background-color: lightsteelblue;
+    border-color: black;
+}
+
+.progress-bar-inactive {
+    background-color: white;
+    border-color: black;
+}
+
+.list-group>li:hover {
+    background-color: lightsteelblue;
+}
+
+a:hover {
+    background-color: lightsteelblue;
+    color: white;
+}
+
+.previous {
+    background-color: lightgray;
+    color: black;
+}
+
+.next {
+    background-color: lightgray;
+    color: black;
+}
+
+.nav {
+    background-color: black;
+}
+
+.nav-pills li a {
+    color: white;
+}
+
+.nav-pills>li>.dropdown-menu {
+    background-color: lightgrey;
+}
+
+.nav-pills>li>.dropdown-menu>.dropdown-item {
+    color: black;
+}
+
+.progress {
+    background-color: white;
+}
+
+.breadcrumb {
+    background-color: lightgray;
+}
+
+.breadcrumb>li>a {
+    color: black;
+}
+
+.breadcrumb>.active a {
+    color: lightslategray;
+}
+
+.breadcrumb>.active a:hover {
+    background-color: lightgray;
+    color: lightslategray;
+}
+
+.breadcrumb>li>a:hover {
+    background-color: lightgray;
+    color: white;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: black;
+}

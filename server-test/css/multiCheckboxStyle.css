@@ -1,0 +1,32 @@
+.table{
+    height: 100%;
+    border: double;
+    border-color: gray;
+}
+
+.table > tbody > tr > td > .radio {
+    text-align: center;
+    vertical-align: center;
+}
+
+.table > tbody > tr > th {
+    width: 80px;
+    border: double;
+    border-color: gray;
+}
+
+.table > thead > tr > th{
+    width: 80px;
+    border: double;
+    border-color: gray;
+    text-align: center;
+}
+.table > tbody > tr > td{
+    border: double;
+    border-color: gray;
+}
+
+.table {
+    padding: 0 !important;
+    margin: 0 !important;
+}

@@ -2,14 +2,9 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="evaluation.js"></script>
+    <script src="scripts/evaluation.js"></script>
     <script>
         $(document).ready(function () {
-            //____________________________________________
-            var QCount = 4;
-            var curr = 0;
-            var solution = "1000010000100001";
-            //____________________________________________
             $("#nextButton").click(function () {
                 let stateObj = { state: "" };
                 let questionList = stateToAnswerList();
@@ -17,12 +12,6 @@
                 let questionListString = answerListToBinary(questionList);
                 history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
                 console.log(questionList);
-                //____________________________________________
-                curr++;
-                if (curr == QCount) {
-                    evaluate(solution, stateToAnswers(questionListString));
-                }
-                //____________________________________________
             })
         });
 

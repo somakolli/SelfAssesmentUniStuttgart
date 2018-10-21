@@ -1,0 +1,30 @@
+
+.container-fluid{
+    margin-top: 150px;
+    height: 100%;
+    width: 80%;
+
+}
+
+.card{
+    border: double;
+}
+
+.card-header {
+    border: double;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    text-align: center;
+}
+
+.card-body > ul > li > .radio > label > input{
+    margin-right: 55px;
+}
+
+@media(max-width: 500px) {
+    .container-fluid {
+    width: 500px;
+    margin-top: 50px;
+    }
+  }
