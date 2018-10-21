@@ -6,6 +6,12 @@ import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
 
+/**
+ * Hilfsklasse zum Mappen von SAObjects auf TreeItems
+ * 
+ * @author Julian Blumenröther
+ * @version 1.0
+ */
 public class TwoWayHashMap {
 
 	private HashMap<TreeItem<String>, SAObject> forward = new HashMap<TreeItem<String>, SAObject>();
@@ -18,6 +24,12 @@ public class TwoWayHashMap {
 		// this.Questions = Questions;
 	}
 
+	/**
+	 * Maps the two arguments together.
+	 * 
+	 * @param firstkey
+	 * @param secondkey
+	 */
 	public void put(TreeItem<String> firstkey, SAObject secondkey) {
 
 		forward.put(firstkey, secondkey);
@@ -38,6 +50,12 @@ public class TwoWayHashMap {
 
 	}
 
+	/**
+	 * Returns all Question TreeItems related to a Category.
+	 * 
+	 * @param c
+	 * @return
+	 */
 	public ArrayList<TreeItem<String>> getQuestionTreeItems(Category c) {
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
 		for (int i = 0; i < AllTreeItems.size(); i++) {
@@ -52,6 +70,27 @@ public class TwoWayHashMap {
 		return tis;
 	}
 
+	/**
+	 * Returns all Questions related to a Category.
+	 * 
+	 * @param c
+	 * @return
+	 */
+	public ArrayList<Question> getQuestionsforCategory(Category c) {
+		ArrayList<Question> res = new ArrayList<Question>();
+		for (int i = 0; i < Questions.size(); i++) {
+			if (c.equals(Questions.get(i).getCategory())) {
+				res.add(Questions.get(i));
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * Returns all Question TreeItems.
+	 * 
+	 * @return
+	 */
 	public ArrayList<TreeItem<String>> getQuestionTreeItems() {
 
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
@@ -63,6 +102,11 @@ public class TwoWayHashMap {
 		return tis;
 	}
 
+	/**
+	 * Returns all Category TreeItems.
+	 * 
+	 * @return
+	 */
 	public ArrayList<TreeItem<String>> getCategoryTreeItems() {
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
 		for (int i = 0; i < AllTreeItems.size(); i++) {
@@ -73,6 +117,11 @@ public class TwoWayHashMap {
 		return tis;
 	}
 
+	/**
+	 * Removes all elements in the map for a given TreeItem.
+	 * 
+	 * @param firstkey
+	 */
 	public void removePair(TreeItem<String> firstkey) {
 
 		if (forward.get(firstkey).getClass().isInstance(new Category())) {
@@ -92,17 +141,11 @@ public class TwoWayHashMap {
 		AllTreeItems.remove(firstkey);
 	}
 
-	public void printContents() {
-		System.out.println("Amount of Categories: " + Categories.size());
-		System.out.println("Amount of Questions: " + Questions.size());
-		System.out.println("Amount of TreeItems: " + AllTreeItems.size());
-		System.out.println("forward Pairs: ");
-		for (int i = 0; i < AllTreeItems.size(); i++) {
-			System.out.print("/  " + AllTreeItems.get(i) + " - " + forward.get(AllTreeItems.get(i)).getClass() + "  /");
-		}
-		System.out.println();
-	}
-
+	/**
+	 * Removes all elements in the map for a given SAObject.
+	 * 
+	 * @param secondkey
+	 */
 	public void removePair(SAObject secondkey) {
 		if (secondkey.getClass().isInstance(new Category())) {
 			Categories.remove(secondkey);
@@ -120,25 +163,69 @@ public class TwoWayHashMap {
 		AllTreeItems.remove(backward.get(secondkey));
 	}
 
+	/**
+	 * Helpfull method to print the contents of the map.
+	 */
+	public void printContents() {
+		System.out.println("Amount of Categories: " + Categories.size());
+		System.out.println("Amount of Questions: " + Questions.size());
+		System.out.println("Amount of TreeItems: " + AllTreeItems.size());
+		System.out.println("forward Pairs: ");
+		for (int i = 0; i < AllTreeItems.size(); i++) {
+			System.out.print("/  " + AllTreeItems.get(i) + " - " + forward.get(AllTreeItems.get(i)).getClass() + "  /");
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Returns true if the map contains the SAObject.
+	 * 
+	 * @param Object
+	 * @return
+	 */
 	public boolean contains(SAObject Object) {
 		return forward.containsValue(Object) && backward.containsKey(Object);
 	}
 
-	public boolean contains(TreeItem<String> ti) {
-		return backward.containsValue(ti) && forward.containsKey(ti);
+	/**
+	 * Returns true if the map contains the TreeItem.
+	 * 
+	 * @param treeitem
+	 * @return
+	 */
+	public boolean contains(TreeItem<String> treeitem) {
+		return backward.containsValue(treeitem) && forward.containsKey(treeitem);
 	}
 
+	/**
+	 * Returns the corresponding SAObject for a given TreeItem.
+	 * 
+	 * @param firstkey
+	 * @return
+	 */
 	public SAObject getSAObject(TreeItem<String> firstkey) {
 		return forward.get(firstkey);
 	}
 
+	/**
+	 * Returns the corresponding TreeItem for a given SAObject.
+	 * 
+	 * @param secondkey
+	 * @return
+	 */
 	public TreeItem<String> getTreeItem(SAObject secondkey) {
 		return backward.get(secondkey);
 	}
 
-	public boolean isCategory(SAObject secondkey) {
+	/**
+	 * Returns true, if the given SAObject is a Category.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isCategory(SAObject object) {
 		try {
-			if (secondkey.getClass().isInstance(new Category())) {
+			if (object.getClass().isInstance(new Category())) {
 				return true;
 			} else {
 				return false;
@@ -148,9 +235,15 @@ public class TwoWayHashMap {
 		}
 	}
 
-	public boolean isCategory(TreeItem<String> firstkey) {
+	/**
+	 * Returns true, if the given TreeItem is related to a Category.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isCategory(TreeItem<String> object) {
 		try {
-			if (forward.get(firstkey).getClass().isInstance(new Category())) {
+			if (forward.get(object).getClass().isInstance(new Category())) {
 				return true;
 			} else {
 				return false;
@@ -160,9 +253,15 @@ public class TwoWayHashMap {
 		}
 	}
 
-	public boolean isQuestion(SAObject secondkey) {
+	/**
+	 * Returns true, if the given SAObject is a Question.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isQuestion(SAObject object) {
 		try {
-			if (secondkey.getClass().isInstance(new Question())) {
+			if (object.getClass().isInstance(new Question())) {
 				return true;
 			} else {
 				return false;
@@ -172,9 +271,15 @@ public class TwoWayHashMap {
 		}
 	}
 
-	public boolean isQuestion(TreeItem<String> firstkey) {
+	/**
+	 * Returns true, if the given TreeItem is related to a Question.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isQuestion(TreeItem<String> object) {
 		try {
-			if (forward.get(firstkey).getClass().isInstance(new Question())) {
+			if (forward.get(object).getClass().isInstance(new Question())) {
 				return true;
 			} else {
 				return false;
@@ -184,9 +289,15 @@ public class TwoWayHashMap {
 		}
 	}
 
-	public boolean isAnswer(SAObject secondkey) {
+	/**
+	 * Returns true, if the given SAObject is an Answer.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isAnswer(SAObject object) {
 		try {
-			if (secondkey.getClass().isInstance(new Answer())) {
+			if (object.getClass().isInstance(new Answer())) {
 				return true;
 			} else {
 				return false;
@@ -196,9 +307,15 @@ public class TwoWayHashMap {
 		}
 	}
 
-	public boolean isAnswer(TreeItem<String> firstkey) {
+	/**
+	 * Returns true, if the given TreeItem is related to an Answer.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isAnswer(TreeItem<String> object) {
 		try {
-			if (forward.get(firstkey).getClass().isInstance(new Answer())) {
+			if (forward.get(object).getClass().isInstance(new Answer())) {
 				return true;
 			} else {
 				return false;
@@ -208,6 +325,11 @@ public class TwoWayHashMap {
 		}
 	}
 
+	/**
+	 * Returns true if the map is empty.
+	 * 
+	 * @return
+	 */
 	public boolean isEmpty() {
 		if (forward.isEmpty() && backward.isEmpty()) {
 			return true;
@@ -216,6 +338,11 @@ public class TwoWayHashMap {
 		}
 	}
 
+	/**
+	 * Returns true, if both maps contain the same amount of elements.
+	 * 
+	 * @return
+	 */
 	public boolean isConsistent() {
 
 		if (backward.size() == forward.size() && forward.size() == AllTreeItems.size()) {
@@ -225,29 +352,39 @@ public class TwoWayHashMap {
 		}
 	}
 
-
-	public ArrayList<Question> getQuestionsforCategory(Category c) {
-		ArrayList<Question> res = new ArrayList<Question>();
-		for (int i = 0; i < Questions.size(); i++) {
-			if (c.equals(Questions.get(i).getCategory())) {
-				res.add(Questions.get(i));
-			}
-		}
-		return res;
-	}
-
+	/**
+	 * Returns all Questions.
+	 * 
+	 * @return
+	 */
 	public ArrayList<Question> getQuestions() {
 		return this.Questions;
 	}
 
+	/**
+	 * Returns all Categories.
+	 * 
+	 * @return
+	 */
 	public ArrayList<Category> getCategories() {
 		return this.Categories;
 	}
 
+	/**
+	 * Returns all TreeItems.
+	 * 
+	 * @return
+	 */
 	public ArrayList<TreeItem<String>> getTreeItems() {
 		return this.AllTreeItems;
 	}
 
+	/**
+	 * Returns the Question that contains the given Answer.
+	 * 
+	 * @param a
+	 * @return
+	 */
 	public Question getQuestion(Answer a) {
 
 		for (int i = 0; i < Questions.size(); i++) {
@@ -261,6 +398,13 @@ public class TwoWayHashMap {
 
 	}
 
+	/**
+	 * Returns the Category that contains the Question that contains the given
+	 * Answer.
+	 * 
+	 * @param a
+	 * @return
+	 */
 	public Category getCategory(Answer a) {
 		Question q = null;
 		for (int i = 0; i < Questions.size(); i++) {
@@ -273,12 +417,24 @@ public class TwoWayHashMap {
 
 	}
 
+	/**
+	 * Returns the Category that contains the Question q.
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public Category getCategory(Question q) {
 
 		return q.getCategory();
 
 	}
 
+	/**
+	 * Sets the Content of a given SAObject.
+	 * 
+	 * @param Object
+	 * @param content
+	 */
 	public void setContent(SAObject Object, String content) {
 		if (Object.getClass().isInstance(new Category())) {
 			Category category = (Category) Object;
@@ -292,6 +448,31 @@ public class TwoWayHashMap {
 		}
 	}
 
+	/**
+	 * Sets the Content of a SAObject corresponting to the given TreeItem.
+	 * 
+	 * @param Object
+	 * @param content
+	 */
+	public void setContent(TreeItem<String> Object, String content) {
+		if (Object.getClass().isInstance(new Category())) {
+			Category category = (Category) forward.get(Object);
+			category.setContent(content);
+		} else if (Object.getClass().isInstance(new Question())) {
+			Question question = (Question) forward.get(Object);
+			question.setQuestion(content);
+		} else if (Object.getClass().isInstance(new Answer())) {
+			Answer answer = (Answer) forward.get(Object);
+			answer.setContent(content);
+		}
+	}
+
+	/**
+	 * Returns the Content of a given SAObject.
+	 * 
+	 * @param Object
+	 * @return
+	 */
 	public String getContent(SAObject Object) {
 		if (Object.getClass().isInstance(new Category())) {
 			Category category = (Category) Object;
@@ -307,19 +488,12 @@ public class TwoWayHashMap {
 
 	}
 
-	public void setContent(TreeItem<String> Object, String content) {
-		if (Object.getClass().isInstance(new Category())) {
-			Category category = (Category) forward.get(Object);
-			category.setContent(content);
-		} else if (Object.getClass().isInstance(new Question())) {
-			Question question = (Question) forward.get(Object);
-			question.setQuestion(content);
-		} else if (Object.getClass().isInstance(new Answer())) {
-			Answer answer = (Answer) forward.get(Object);
-			answer.setContent(content);
-		}
-	}
-
+	/**
+	 * Returns the Content of a SAObject corresponding to the given TreeItem.
+	 * 
+	 * @param Object
+	 * @return
+	 */
 	public String getContent(TreeItem<String> Object) {
 		if (forward.get(Object).getClass().isInstance(new Category())) {
 			Category c = (Category) forward.get(Object);
@@ -335,18 +509,34 @@ public class TwoWayHashMap {
 
 	}
 
+	/**
+	 * Returns the amount of Questions.
+	 * 
+	 * @return
+	 */
 	public int getQuestionAmount() {
 
 		return Questions.size();
 
 	}
 
+	/**
+	 * Returns the amount of Answers for a given Question q.
+	 * 
+	 * @param q
+	 * @return
+	 */
 	public int getAnswerAmount(Question q) {
 
 		return q.getAnswers().size();
 
 	}
 
+	/**
+	 * Returns the amount of Categories.
+	 * 
+	 * @return
+	 */
 	public int getCategoryAmount() {
 
 		return Categories.size();

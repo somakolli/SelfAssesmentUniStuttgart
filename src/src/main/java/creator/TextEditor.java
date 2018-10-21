@@ -30,10 +30,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Benutzeroberfläche zum Erstellen eines Self-Assesment-Tests.
+ * 
+ * @author Julian Blumenröther
+ * @version 1.0
+ */
 public class TextEditor extends Application {
 
 	public static final TreeItem<String> rootitem = new TreeItem<>();
-	public static TreeItem<String> currentSelectedTreeItem = new TreeItem<>();
+	public static TreeItem<String> currentSelectedTreeItem = rootitem;
 	public int i = 0;
 	public static final TwoWayHashMap twMap = new TwoWayHashMap();
 	public static final TableView<SAObject> table = new TableView<SAObject>();
@@ -157,7 +163,7 @@ public class TextEditor extends Application {
 		root.setLeft(tree);
 
 		// File menut
-		Menu fileMenu = new Menu("Datei");
+		Menu fileMenu = new Menu("  File  ");
 
 		MenuItem newcMenuItem = new MenuItem("New Category");
 		newcMenuItem.setOnAction(actionEvent -> {
@@ -291,6 +297,12 @@ public class TextEditor extends Application {
 
 				}
 
+				System.out.println(twMap.AllTreeItems.size());
+				if (twMap.AllTreeItems.size() == 0) {
+					table.getColumns().clear();
+					table.getItems().clear();
+				}
+
 			} else {
 				// ... user chose CANCEL or closed the dialog
 
@@ -309,7 +321,11 @@ public class TextEditor extends Application {
 
 		MenuItem saveMenuItem = new MenuItem("Export xml");
 		saveMenuItem.setOnAction(actionEvent -> {
-			twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
+
+			if (!currentSelectedTreeItem.equals(null)) {
+				twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
+			}
+
 			save(primaryStage, text);
 		});
 
@@ -490,6 +506,13 @@ public class TextEditor extends Application {
 
 	}
 
+	/**
+	 * Creates a Branch between the given Rootobject and the given SAObject and
+	 * links them together in the Two-Way-Hash-Map.
+	 * 
+	 * @param root
+	 * @param obj
+	 */
 	private void makeBranch(TreeItem<String> root, SAObject obj) {
 
 		TreeItem<String> item = new TreeItem<>();
@@ -502,14 +525,14 @@ public class TextEditor extends Application {
 		}
 
 		if (twMap.isCategory(obj)) {
-
+			
 			// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
 			//
 			// twMap.getTreeItem(obj).getParent().getChildren().get(i).setValue("Category: "
 			// + (i + 1));
 			// }
 
-			// TODO Set Cat Name
+			
 			TextInputDialog dialog = new TextInputDialog("Category");
 
 			dialog.setTitle("Category Name");
@@ -548,13 +571,23 @@ public class TextEditor extends Application {
 		}
 	}
 
+	/**
+	 * Reads the contents of a selected XML file, converts them into java objects
+	 * and creates the corresponding TreeItems in the treeview.
+	 * 
+	 * @param primaryStage
+	 * @param text
+	 * @throws IOException
+	 */
+	
 	public void open(Stage primaryStage, TextArea text) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
 		fileChooser.setInitialFileName("file.xml");
 		File file = fileChooser.showOpenDialog(primaryStage);
-		/**
+		
+		/*
 		 * if (file != null) { InputStream in = new FileInputStream(file);
 		 * BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		 * StringBuilder out = new StringBuilder(); String line; while ((line =
@@ -562,18 +595,39 @@ public class TextEditor extends Application {
 		 * text.setText(out.toString()); reader.close(); in.close(); }
 		 */
 
-		// open parser
-		parser parser = new parser();
+		
+		Parser parser = new Parser();
 		if (file != null) {
 			parser.setFile(file);
 			parser.startParser();
 
+			ArrayList<Category> Categories = new ArrayList<Category>();
+			ArrayList<Question> Questions = new ArrayList<Question>();
+
 			for (Question q : parser.getGeneratedQuestions()) {
 
-				makeBranch(rootitem, q);
+				Categories.add(q.getCategory());
+				Questions.add(q);
 
-				for (Answer a : q.getAnswers()) {
-					makeBranch(twMap.getTreeItem(q), a);
+			}
+
+			for (Category category : Categories) {
+
+				makeBranch(rootitem, category);
+
+				for (Question question : Questions) {
+
+					if (question.getCategory().equals(category)) {
+
+						makeBranch(twMap.getTreeItem(question), category);
+
+					}
+
+					for (Answer a : question.getAnswers()) {
+
+						makeBranch(twMap.getTreeItem(question), a);
+
+					}
 
 				}
 
@@ -581,6 +635,12 @@ public class TextEditor extends Application {
 		}
 	}
 
+	/**
+	 * Saves the current state of Test to a XML-file.
+	 * 
+	 * @param primaryStage
+	 * @param text
+	 */
 	public void save(Stage primaryStage, TextArea text) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save as XML-File");
@@ -594,75 +654,79 @@ public class TextEditor extends Application {
 		 * 
 		 * }
 		 */
-		parser parser = new parser();
+		Parser parser = new Parser();
 		SARoot root = new SARoot();
 		root.setQuestions(twMap.getQuestions());
 		parser.writeObjectsToXML(root, file);
 
 	}
 
-	public void properties(Question q) {
-		Stage propStage = new Stage();
-		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 200, 85);
+	// public void properties(Question q) {
+	// Stage propStage = new Stage();
+	// BorderPane root = new BorderPane();
+	// Scene scene = new Scene(root, 200, 85);
+	//
+	// HBox textBox = new HBox(4);
+	// textBox.setAlignment(Pos.BOTTOM_CENTER);
+	// textBox.getChildren().add(new Label("Points"));
+	// TextField stext = new TextField("");
+	// textBox.getChildren().add(stext);
+	// stext.setText(String.valueOf(q.getPoints()));
+	//
+	// HBox textBox2 = new HBox(4);
+	// textBox2.setAlignment(Pos.BOTTOM_CENTER);
+	// textBox2.getChildren().add(new Label("Time"));
+	// TextField stext2 = new TextField("");
+	// stext2.setText(String.valueOf(q.getTime()));
+	// textBox2.getChildren().add(stext2);
+	//
+	// root.setTop(textBox);
+	// root.setCenter(textBox2);
+	//
+	// // CheckBox checkBox = new CheckBox("Groß- / Kleinschreibung beachten");
+	// // root.setCenter(checkBox);
+	// HBox bBox = new HBox(3);
+	//
+	// Button bsave = new Button("Save");
+	// Label eLabel = new Label("");
+	//
+	// bsave.setOnAction(new EventHandler<ActionEvent>() {
+	// @Override
+	// public void handle(ActionEvent e) {
+	//
+	// q.setPoints(Integer.parseInt(stext.getText()));
+	// q.setTime(Integer.parseInt(stext2.getText()));
+	// propStage.close();
+	//
+	// }
+	// });
+	//
+	// Button bexit = new Button("Exit");
+	//
+	// bexit.setOnAction(new EventHandler<ActionEvent>() {
+	// @Override
+	// public void handle(ActionEvent e) {
+	//
+	// propStage.close();
+	//
+	// }
+	// });
+	//
+	// bBox.getChildren().add(bsave);
+	// bBox.getChildren().add(bexit);
+	// bBox.getChildren().add(eLabel);
+	// root.setBottom(bBox);
+	// propStage.setScene(scene);
+	// // primaryStage.setFullScreen(true);
+	// propStage.show();
+	// }
 
-		HBox textBox = new HBox(4);
-		textBox.setAlignment(Pos.BOTTOM_CENTER);
-		textBox.getChildren().add(new Label("Points"));
-		TextField stext = new TextField("");
-		textBox.getChildren().add(stext);
-		stext.setText(String.valueOf(q.getPoints()));
-
-		HBox textBox2 = new HBox(4);
-		textBox2.setAlignment(Pos.BOTTOM_CENTER);
-		textBox2.getChildren().add(new Label("Time"));
-		TextField stext2 = new TextField("");
-		stext2.setText(String.valueOf(q.getTime()));
-		textBox2.getChildren().add(stext2);
-
-		root.setTop(textBox);
-		root.setCenter(textBox2);
-
-		// CheckBox checkBox = new CheckBox("Groß- / Kleinschreibung beachten");
-		// root.setCenter(checkBox);
-		HBox bBox = new HBox(3);
-
-		Button bsave = new Button("Save");
-		Label eLabel = new Label("");
-
-		bsave.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-
-				q.setPoints(Integer.parseInt(stext.getText()));
-				q.setTime(Integer.parseInt(stext2.getText()));
-				propStage.close();
-
-			}
-		});
-
-		Button bexit = new Button("Exit");
-
-		bexit.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-
-				propStage.close();
-
-			}
-		});
-
-		bBox.getChildren().add(bsave);
-		bBox.getChildren().add(bexit);
-		bBox.getChildren().add(eLabel);
-		root.setBottom(bBox);
-		propStage.setScene(scene);
-		// primaryStage.setFullScreen(true);
-		propStage.show();
-	}
-
+	/**
+	 * Searches a user input in the text contained by the Textarea.
+	 * @param fullText
+	 */
 	public void suche(TextArea fullText) {
-		Stage sucheStage = new Stage();
+		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 100);
 		HBox textBox = new HBox(4);
@@ -671,7 +735,7 @@ public class TextEditor extends Application {
 		TextField stext = new TextField("");
 		textBox.getChildren().add(stext);
 		root.setTop(textBox);
-		CheckBox checkBox = new CheckBox("Take Capital letters into account?");
+		CheckBox checkBox = new CheckBox("Take capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
 		Button bsuche = new Button("Search");
@@ -718,13 +782,16 @@ public class TextEditor extends Application {
 		bBox.getChildren().add(bnext);
 		bBox.getChildren().add(eLabel);
 		root.setBottom(bBox);
-		sucheStage.setScene(scene);
+		searchStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
-		sucheStage.show();
+		searchStage.show();
 	};
-
+/**
+ * Searches a user input in the text contained by the Textarea and replaces the results with another User Imput.
+ * @param fullText
+ */
 	public void esuche(TextArea fullText) {
-		Stage sucheStage = new Stage();
+		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 150);
 		VBox textboxV = new VBox(2);
@@ -741,7 +808,7 @@ public class TextEditor extends Application {
 		textboxV.getChildren().add(textBox1);
 		textboxV.getChildren().add(textBox2);
 		root.setTop(textboxV);
-		CheckBox checkBox = new CheckBox("Take Capital letters into account?");
+		CheckBox checkBox = new CheckBox("Don't take capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
 		Button bsuche = new Button("Search");
@@ -843,9 +910,9 @@ public class TextEditor extends Application {
 		bBoxV.getChildren().add(eLabel);
 		bBoxV.getChildren().add(bBox);
 		root.setBottom(bBoxV);
-		sucheStage.setScene(scene);
+		searchStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
-		sucheStage.show();
+		searchStage.show();
 	};
 
 	public void checkindex(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext) {
@@ -924,5 +991,6 @@ public class TextEditor extends Application {
 			}
 		}
 
+		
 	}
 }
