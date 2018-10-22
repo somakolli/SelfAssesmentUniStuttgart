@@ -9,5 +9,5 @@ function getQcount(){
 }
 
 /* Example */
-setQcount(2);
+setQcount(5);
 /* Example */

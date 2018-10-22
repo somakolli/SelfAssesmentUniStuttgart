@@ -1,5 +1,6 @@
 <div class="card-header">
 <h5>$question.getQuestion()</h5>
+    $question.getText();
 </div>
 <div class="card-body">
 <ul id="$question.getId()" class="list-group list-group-flush">

@@ -19,7 +19,6 @@ p {
 }
 
 .progressBarLow {
-    width: 15%;
     height: 30px;
     line-height: 30px;
     background-color: red;
@@ -28,7 +27,6 @@ p {
 }
 
 .progressBarAverage {
-    width: 38%;
     height: 30px;
     line-height: 30px;
     background-color: orange;
@@ -37,12 +35,19 @@ p {
 }
 
 .progressBarGood {
-    width: 60%;
     height: 30px;
     line-height: 30px;
     background-color: green;
     text-align: center;
     color: white;
+}
+
+.progressFill {
+    /* width: 100%; */ 
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: white; 
 }
 
 .jumbotron {

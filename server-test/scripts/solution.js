@@ -9,5 +9,5 @@ function getSolution(){
 }
 
 /* Example */
-setSolution("1101");
+setSolution("1101001100001");
 /* Example */

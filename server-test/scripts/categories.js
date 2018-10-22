@@ -2,7 +2,7 @@ let categories = new Map;
 
 /* Example */
 categories.set("#mathe", 1);
-categories.set("#theo", 1);
+categories.set("#theo", 4);
 /* Example */
 
 
