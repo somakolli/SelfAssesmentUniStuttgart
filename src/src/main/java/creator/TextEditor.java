@@ -31,6 +31,11 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * 
+ * 
+ * *TODO Context Menu Button for inserting a link, Window on the right to
+ * convert to.
+ *
  * Benutzeroberfläche zum Erstellen eines Self-Assesment-Tests.
  * 
  * @author Julian Blumenröther
@@ -56,6 +61,7 @@ public class TextEditor extends Application {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 800, 600);
 		TextArea text = new TextArea();
+		text.setEditable(false);
 		primaryStage.setTitle("Self Assessment Test Creator");
 
 		MenuBar menuBar = new MenuBar();
@@ -79,6 +85,7 @@ public class TextEditor extends Application {
 
 				TreeItem<String> oldSelected = (TreeItem<String>) oldValue;
 				TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+				text.setEditable(true);
 
 				currentSelectedTreeItem = selectedItem;
 
@@ -162,7 +169,7 @@ public class TextEditor extends Application {
 		tree.setShowRoot(false);
 		root.setLeft(tree);
 
-		// File menut
+		// File menu
 		Menu fileMenu = new Menu("  File  ");
 
 		MenuItem newcMenuItem = new MenuItem("New Category");
@@ -297,10 +304,15 @@ public class TextEditor extends Application {
 
 				}
 
-				System.out.println(twMap.AllTreeItems.size());
 				if (twMap.AllTreeItems.size() == 0) {
 					table.getColumns().clear();
 					table.getItems().clear();
+				}
+
+				if (rootitem.getChildren().isEmpty()) {
+					text.setEditable(false);
+				} else {
+					text.setEditable(true);
 				}
 
 			} else {
@@ -346,8 +358,15 @@ public class TextEditor extends Application {
 
 		});
 
+		MenuItem prev = new MenuItem("Preview");
+		prev.setOnAction(actionEvent -> {
+			// TODO: Implement functionality
+			System.out.println("Do sth.");
+
+		});
+
 		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(),
-				openMenuItem, saveMenuItem, new SeparatorMenuItem(), exitMenuItem);
+				openMenuItem, saveMenuItem, new SeparatorMenuItem(), prev, new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Search");
@@ -364,16 +383,16 @@ public class TextEditor extends Application {
 		primaryStage.show();
 
 		// Treeview Context Menu
-		ContextMenu cm = new ContextMenu();
-		MenuItem mi1 = new MenuItem("New Category");
-		mi1.setOnAction(actionEvent -> {
+		ContextMenu treecm = new ContextMenu();
+		MenuItem newCContMenuItem = new MenuItem("New Category");
+		newCContMenuItem.setOnAction(actionEvent -> {
 
 			Category c = new Category();
 			makeBranch(rootitem, c);
 
 		});
-		MenuItem mi2 = new MenuItem("New Question");
-		mi2.setOnAction(actionEvent -> {
+		MenuItem newQContMenuItem = new MenuItem("New Question");
+		newQContMenuItem.setOnAction(actionEvent -> {
 
 			Question q = new Question();
 
@@ -405,8 +424,9 @@ public class TextEditor extends Application {
 			}
 
 		});
-		MenuItem mi3 = new MenuItem("New Answer");
-		mi3.setOnAction(actionEvent -> {
+
+		MenuItem newAContMenuItem = new MenuItem("New Answer");
+		newAContMenuItem.setOnAction(actionEvent -> {
 
 			Answer a = new Answer();
 
@@ -446,9 +466,8 @@ public class TextEditor extends Application {
 
 		});
 
-		MenuItem mi4 = new MenuItem("Delete");
-		mi4.setOnAction(actionEvent -> {
-
+		MenuItem DelContMenuItem = new MenuItem("Delete");
+		DelContMenuItem.setOnAction(actionEvent -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete Tree Item?");
 			alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
@@ -462,7 +481,7 @@ public class TextEditor extends Application {
 				if (twMap.isCategory(currentSelectedTreeItem)) {
 					twMap.removePair(currentSelectedTreeItem);
 					rootitem.getChildren().remove(currentSelectedTreeItem);
-					//// No need to update since category names are unique
+					// No need to update since category names are unique
 					// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
 					// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
 					// }
@@ -495,14 +514,74 @@ public class TextEditor extends Application {
 
 				}
 
+				if (twMap.AllTreeItems.size() == 0) {
+					table.getColumns().clear();
+					table.getItems().clear();
+				}
+
+				if (rootitem.getChildren().isEmpty()) {
+					text.setEditable(false);
+				} else {
+					text.setEditable(true);
+				}
+
 			} else {
 				// ... user chose CANCEL or closed the dialog
 
 			}
 
 		});
-		cm.getItems().addAll(mi1, mi2, mi3, new SeparatorMenuItem(), mi4);
-		tree.setContextMenu(cm);
+
+		treecm.getItems().addAll(newCContMenuItem, newQContMenuItem, newAContMenuItem, new SeparatorMenuItem(), DelContMenuItem);
+		tree.setContextMenu(treecm);
+
+		//TODO Adding Insert Media to the Textarea ContextMenu
+
+//		ContextMenu textcm = new ContextMenu();
+//		MenuItem mediacm = new MenuItem("Delete");
+//		mediacm.setOnAction(actionEvent -> {
+//
+//			text.deleteText(text.getSelection());
+//
+//		});
+//		
+//		MenuItem copycm = new MenuItem("Delete");
+//		copycm.setOnAction(actionEvent -> {
+//
+//			
+//
+//		});
+//		
+//		MenuItem deletecm = new MenuItem("Delete");
+//		deletecm.setOnAction(actionEvent -> {
+//
+//			
+//
+//		});
+//		
+//		MenuItem insertcm = new MenuItem("Delete");
+//		insertcm.setOnAction(actionEvent -> {
+//
+//			
+//		});
+//		
+//		MenuItem undocm = new MenuItem("Delete");
+//		undocm.setOnAction(actionEvent -> {
+//
+//			
+//
+//		});
+//		
+//		MenuItem redocm = new MenuItem("Delete");
+//		redocm.setOnAction(actionEvent -> {
+//
+//			
+//
+//		});
+//		
+//		textcm.getItems().addAll(mediaMenuItem);
+//		text.setContextMenu(textcm);
+		
 
 	}
 
@@ -525,14 +604,13 @@ public class TextEditor extends Application {
 		}
 
 		if (twMap.isCategory(obj)) {
-			
+
 			// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
 			//
 			// twMap.getTreeItem(obj).getParent().getChildren().get(i).setValue("Category: "
 			// + (i + 1));
 			// }
 
-			
 			TextInputDialog dialog = new TextInputDialog("Category");
 
 			dialog.setTitle("Category Name");
@@ -579,14 +657,14 @@ public class TextEditor extends Application {
 	 * @param text
 	 * @throws IOException
 	 */
-	
+
 	public void open(Stage primaryStage, TextArea text) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
 		fileChooser.setInitialFileName("file.xml");
 		File file = fileChooser.showOpenDialog(primaryStage);
-		
+
 		/*
 		 * if (file != null) { InputStream in = new FileInputStream(file);
 		 * BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -595,7 +673,6 @@ public class TextEditor extends Application {
 		 * text.setText(out.toString()); reader.close(); in.close(); }
 		 */
 
-		
 		Parser parser = new Parser();
 		if (file != null) {
 			parser.setFile(file);
@@ -723,6 +800,7 @@ public class TextEditor extends Application {
 
 	/**
 	 * Searches a user input in the text contained by the Textarea.
+	 * 
 	 * @param fullText
 	 */
 	public void suche(TextArea fullText) {
@@ -786,10 +864,13 @@ public class TextEditor extends Application {
 		// primaryStage.setFullScreen(true);
 		searchStage.show();
 	};
-/**
- * Searches a user input in the text contained by the Textarea and replaces the results with another User Imput.
- * @param fullText
- */
+
+	/**
+	 * Searches a user input in the text contained by the Textarea and replaces the
+	 * results with another User Imput.
+	 * 
+	 * @param fullText
+	 */
 	public void esuche(TextArea fullText) {
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
@@ -991,6 +1072,5 @@ public class TextEditor extends Application {
 			}
 		}
 
-		
 	}
 }
