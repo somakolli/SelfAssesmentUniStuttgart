@@ -17,12 +17,13 @@ var x = setInterval(function () {
         $("#timer").text("EXPIRED");
     }
 }, 1000); */
+var x;
 
 function startTimer(limit) {
     $("#timer").css("visibility", "visible");
     var currentTime = new Date();
     currentTime.setMinutes(currentTime.getMinutes() + 1);
-    var x = setInterval(function () {
+    x = setInterval(function () {
 
         var now = new Date().getTime();
 
@@ -42,6 +43,7 @@ function startTimer(limit) {
 }
 
 function hideTimer(){
+    clearInterval(x);
     $("#timer").css("visibility", "hidden");
 }
 
