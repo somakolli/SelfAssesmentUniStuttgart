@@ -40,6 +40,8 @@ import java.util.Optional;
  * 
  * @author Julian Blumenröther
  * @version 1.0
+ * 
+ * 
  */
 public class TextEditor extends Application {
 
@@ -48,6 +50,7 @@ public class TextEditor extends Application {
 	public int i = 0;
 	public static final TwoWayHashMap twMap = new TwoWayHashMap();
 	public static final TableView<SAObject> table = new TableView<SAObject>();
+	public static final TreeView<String> tree = new TreeView<>(rootitem);;
 
 	public static void main(String[] args) {
 
@@ -77,7 +80,6 @@ public class TextEditor extends Application {
 
 		// Tree
 		rootitem.setExpanded(true);
-		TreeView<String> tree = new TreeView<>(rootitem);
 		tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -334,11 +336,16 @@ public class TextEditor extends Application {
 		MenuItem saveMenuItem = new MenuItem("Export xml");
 		saveMenuItem.setOnAction(actionEvent -> {
 
-			if (!currentSelectedTreeItem.equals(null)) {
-				twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
-			}
+			try {
+				if (!currentSelectedTreeItem.equals(null)) {
+					twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
+				}
+			} catch (Exception e) {
 
-			save(primaryStage, text);
+			} finally {
+
+				save(primaryStage, text);
+			}
 		});
 
 		MenuItem exitMenuItem = new MenuItem("Exit");
@@ -370,6 +377,7 @@ public class TextEditor extends Application {
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Search");
+
 		MenuItem sucheMenuItem = new MenuItem("Search");
 		sucheMenuItem.setOnAction(actionEvent -> suche(text));
 		MenuItem esucheMenuItem = new MenuItem("Search and Replace");
@@ -532,56 +540,56 @@ public class TextEditor extends Application {
 
 		});
 
-		treecm.getItems().addAll(newCContMenuItem, newQContMenuItem, newAContMenuItem, new SeparatorMenuItem(), DelContMenuItem);
+		treecm.getItems().addAll(newCContMenuItem, newQContMenuItem, newAContMenuItem, new SeparatorMenuItem(),
+				DelContMenuItem);
 		tree.setContextMenu(treecm);
 
-		//TODO Adding Insert Media to the Textarea ContextMenu
+		// TODO Adding Insert Media to the Textarea ContextMenu
 
-//		ContextMenu textcm = new ContextMenu();
-//		MenuItem mediacm = new MenuItem("Delete");
-//		mediacm.setOnAction(actionEvent -> {
-//
-//			text.deleteText(text.getSelection());
-//
-//		});
-//		
-//		MenuItem copycm = new MenuItem("Delete");
-//		copycm.setOnAction(actionEvent -> {
-//
-//			
-//
-//		});
-//		
-//		MenuItem deletecm = new MenuItem("Delete");
-//		deletecm.setOnAction(actionEvent -> {
-//
-//			
-//
-//		});
-//		
-//		MenuItem insertcm = new MenuItem("Delete");
-//		insertcm.setOnAction(actionEvent -> {
-//
-//			
-//		});
-//		
-//		MenuItem undocm = new MenuItem("Delete");
-//		undocm.setOnAction(actionEvent -> {
-//
-//			
-//
-//		});
-//		
-//		MenuItem redocm = new MenuItem("Delete");
-//		redocm.setOnAction(actionEvent -> {
-//
-//			
-//
-//		});
-//		
-//		textcm.getItems().addAll(mediaMenuItem);
-//		text.setContextMenu(textcm);
-		
+		// ContextMenu textcm = new ContextMenu();
+		// MenuItem mediacm = new MenuItem("Delete");
+		// mediacm.setOnAction(actionEvent -> {
+		//
+		// text.deleteText(text.getSelection());
+		//
+		// });
+		//
+		// MenuItem copycm = new MenuItem("Delete");
+		// copycm.setOnAction(actionEvent -> {
+		//
+		//
+		//
+		// });
+		//
+		// MenuItem deletecm = new MenuItem("Delete");
+		// deletecm.setOnAction(actionEvent -> {
+		//
+		//
+		//
+		// });
+		//
+		// MenuItem insertcm = new MenuItem("Delete");
+		// insertcm.setOnAction(actionEvent -> {
+		//
+		//
+		// });
+		//
+		// MenuItem undocm = new MenuItem("Delete");
+		// undocm.setOnAction(actionEvent -> {
+		//
+		//
+		//
+		// });
+		//
+		// MenuItem redocm = new MenuItem("Delete");
+		// redocm.setOnAction(actionEvent -> {
+		//
+		//
+		//
+		// });
+		//
+		// textcm.getItems().addAll(mediaMenuItem);
+		// text.setContextMenu(textcm);
 
 	}
 
@@ -610,23 +618,28 @@ public class TextEditor extends Application {
 			// twMap.getTreeItem(obj).getParent().getChildren().get(i).setValue("Category: "
 			// + (i + 1));
 			// }
-
-			TextInputDialog dialog = new TextInputDialog("Category");
-
-			dialog.setTitle("Category Name");
-			dialog.setHeaderText("Enter category name:");
-			dialog.setContentText("Name:");
-
-			Optional<String> result = dialog.showAndWait();
 			Category c = (Category) obj;
+			if (c.getCategoryName().equals("")) {
+				TextInputDialog dialog = new TextInputDialog("Category");
 
-			item = new TreeItem<>("Category: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
+				dialog.setTitle("Category Name");
+				dialog.setHeaderText("Enter category name:");
+				dialog.setContentText("Name:");
 
-			result.ifPresent(name -> {
-				twMap.getTreeItem(obj).setValue(name);
-				c.setCategoryName(name);
+				Optional<String> result = dialog.showAndWait();
 
-			});
+				item = new TreeItem<>("Category: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
+
+				result.ifPresent(name -> {
+					twMap.getTreeItem(obj).setValue(name);
+					c.setCategoryName(name);
+
+				});
+			} else {
+
+				twMap.getTreeItem(obj).setValue(c.getCategoryName());
+
+			}
 
 		} else if (twMap.isQuestion(obj)) {
 			Question q = (Question) obj;
@@ -678,6 +691,9 @@ public class TextEditor extends Application {
 			parser.setFile(file);
 			parser.startParser();
 
+			twMap.clear(tree);
+			currentSelectedTreeItem = tree.getRoot();
+
 			ArrayList<Category> Categories = new ArrayList<Category>();
 			ArrayList<Question> Questions = new ArrayList<Question>();
 
@@ -690,19 +706,20 @@ public class TextEditor extends Application {
 
 			for (Category category : Categories) {
 
+				System.out.println("CAT:" + category.getCategoryName());
 				makeBranch(rootitem, category);
 
 				for (Question question : Questions) {
-
+					System.out.println("Que:" + question.getId());
 					if (question.getCategory().equals(category)) {
 
-						makeBranch(twMap.getTreeItem(question), category);
+						makeBranch(twMap.getTreeItem(category), question);
 
-					}
+						for (Answer a : question.getAnswers()) {
+							System.out.println("Ans:" + a.getId());
+							makeBranch(twMap.getTreeItem(question), a);
 
-					for (Answer a : question.getAnswers()) {
-
-						makeBranch(twMap.getTreeItem(question), a);
+						}
 
 					}
 

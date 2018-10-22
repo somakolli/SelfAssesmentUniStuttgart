@@ -5,6 +5,7 @@ import domain.*;
 import java.util.HashMap;
 
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 
 /**
  * Hilfsklasse zum Mappen von SAObjects auf TreeItems
@@ -125,7 +126,16 @@ public class TwoWayHashMap {
 	public void removePair(TreeItem<String> firstkey) {
 
 		if (forward.get(firstkey).getClass().isInstance(new Category())) {
+
+			ArrayList<Question> remove = new ArrayList<Question>();
+			for (Question q : Questions) {
+				if (q.getCategory().equals(forward.get(firstkey))) {
+					remove.add(q);
+				}
+			}
+			Questions.removeAll(remove);
 			Categories.remove(forward.get(firstkey));
+
 		} else if (forward.get(firstkey).getClass().isInstance(new Question())) {
 			Questions.remove(forward.get(firstkey));
 		} else if (forward.get(firstkey).getClass().isInstance(new Answer())) {
@@ -141,6 +151,15 @@ public class TwoWayHashMap {
 		AllTreeItems.remove(firstkey);
 	}
 
+	public void clear(TreeView t) {
+		t.getRoot().getChildren().clear();
+		Questions.clear();
+		Categories.clear();
+		forward.clear();
+		backward.clear();
+		AllTreeItems.clear();
+	}
+
 	/**
 	 * Removes all elements in the map for a given SAObject.
 	 * 
@@ -148,6 +167,15 @@ public class TwoWayHashMap {
 	 */
 	public void removePair(SAObject secondkey) {
 		if (secondkey.getClass().isInstance(new Category())) {
+
+			ArrayList<Question> remove = new ArrayList<Question>();
+			for (Question q : Questions) {
+				if (q.getCategory().equals(secondkey)) {
+					remove.add(q);
+				}
+			}
+			Questions.removeAll(remove);
+
 			Categories.remove(secondkey);
 		} else if (secondkey.getClass().isInstance(new Question())) {
 			Questions.remove(secondkey);
