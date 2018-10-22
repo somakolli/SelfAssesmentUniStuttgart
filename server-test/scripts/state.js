@@ -11,7 +11,7 @@ function updateState() {
         let questionListString = answerListToBinary(questionList);
         if(questionListString == "00000"){
             loadQuestion(0);
-            history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
+            //history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
         } else {
             let curr = calcQNr(questionListString);
             //console.log("curr :" + curr + ", " + questionListString)
