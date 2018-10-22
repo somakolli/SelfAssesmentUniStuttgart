@@ -16,7 +16,19 @@ function loadQuestion(currNum) {
 }
 
 //convert state into number of current question
-function calcQNr(){
+/* function calcQNr(){
     return stateToAnswerList().length;
-}
+} */
 
+function calcQNr(state){
+    console.log("state: " + state)
+    let alLength = 5;
+    let currNum = 0;
+    let i = 0;
+    while(i < state.length){
+        currNum++;
+        let answerCount = alLength + parseInt(state.substring(i, i+alLength),2);
+        i += answerCount;
+    }
+    return currNum;
+}

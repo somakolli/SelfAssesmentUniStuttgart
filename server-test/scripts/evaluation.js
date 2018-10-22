@@ -11,14 +11,21 @@ function loadEvaluation(state) {
     $(".container-fluid").replaceWith('<div class="accordion" id="evaluation"></div>');
     $(".header").remove();
     $(".progress").remove();
+    $('head').append('<link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">');
     $.get("questions/evaluation.json", function (data) {
         //let evaObj = $.parseJSON(data);
-        $("body").prepend(data.header);
+        //$("body").prepend(data.header);
         $("#evaluation").append(data.categories);
+        $(data.header).insertBefore("#evaluation")
+        let answersAndCount = stateToAnswers(state);
+        let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
+        let fazitData = setUpEvaluation(getCategories(), result);
+    });
+    $(document).ready(function(){
+        /* let answersAndCount = stateToAnswers(state);
+        let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
+        let fazitData = setUpEvaluation(getCategories(), result); */
     })
-    let answersAndCount = stateToAnswers(state);
-    let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
-    let fazitData = setUpEvaluation(getCategories(), result);
     //addFazit(fazitData);
 }
 
@@ -48,6 +55,8 @@ function stateToAnswers(state) {
  * returns an array of 1's and 0's in order of the questions, 1 representing a correctly answered question etc.
  */
 function evaluate(solution, answers, allAnswers) {
+    console.log("answers: " + answers)
+    console.log("solution: " + solution)
     let result = [];
     let pointer = 0;
     for(let i = 0; i < allAnswers.length; i++){
@@ -74,6 +83,7 @@ function setUpEvaluation(categories, result) {
     let overall = [];
     //value corresponds with the total amount of questions for this category
     for (let [key, value] of categories) {
+        console.log("value: " + value)
         let correct = 0;
         //j + value includes all questions that the current category consists of
         for (let i = j; i < j + value; i++) {
@@ -90,15 +100,16 @@ function setUpEvaluation(categories, result) {
 //load fractions into evaluation page
 function showFraction(id, correct, total) {
     let fraction = correct / total;
+    console.log(correct + ", " + total)
     if (fraction < 0.25) {
-        $(id).append('<div class="progressBarLow" style="width:' + fraction + '">' + correct + '</div>');
-        $(id).append(total);
+        $(id).append('<div class="progressBarLow" style="width:' + Math.max(5, fraction) + '%">' + correct + '</div>');
+        $(id).append('<div style="width: 100%"; color: white; text-align: center"> <h6 style="color: white">' + total + '</h6></div>');
     } else if (fraction >= 0.25 && fraction < 0.75) {
-        $(id).next().append('<div class="progressBarAverage" style="width:' + fraction + '">' + correct + '</div>');
-        $(id).next().append(total);
+        $(id).append('<div class="progressBarAverage" style="width:' + Math.max(5, fraction) + '%">' + correct + '</div>');
+        $(id).append('<div style="width: 100%"; color: white; text-align: center"> <h6 style="color: white">' + total + '</h6></div>');
     } else {
-        $(id).next().append('<div class="progressBarGood" style="width:' + fraction + '">' + correct + '</div>');
-        $(id).next().append(total);
+        $(id).append('<div class="progressBarGood" style="width:' + Math.max(5, fraction) + '%">' + correct + '</div>');
+        $(id).append('<div style="width: 100%"; color: white; text-align: center"> <h6 style="color: white">' + total + '</h6></div>');
     }
 }
 

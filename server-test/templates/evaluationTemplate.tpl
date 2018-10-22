@@ -4,10 +4,10 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <td id="$category-getId()" class="category">
+                        <td class="category">
                             $category.getName()
                         </td>
-                        <td class="bar">
+                        <td id="$category.getId()" class="bar">
                             <div class="progress"></div>
                         </td>
                     </tr>
