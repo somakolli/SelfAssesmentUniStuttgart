@@ -32,9 +32,10 @@ public class Parser implements IParser {
 
 	/**
 	 * constructor for manual use, user MUST specify a Path for XML Files
+	 * @param manually - "true" to create a Standalone parser
 	 */
 	public Parser(final boolean manually) {
-		this.manually = true;
+		this.manually = manually;
 	}
 
 	/**

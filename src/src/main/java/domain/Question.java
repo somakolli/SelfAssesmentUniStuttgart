@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"category", "question", "points", "time", "answers"})
+@XmlType(propOrder = {"id", "category", "question", "points", "time", "answers"})
 public class Question implements SAObject {
     private int id;
     private String question = "";
