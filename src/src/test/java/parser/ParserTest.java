@@ -1,10 +1,7 @@
 package parser; 
 
-import domain.Answer;
-import domain.Question;
-import domain.SARoot;
-import domain.Category;
-import Parser; 
+import domain.*;
+import Parser;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -44,6 +41,9 @@ public class ParserTest {
 		// testQuestion.setMediaPaths(testMedia);
 		testQuestion.setCategory(testCategory);
 		testQuestion.getCategory().setCategoryName("testCategoryName");
+		
+		testQuestion.setId(0);
+		testQuestion2.setId(1);
 	}
 
 	@Test
@@ -58,6 +58,8 @@ public class ParserTest {
 		Assert.assertEquals(testQuestion2.getPoints(), parser.getGeneratedQuestions().get(1).getPoints());
 		Assert.assertEquals(testQuestion.getTime(), parser.getGeneratedQuestions().get(0).getTime());
 		Assert.assertEquals(testQuestion2.getTime(), parser.getGeneratedQuestions().get(1).getTime());
+		Assert.assertEquals(testQuestion.getId(), parser.getGeneratedQuestions().get(0).getId());
+		Assert.assertEquals(testQuestion2.getId(), parser.getGeneratedQuestions().get(1).getId());
 
 		// check Answers (this check is really lazy...)
 		// content

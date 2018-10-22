@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <saRoot>
     <questions>
+        <id>0</id>
+        <category>
+            <categoryName>testCategoryName</categoryName>
+            <content></content>
+        </category>
         <question>testQuestion</question>
         <points>5</points>
         <time>60</time>
-        <mediaPaths>defaultpath</mediaPaths>
-        <mediaPaths>defaultpath2</mediaPaths>
         <answers>
             <content>My first answer</content>
-            <mediaPath>defaultpath</mediaPath>
-            <mediaPath>defaultpath2</mediaPath>
+            <correct>false</correct>
+            <id>0</id>
         </answers>
         <answers>
             <content>My second answer</content>
-            <mediaPath>defaultpath</mediaPath>
-            <mediaPath>defaultpath2</mediaPath>
+            <correct>false</correct>
+            <id>0</id>
         </answers>
     </questions>
     <questions>
+        <id>1</id>
+        <category>
+            <categoryName></categoryName>
+            <content></content>
+        </category>
         <question></question>
         <points>0</points>
         <time>0</time>
