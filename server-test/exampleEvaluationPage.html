@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Template for an evaluation page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bottomContentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/color.css">
+    <link rel="stylesheet" type="text/css" href="css/topContentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">
+
+    <img src="images/unistuttgart_logo_deutsch.png" class="rounded" alt="Logo der Universität Stuttgart" width="500"
+        height="120" style="margin: 0px 10px">
+
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <h1 class="display-4" style="font-weight: bold">Evaluation</h1>
+        <hr class="my-4">
+        <p>This is the evaluation of the SelfAssessment-Test.<br>
+            The following table will show how well you did on each of the categories of the test by presenting the fraction of correctly given answers for each category of the test.<br>
+            Click on the last field of the table "fazit" to view your feedback regarding the aforementioned results.
+        </p>
+    </div>
+
+    <div class="accordion" id="evaluation">
+        <!-- Abzuspeichern in evaluation.js im feld categories -->
+        <div class="card">
+            <div class="card-header">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td id="mathe" class="category">
+                                    Mathematik
+                            </td>
+                            <td class="bar">
+                                <div class="progress">
+                                    <!-- <div class="progressBarLow">
+                                        15%
+                                    </div>
+                                    75% -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td id="theo" class="category">
+                                    Theoretische Informatik
+                            </td>
+                            <td class="bar">
+                                <div class="progress">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td id="technik" class="category">
+                                    Technische Informatik
+                            </td>
+                            <td class="bar">
+                                <div class="progress">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#fazitCollapse"
+                                    aria-expanded="false" aria-controls="fazitCollapse" style="font-size: 24px;">
+                                    Fazit
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- aria-labelledby="headingThree" -->
+            <div id="fazitCollapse" class="collapse"  data-parent="#accordionExample">
+                <div id="fazit" class="card-body">
+                </div>
+            </div>
+        </div>
+        <!-- Abzuspeichern in evaluation.js im feld categories -->
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

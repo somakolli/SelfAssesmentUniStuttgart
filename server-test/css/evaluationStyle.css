@@ -1,0 +1,88 @@
+button {
+    margin: 0 auto;
+}
+
+p {
+    font-size: 20px;
+}
+
+#evaluation {
+    margin-top: 50px;
+    width: 65%;
+    margin: 0 auto;
+}
+
+.progress {
+    width: 50%;
+    background-color: gray;
+    margin: 0 auto;
+}
+
+.progressBarLow {
+    width: 15%;
+    height: 30px;
+    line-height: 30px;
+    background-color: red;
+    text-align: center;
+    color: white;
+}
+
+.progressBarAverage {
+    width: 38%;
+    height: 30px;
+    line-height: 30px;
+    background-color: orange;
+    text-align: center;
+    color: white;
+}
+
+.progressBarGood {
+    width: 60%;
+    height: 30px;
+    line-height: 30px;
+    background-color: green;
+    text-align: center;
+    color: white;
+}
+
+.jumbotron {
+    height: 300px;
+    width: 100%;
+    text-align: center;
+}
+
+.table>tbody {
+    margin: 0 auto;
+}
+
+.category {
+    width: 30%;
+}
+
+.bar {
+    width: 70%;
+}
+
+@media(max-width: 500px) {
+    .jumbotron {
+        width: 520px;
+        height: 300px;
+    }
+    p {
+        font-size: 15px;
+    }
+    #evaluation {
+        margin-top: 50px;
+        width: 520px;
+        margin: 0 auto;
+    }
+    .progress {
+        width: 200px;
+        background-color: gray;
+        left: 15%;
+    }
+}
+
+/* .bar > h6 {
+    float: left;
+} */

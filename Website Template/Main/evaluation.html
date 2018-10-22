@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Template for an evaluation page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bottomContentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/color.css">
+    <link rel="stylesheet" type="text/css" href="css/topContentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">
+
+    <img src="images/unistuttgart_logo_deutsch.png" class="rounded" alt="Logo der Universität Stuttgart" width="500"
+        height="120" style="margin: 0px 10px">
+
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <h1 class="display-4" style="font-weight: bold">Evaluation</h1>
+        <hr class="my-4">
+        <p>This is the evaluation of the SelfAssessment-Test.<br>
+            The following will explain how well you did on each of the categories of the test and conclude your
+            aptitude regarding the subject you took the test for.<br>
+            Click on the name of the category to view the corresponding feedback.
+        </p>
+    </div>
+
+
+    <!-----------------------------PROGRESS BAR---------------------->
+
+    <!-----------------------------CONTENT-CONTAINER---------------------->
+    <!-- <div class="container-evaluation>
+        <h1>Überblick</h1>
+        <p>Die folgende Tabelle dient als Überblick über die Inhalte des Tests und wird nach jedem Abschnitt eingeblendet.</p>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-secondary">
+                Studium Allgemein
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+                Mathematik
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+                Theoretische Informatik
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+                Technische Informatik
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+                Memes
+            </li>
+          </ul>
+     -->
+
+    <div class="accordion" id="evaluation">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="category">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="false" aria-controls="collapseOne">
+                                    Mathematik
+                                </button>
+                            </td>
+                            <td class="bar">
+                                <div class="progress">
+                                    <div class="progressBarLow">
+                                        15%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    You suck.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="category">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                    Theoretische Informatik
+                                </button>
+                            </td>
+                            <td class="bar">
+                                <div class="progress">
+                                    <div class="progressBarAverage">
+                                        38%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    You still suck. Go away.
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="category">
+                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                    Technische Informatik
+                                </button>
+                            </td>
+                            <td class="bar">
+                                <!-- <h6>
+                                    Sehr gut
+                                </h6> -->
+                                <div class="progress">
+                                    <div class="progressBarGood">
+                                        60%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    To mark territory, a male hippo will shit in the water it's swimming in and proceed to swirl it
+                    around to spread the scent into the water.
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

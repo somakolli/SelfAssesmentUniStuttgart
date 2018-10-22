@@ -1,115 +1,99 @@
+<!doctype html>
 <html>
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="evaluation.js"></script>
-    <script>
-        $(document).ready(function () {
-            //____________________________________________
-            var QCount = 4;
-            var curr = 0;
-            var solution = "1000010000100001";
-            //____________________________________________
-            $("#nextButton").click(function () {
-                let stateObj = { state: "" };
-                let questionList = stateToAnswerList();
-                questionList.push(answerListToBitString(getAnswerList()));
-                let questionListString = answerListToBinary(questionList);
-                history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
-                console.log(questionList);
-                //____________________________________________
-                curr++;
-                if (curr == QCount) {
-                    evaluate(solution, stateToAnswers(questionListString));
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Template for a question page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/containerStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/bottomContentStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/color.css">
+    <link rel="stylesheet" type="text/css" href="css/topContentStyle.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/evaluationStyle.css"> -->
+    <script>(function (global) {
+
+        if(typeof (global) === "undefined") {
+            throw new Error("window is undefined");
+        }
+
+        var _hash = "!";
+        var noBackPlease = function () {
+            global.location.href += "#";
+
+            // making sure we have the fruit available for juice (^__^)
+            global.setTimeout(function () {
+                global.location.href += "!";
+            }, 50);
+        };
+
+        global.onhashchange = function () {
+            if (global.location.hash !== _hash) {
+                global.location.hash = _hash;
+            }
+        };
+
+        global.onload = function () {
+            noBackPlease();
+
+            // disables backspace on page except on input fields and textarea..
+            document.body.onkeydown = function (e) {
+                var elm = e.target.nodeName.toLowerCase();
+                if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')) {
+                    e.preventDefault();
                 }
-                //____________________________________________
-            })
-        });
+                // stopping event bubbling up the DOM tree..
+                e.stopPropagation();
+            };
+        }
 
-        let stateToBinaryString = function () {
-            let url = new URL(window.location.href);
-            let stateString = url.searchParams.get("s");
-            if (stateString === null) {
-                return {};
-            } else {
-                return atob(stateString);
-            }
-        };
-        let binaryStringToState = function (binaryString) {
-            console.log("binaryString:", binaryString);
-            return btoa(binaryString);
-        };
-        let getAnswerList = function () {
-            let answersList = [];
-            let answers = $("input[type=checkbox]");
-            answers.each(function () {
-                answersList.push({ id: this.id, checked: this.checked });
-            });
-            console.log("answerListLength:", answersList.length);
-            return answersList;
-        };
-        let answerListToBitString = function (answerList) {
-            let bitString = "";
-            for (const answer in answerList) {
-                bitString += answerList[answer].checked ? "1" : "0";
-            }
-
-            return bitString;
-        };
-
-        let stateToAnswerList = function () {
-            let stateBinaryString = stateToBinaryString();
-            let i = 0;
-            let answerList = [];
-            let questionCount = 0;
-            while (i < stateBinaryString.length) {
-                let bitStringLength = parseInt(stateBinaryString.substring(i, i + 5), 2);
-                console.log("bitString: " + bitStringLength)
-                i += 5;
-                let answersSubstring = stateBinaryString.substring(i, i + bitStringLength);
-                i += bitStringLength;
-                answerList.push(answersSubstring);
-                questionCount++;
-            }
-            return answerList;
-        };
-
-
-        //expects a answerList [answerBitString]
-        let answerListToBinary = function (answerList) {
-            let stateString = "";
-            for (let i = 0; i < answerList.length; i++) {
-                let bitString = answerList[i];
-
-                /*
-                * reverse bitstring so parseInt() returns the correct bit string later
-                */
-                //let bitStringLength = bitString.length.toString(2).split("").reverse().join("");
-                let bitStringLength = bitString.length.toString(2);
-                //making length string larger if it is smaller than 5 bit
-                let bitStringPrefix = "";
-                for (let i = bitStringLength.length; i < 5; i++) {
-                    bitStringPrefix += "0";
-                }
-                /*
-                * also convert the prefix to a suffix so the padding is still correct
-                */
-                //stateString += bitStringLength + bitStringPrefix + bitString;
-                stateString += bitStringPrefix + bitStringLength + bitString;
-            }
-            return stateString;
-        };
-    </script>
+    })(window);</script>
+    <img src="images/unistuttgart_logo_deutsch.jpg" class="rounded" alt="Logo der Universität Stuttgart" width="500"
+        height="100" style="margin: 0px 10px">
 </head>
 
 <body>
-    <!-- <script src="load-question.js"></script> -->
-    <h1>Question</h1>
-    <label for="0">Answer 0</label><input id="0" type="checkbox" value="0"><br>
-    <label for="1">Answer 1</label><input id="1" type="checkbox" value="1"><br>
-    <label for="2">Answer 2</label><input id="2" type="checkbox" value="2"><br>
-    <label for="3">Answer 3</label><input id="3" type="checkbox" value="3"><br>
-    <button id="nextButton">Next</button>
+    <!-----------------------------HEADER---------------------->
+    <nav class="header" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+        </ol>
+    </nav>
+    <!-----------------------------HEADER---------------------->
+
+    <!-----------------------------PROGRESS BAR---------------------->
+    <div class="progress">
+    </div>
+    <!-----------------------------PROGRESS BAR---------------------->
+
+    <!-----------------------------CONTENT-CONTAINER---------------------->
+    <div class="container-fluid">
+        <div class="card border-dark mb-3">
+        </div>
+        <!-- <div class="bottom-left">
+            <a href="#" class="previous" onclick="updateState();"> Previous</a>
+        </div> -->
+        <div id="timer" value="60">
+            <script src="scripts/timer.js"></script>
+        </div>
+        <div class="bottom-right">
+            <a href="#" class="next" onclick="updateState();">Next</a>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+    <script src="scripts/QCount.js"></script>
+    <script src="scripts/solution.js"></script>
+    <script src="scripts/categories.js"></script>
+    <script src="scripts/timer.js"></script>
+    <script src="scripts/load-question.js"></script>
+    <script src="scripts/evaluation.js"></script>
+    <script src="scripts/base64js.min.js"></script>
+    <script src="scripts/state.js"></script>
+
 </body>
 
 </html>

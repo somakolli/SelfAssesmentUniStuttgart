@@ -11,8 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = {"category", "question", "points", "time", "answers"})
+@XmlType(propOrder = {"id", "category", "question", "points", "time", "answers"})
 public class Question implements SAObject {
+    private int id;
     private String question = "";
     private List<Answer> answers = new ArrayList<>();
     //private List<String> mediaPaths = new ArrayList<>();
@@ -72,6 +73,15 @@ public class Question implements SAObject {
     @XmlElement
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @XmlElement
+    public void setId(int id) {
+        this.id = id;
     }
 
     public HashMap<String, String> getStringProperties() {

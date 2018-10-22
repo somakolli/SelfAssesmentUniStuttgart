@@ -26,6 +26,7 @@ a {
     transform: translate(-50%);
     font-size: large;
     font-weight: bold;
+    visibility: hidden;
 }
 
 @media(max-width: 500px) {
