@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Answer implements SAObject {
+    private int id;
     private String content = "";
     //private List<String> mediaPath = new ArrayList<>();
     private Boolean isCorrect = false;
@@ -39,6 +40,15 @@ public class Answer implements SAObject {
 //    public void setMediaPath(List<String> mediaPath) {
 //        this.mediaPath = mediaPath;
 //    }
+
+    public int getId() {
+        return id;
+    }
+
+    @XmlElement
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public HashMap<String, String> getStringProperties() {
         HashMap<String, String> stringVariables = new HashMap<>();

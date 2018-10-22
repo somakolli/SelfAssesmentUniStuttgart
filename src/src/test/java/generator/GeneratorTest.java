@@ -1,3 +1,5 @@
+package generator;
+
 import domain.Question;
 import generator.Generator;
 import generator.TemplateForLoop;
