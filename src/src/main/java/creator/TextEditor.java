@@ -546,50 +546,52 @@ public class TextEditor extends Application {
 
 		// TODO Adding Insert Media to the Textarea ContextMenu
 
-		// ContextMenu textcm = new ContextMenu();
-		// MenuItem mediacm = new MenuItem("Delete");
-		// mediacm.setOnAction(actionEvent -> {
-		//
-		// text.deleteText(text.getSelection());
-		//
-		// });
-		//
-		// MenuItem copycm = new MenuItem("Delete");
-		// copycm.setOnAction(actionEvent -> {
-		//
-		//
-		//
-		// });
-		//
-		// MenuItem deletecm = new MenuItem("Delete");
-		// deletecm.setOnAction(actionEvent -> {
-		//
-		//
-		//
-		// });
-		//
-		// MenuItem insertcm = new MenuItem("Delete");
-		// insertcm.setOnAction(actionEvent -> {
-		//
-		//
-		// });
-		//
-		// MenuItem undocm = new MenuItem("Delete");
-		// undocm.setOnAction(actionEvent -> {
-		//
-		//
-		//
-		// });
-		//
-		// MenuItem redocm = new MenuItem("Delete");
-		// redocm.setOnAction(actionEvent -> {
-		//
-		//
-		//
-		// });
-		//
-		// textcm.getItems().addAll(mediaMenuItem);
-		// text.setContextMenu(textcm);
+		Menu insertMenu = new Menu("Insert");
+		MenuItem imageMenuItem = new MenuItem("Image");
+		imageMenuItem.setOnAction(actionEvent -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Select .jpg or .png File");
+			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
+			fileChooser.setInitialFileName("");
+			File file = fileChooser.showOpenDialog(primaryStage);
+
+			String currenttext = text.getText();
+			String newtext1 = currenttext.substring(0, text.getCaretPosition());
+			String newtext2 = currenttext.substring(text.getCaretPosition());
+			String insert = " " + file.getAbsolutePath() + " ";
+			String finalstring = newtext1 + "![alt text](" + insert + " \"Hover Text\")" + newtext2;
+			text.setText(finalstring);
+
+		});
+
+		MenuItem tableMenuItem = new MenuItem("Table");
+		tableMenuItem.setOnAction(actionEvent -> {
+
+			
+
+		});
+
+		MenuItem deletecm = new MenuItem("Delete");
+		deletecm.setOnAction(actionEvent -> {
+
+		});
+
+		MenuItem insertcm = new MenuItem("Delete");
+		insertcm.setOnAction(actionEvent -> {
+
+		});
+
+		MenuItem undocm = new MenuItem("Delete");
+		undocm.setOnAction(actionEvent -> {
+
+		});
+
+		MenuItem redocm = new MenuItem("Delete");
+		redocm.setOnAction(actionEvent -> {
+
+		});
+		insertMenu.getItems().addAll(imageMenuItem);
+		menuBar.getMenus().add(insertMenu);
 
 	}
 
@@ -755,65 +757,62 @@ public class TextEditor extends Application {
 
 	}
 
-	// public void properties(Question q) {
-	// Stage propStage = new Stage();
-	// BorderPane root = new BorderPane();
-	// Scene scene = new Scene(root, 200, 85);
-	//
-	// HBox textBox = new HBox(4);
-	// textBox.setAlignment(Pos.BOTTOM_CENTER);
-	// textBox.getChildren().add(new Label("Points"));
-	// TextField stext = new TextField("");
-	// textBox.getChildren().add(stext);
-	// stext.setText(String.valueOf(q.getPoints()));
-	//
-	// HBox textBox2 = new HBox(4);
-	// textBox2.setAlignment(Pos.BOTTOM_CENTER);
-	// textBox2.getChildren().add(new Label("Time"));
-	// TextField stext2 = new TextField("");
-	// stext2.setText(String.valueOf(q.getTime()));
-	// textBox2.getChildren().add(stext2);
-	//
-	// root.setTop(textBox);
-	// root.setCenter(textBox2);
-	//
-	// // CheckBox checkBox = new CheckBox("Groﬂ- / Kleinschreibung beachten");
-	// // root.setCenter(checkBox);
-	// HBox bBox = new HBox(3);
-	//
-	// Button bsave = new Button("Save");
-	// Label eLabel = new Label("");
-	//
-	// bsave.setOnAction(new EventHandler<ActionEvent>() {
-	// @Override
-	// public void handle(ActionEvent e) {
-	//
-	// q.setPoints(Integer.parseInt(stext.getText()));
-	// q.setTime(Integer.parseInt(stext2.getText()));
-	// propStage.close();
-	//
-	// }
-	// });
-	//
-	// Button bexit = new Button("Exit");
-	//
-	// bexit.setOnAction(new EventHandler<ActionEvent>() {
-	// @Override
-	// public void handle(ActionEvent e) {
-	//
-	// propStage.close();
-	//
-	// }
-	// });
-	//
-	// bBox.getChildren().add(bsave);
-	// bBox.getChildren().add(bexit);
-	// bBox.getChildren().add(eLabel);
-	// root.setBottom(bBox);
-	// propStage.setScene(scene);
-	// // primaryStage.setFullScreen(true);
-	// propStage.show();
-	// }
+//	public int[] properties() {
+//		Stage propStage = new Stage();
+//		BorderPane root = new BorderPane();
+//		Scene scene = new Scene(root, 300, 100);
+//
+//		HBox textBox = new HBox();
+//		textBox.setAlignment(Pos.BOTTOM_CENTER);
+//		textBox.getChildren().add(new Label("Rows"));
+//		TextField stext = new TextField("");
+//		textBox.getChildren().add(stext);
+//
+//		HBox textBox2 = new HBox();
+//		textBox2.setAlignment(Pos.BOTTOM_CENTER);
+//		textBox2.getChildren().add(new Label("Cols"));
+//		TextField stext2 = new TextField("");
+//		textBox2.getChildren().add(stext2);
+//
+//		root.setTop(textBox);
+//		root.setCenter(textBox2);
+//
+//		HBox bBox = new HBox(3);
+//
+//		Button bsave = new Button("Insert");
+//		Label eLabel = new Label("");
+//		int[] i = new int[1];
+//
+//		bsave.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent e) {
+//
+//				propStage.close();
+//				
+//				i[0] = Integer.parseInt(stext.getText());
+//				i[1] = Integer.parseInt(stext2.getText());
+//				
+//			}
+//		});
+//		
+//		Button bexit = new Button("Exit");
+//		bexit.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent e) {
+//
+//				propStage.close();
+//
+//			}
+//		});
+//
+//		bBox.getChildren().add(bsave);
+//		bBox.getChildren().add(bexit);
+//		bBox.getChildren().add(eLabel);
+//		root.setBottom(bBox);
+//		propStage.setScene(scene);
+//		// primaryStage.setFullScreen(true);
+//		propStage.show();
+//	}
 
 	/**
 	 * Searches a user input in the text contained by the Textarea.
