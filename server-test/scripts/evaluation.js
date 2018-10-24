@@ -1,6 +1,7 @@
 const example = "001001100000101100011110";
 
 /**
+ * 0) input: state as binary string
  * 1) replace question container with evaluation specific main div
  * 2) load category specific divs into main div from file
  * 3) calculate the result of userAnswers AND solution
@@ -13,23 +14,17 @@ function loadEvaluation(state) {
     $(".progress").remove();
     $('head').append('<link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">');
     $.get("questions/evaluation.json", function (data) {
-        //let evaObj = $.parseJSON(data);
-        //$("body").prepend(data.header);
         $("#evaluation").append(data.categories);
         $(data.header).insertBefore("#evaluation")
         let answersAndCount = stateToAnswers(state);
         let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
-        let fazitData = setUpEvaluation(getCategories(), result);
+        let concData = setUpEvaluation(getCategories(), result);
     });
-    $(document).ready(function(){
-        /* let answersAndCount = stateToAnswers(state);
-        let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
-        let fazitData = setUpEvaluation(getCategories(), result); */
-    })
-    //addFazit(fazitData);
 }
 
+//input: state as binary string
 //convert state to binary string of answers
+//output: user answers as binary string, array of how many answer options each question consisted of
 function stateToAnswers(state) {
     let alLength = 5;
     let nextQ = 0;
@@ -51,8 +46,9 @@ function stateToAnswers(state) {
 }
 
 /**
+ * input: solution as binary string, user answers as binary string, array containing the info. how many answer options each single question consisted of
  * check for each individual question, if it was answered correctly
- * returns an array of 1's and 0's in order of the questions, 1 representing a correctly answered question etc.
+ * output: an array of 1's and 0's in order of the questions, 1 representing a correctly answered question etc.
  */
 function evaluate(solution, answers, allAnswers) {
     console.log("ans: " + answers)
@@ -75,12 +71,15 @@ function evaluate(solution, answers, allAnswers) {
 }
 
 /**
+ * input: map containing the id's of each category and how many questions it consisted of, 
  * get the idnividual fractions of rightly answered questions for each category 
  * collect fractions to choose the fitting fazit later on
+ * output: overall score of the test
  */
 function setUpEvaluation(categories, result) {
     let j = 0;
-    let overall = [];
+    let overall = 0;
+    //let overall = [];
     //value corresponds with the total amount of questions for this category
     for (let [key, value] of categories) {
         //console.log("value: " + value)
@@ -91,7 +90,8 @@ function setUpEvaluation(categories, result) {
             correct += result[i];
         }
         showFraction(key, correct, value);
-        overall.push([correct, value]);
+        overall += correct;
+        //overall.push([correct, value]);
         j += value;
     }
     return overall;
@@ -115,8 +115,14 @@ function showFraction(id, correct, total) {
     }
 }
 
-function addFazit(fazitData){
-    $("#fazit").append();
+function addConclusion(concData){
+    $.get("questions/conclusion.json", function (data) {
+        for(let i = 0; i < data.length; i++){
+            if(concData <= data[i].range){
+                $("#fazit").append(data[i].conclusion);         
+            }
+        }
+    });
 }
 
 //stateToAnswers(example);

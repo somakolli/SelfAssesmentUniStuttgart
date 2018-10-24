@@ -1,0 +1,18 @@
+[
+    {
+        "range" : 5,
+        "conclusion": "Really bad"
+    },
+    {
+        "range" : 10,
+        "conclusion": "Bad"
+    },
+    {
+        "range" : 15,
+        "conclusion": "Ok"
+    },
+    {
+        "range" : 20,
+        "conclusion": "Neat"
+    }
+]
