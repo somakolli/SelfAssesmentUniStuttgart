@@ -50,6 +50,11 @@ public class Question implements SAObject {
     }
 
     public List<Answer> getAnswers() {
+        int i = 0;
+        for (Answer answer :
+                answers) {
+            answer.setId(i);
+        }
         return answers;
     }
 
