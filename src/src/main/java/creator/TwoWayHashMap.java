@@ -70,6 +70,22 @@ public class TwoWayHashMap {
 		}
 		return tis;
 	}
+	
+	/**
+	 * Returns all Question TreeItems.
+	 * 
+	 * @return
+	 */
+	public ArrayList<TreeItem<String>> getQuestionTreeItems() {
+
+		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
+		for (int i = 0; i < AllTreeItems.size(); i++) {
+			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Question())) {
+				tis.add(AllTreeItems.get(i));
+			}
+		}
+		return tis;
+	}
 
 	/**
 	 * Returns all Questions related to a Category.
@@ -87,20 +103,11 @@ public class TwoWayHashMap {
 		return res;
 	}
 
-	/**
-	 * Returns all Question TreeItems.
-	 * 
-	 * @return
-	 */
-	public ArrayList<TreeItem<String>> getQuestionTreeItems() {
-
-		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
-		for (int i = 0; i < AllTreeItems.size(); i++) {
-			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Question())) {
-				tis.add(AllTreeItems.get(i));
-			}
+	public void UpdateQuestionIds() {
+		for (int i = 0; i < Questions.size(); i++) {
+			Question q = Questions.get(i);
+			q.setId(i);
 		}
-		return tis;
 	}
 
 	/**
