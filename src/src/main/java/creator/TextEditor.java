@@ -3,6 +3,7 @@ package creator;
 import javafx.application.Application;
 
 import domain.*;
+import generator.VGenerator;
 import parser.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.application.Platform;
@@ -177,152 +178,28 @@ public class TextEditor extends Application {
 		MenuItem newcMenuItem = new MenuItem("New Category");
 		newcMenuItem.setOnAction(actionEvent -> {
 
-			Category c = new Category();
-			makeBranch(rootitem, c);
+			createCategory();
 
 		});
 
 		MenuItem newqMenuItem = new MenuItem("New Question");
 		newqMenuItem.setOnAction(actionEvent -> {
 
-			Question q = new Question();
-
-			if (currentSelectedTreeItem != null) {
-
-				if (twMap.isCategory(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem, q);
-
-				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem.getParent(), q);
-
-				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem.getParent().getParent(), q);
-
-				} else {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Can't create Answer!");
-
-					// Header Text: null
-					alert.setHeaderText(null);
-					alert.setContentText("You need to select a Category to add a Question!");
-
-					alert.showAndWait();
-				}
-
-			}
+			createQuestion();
 
 		});
 
 		MenuItem newaMenuItem = new MenuItem("New Answer");
 		newaMenuItem.setOnAction(actionEvent -> {
 
-			Answer a = new Answer();
-
-			if (currentSelectedTreeItem != null) {
-
-				if (twMap.isCategory(currentSelectedTreeItem)) {
-
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Can't create Answer!");
-
-					// Header Text: null
-					alert.setHeaderText(null);
-					alert.setContentText("You need to select a Question to add an Answer!");
-
-					alert.showAndWait();
-
-				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem, a);
-
-				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem.getParent(), a);
-
-				} else {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Can't create Answer!");
-
-					// Header Text: null
-					alert.setHeaderText(null);
-					alert.setContentText("You need to select a Question to add an Answer!");
-
-					alert.showAndWait();
-				}
-
-			}
+			createAnswer();
 
 		});
 
 		MenuItem delMenuItem = new MenuItem("Delete Item");
 		delMenuItem.setOnAction(actionEvent -> {
 
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Delete Tree Item?");
-			alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
-			alert.setContentText("Do you want this?");
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				// ... user chose OK
-				text.setText("");
-
-				if (twMap.isCategory(currentSelectedTreeItem)) {
-					twMap.removePair(currentSelectedTreeItem);
-					rootitem.getChildren().remove(currentSelectedTreeItem);
-					// No need to update since category names are unique
-					// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
-					// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
-					// }
-
-				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-					twMap.removePair(currentSelectedTreeItem);
-
-					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
-
-					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
-
-					for (int i = 0; i < ol.size(); i++) {
-
-						ol.get(i).setValue("Question: " + (i + 1));
-
-					}
-
-				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-					twMap.removePair(currentSelectedTreeItem);
-
-					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
-
-					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
-
-					for (int i = 0; i < ol.size(); i++) {
-						ol.get(i).setValue("Answer: " + (i + 1));
-					}
-
-				}
-
-				if (twMap.AllTreeItems.size() == 0) {
-					table.getColumns().clear();
-					table.getItems().clear();
-				}
-
-				if (rootitem.getChildren().isEmpty()) {
-					text.setEditable(false);
-				} else {
-					text.setEditable(true);
-				}
-
-				twMap.UpdateQuestionIds();
-
-			} else {
-				// ... user chose CANCEL or closed the dialog
-
-			}
+			delete(text);
 
 		});
 
@@ -367,6 +244,34 @@ public class TextEditor extends Application {
 
 		});
 
+		MenuItem generator = new MenuItem("Generate website");
+		generator.setOnAction(actionEvent -> {
+			// TODO: Implement functionality
+			
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Generate");
+			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("ZIP files (*.zip)", "*.zip"));
+			fileChooser.setInitialFileName("website.zip");
+			File file = fileChooser.showSaveDialog(primaryStage);
+
+			SARoot saroot = new SARoot();
+
+			saroot.setQuestions(twMap.getQuestions());
+
+			VGenerator vg = new VGenerator();
+
+			try {
+
+				vg.createZipArchive(saroot, file.getPath());
+
+			} catch (IOException e) {
+
+				e.printStackTrace();
+
+			}
+
+		});
+
 		MenuItem prev = new MenuItem("Preview");
 		prev.setOnAction(actionEvent -> {
 			// TODO: Implement functionality
@@ -375,7 +280,8 @@ public class TextEditor extends Application {
 		});
 
 		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(),
-				openMenuItem, saveMenuItem, new SeparatorMenuItem(), prev, new SeparatorMenuItem(), exitMenuItem);
+				generator, new SeparatorMenuItem(), openMenuItem, saveMenuItem, new SeparatorMenuItem(), prev,
+				new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Search");
@@ -397,150 +303,27 @@ public class TextEditor extends Application {
 		MenuItem newCContMenuItem = new MenuItem("New Category");
 		newCContMenuItem.setOnAction(actionEvent -> {
 
-			Category c = new Category();
-			makeBranch(rootitem, c);
+			createCategory();
 
 		});
 		MenuItem newQContMenuItem = new MenuItem("New Question");
 		newQContMenuItem.setOnAction(actionEvent -> {
 
-			Question q = new Question();
-
-			if (currentSelectedTreeItem != null) {
-
-				if (twMap.isCategory(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem, q);
-
-				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem.getParent(), q);
-
-				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem.getParent().getParent(), q);
-
-				} else {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Can't create Answer!");
-
-					// Header Text: null
-					alert.setHeaderText(null);
-					alert.setContentText("You need to select a Category to add a Question!");
-
-					alert.showAndWait();
-				}
-
-			}
+			createQuestion();
 
 		});
 
 		MenuItem newAContMenuItem = new MenuItem("New Answer");
 		newAContMenuItem.setOnAction(actionEvent -> {
 
-			Answer a = new Answer();
-
-			if (currentSelectedTreeItem != null) {
-
-				if (twMap.isCategory(currentSelectedTreeItem)) {
-
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Can't create Answer!");
-
-					// Header Text: null
-					alert.setHeaderText(null);
-					alert.setContentText("You need to select a Question to add an Answer!");
-
-					alert.showAndWait();
-
-				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem, a);
-
-				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-					makeBranch(currentSelectedTreeItem.getParent(), a);
-
-				} else {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Can't create Answer!");
-
-					// Header Text: null
-					alert.setHeaderText(null);
-					alert.setContentText("You need to select a Question to add an Answer!");
-
-					alert.showAndWait();
-				}
-
-			}
+			createAnswer();
 
 		});
 
 		MenuItem DelContMenuItem = new MenuItem("Delete");
 		DelContMenuItem.setOnAction(actionEvent -> {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Delete Tree Item?");
-			alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
-			alert.setContentText("Do you want this?");
 
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK) {
-				// ... user chose OK
-				text.setText("");
-
-				if (twMap.isCategory(currentSelectedTreeItem)) {
-					twMap.removePair(currentSelectedTreeItem);
-					rootitem.getChildren().remove(currentSelectedTreeItem);
-					// No need to update since category names are unique
-					// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
-					// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
-					// }
-
-				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-					twMap.removePair(currentSelectedTreeItem);
-
-					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
-
-					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
-
-					for (int i = 0; i < ol.size(); i++) {
-
-						ol.get(i).setValue("Question: " + (i + 1));
-
-					}
-
-				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-					twMap.removePair(currentSelectedTreeItem);
-
-					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
-
-					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
-
-					for (int i = 0; i < ol.size(); i++) {
-						ol.get(i).setValue("Answer: " + (i + 1));
-					}
-
-				}
-
-				if (twMap.AllTreeItems.size() == 0) {
-					table.getColumns().clear();
-					table.getItems().clear();
-				}
-
-				if (rootitem.getChildren().isEmpty()) {
-					text.setEditable(false);
-				} else {
-					text.setEditable(true);
-				}
-
-				twMap.UpdateQuestionIds();
-
-			} else {
-				// ... user chose CANCEL or closed the dialog
-
-			}
+			delete(text);
 
 		});
 
@@ -594,6 +377,152 @@ public class TextEditor extends Application {
 		});
 		insertMenu.getItems().addAll(imageMenuItem);
 		menuBar.getMenus().add(insertMenu);
+
+	}
+
+	public void createCategory() {
+
+		Category c = new Category();
+		makeBranch(rootitem, c);
+
+	}
+
+	public void createQuestion() {
+
+		Question q = new Question();
+
+		if (currentSelectedTreeItem != null) {
+
+			if (twMap.isCategory(currentSelectedTreeItem)) {
+
+				makeBranch(currentSelectedTreeItem, q);
+
+			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+				makeBranch(currentSelectedTreeItem.getParent(), q);
+
+			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+				makeBranch(currentSelectedTreeItem.getParent().getParent(), q);
+
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Can't create Answer!");
+
+				// Header Text: null
+				alert.setHeaderText(null);
+				alert.setContentText("You need to select a Category to add a Question!");
+
+				alert.showAndWait();
+			}
+
+		}
+
+	}
+
+	public void createAnswer() {
+		Answer a = new Answer();
+
+		if (currentSelectedTreeItem != null) {
+
+			if (twMap.isCategory(currentSelectedTreeItem)) {
+
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Can't create Answer!");
+
+				// Header Text: null
+				alert.setHeaderText(null);
+				alert.setContentText("You need to select a Question to add an Answer!");
+
+				alert.showAndWait();
+
+			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+				makeBranch(currentSelectedTreeItem, a);
+
+			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+				makeBranch(currentSelectedTreeItem.getParent(), a);
+
+			} else {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Can't create Answer!");
+
+				// Header Text: null
+				alert.setHeaderText(null);
+				alert.setContentText("You need to select a Question to add an Answer!");
+
+				alert.showAndWait();
+			}
+
+		}
+	}
+
+	public void delete(TextArea text) {
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Tree Item?");
+		alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
+		alert.setContentText("Do you want this?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK) {
+			// ... user chose OK
+			text.setText("");
+
+			if (twMap.isCategory(currentSelectedTreeItem)) {
+				twMap.removePair(currentSelectedTreeItem);
+				rootitem.getChildren().remove(currentSelectedTreeItem);
+				// No need to update since category names are unique
+				// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
+				// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
+				// }
+
+			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+				twMap.removePair(currentSelectedTreeItem);
+
+				ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
+
+				currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+
+				for (int i = 0; i < ol.size(); i++) {
+
+					ol.get(i).setValue("Question: " + (i + 1));
+
+				}
+
+			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+				twMap.removePair(currentSelectedTreeItem);
+
+				ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
+
+				currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+
+				for (int i = 0; i < ol.size(); i++) {
+					ol.get(i).setValue("Answer: " + (i + 1));
+				}
+
+			}
+
+			if (twMap.AllTreeItems.size() == 0) {
+				table.getColumns().clear();
+				table.getItems().clear();
+			}
+
+			if (rootitem.getChildren().isEmpty()) {
+				text.setEditable(false);
+			} else {
+				text.setEditable(true);
+			}
+
+			twMap.UpdateQuestionIds();
+
+		} else {
+			// ... user chose CANCEL or closed the dialog
+
+		}
 
 	}
 
