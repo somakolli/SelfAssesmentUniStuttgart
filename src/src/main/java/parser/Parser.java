@@ -3,6 +3,7 @@ package parser;
 import domain.*;
 
 import java.io.File;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -97,6 +98,20 @@ public class Parser implements IParser {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static SARoot getRootFromString(String xml){
+		JAXBContext jaxbContext = null;
+		try {
+			jaxbContext = JAXBContext.newInstance(SARoot.class, Category.class, Question.class,
+					Answer.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			StringReader stringReader = new StringReader(xml);
+			return (SARoot) jaxbUnmarshaller.unmarshal(stringReader);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
