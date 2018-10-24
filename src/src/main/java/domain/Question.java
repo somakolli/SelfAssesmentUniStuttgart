@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Question implements SAObject {
     private int id;
     private String question = "";
+
     private List<Answer> answers = new ArrayList<>();
     //private List<String> mediaPaths = new ArrayList<>();
     private int points = 0;
@@ -52,7 +53,8 @@ public class Question implements SAObject {
         return answers;
     }
 
-    @XmlElement
+
+    @XmlElement(name = "answer")
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
