@@ -9,6 +9,10 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
+import org.zeroturnaround.zip.ByteSource;
+import org.zeroturnaround.zip.FileSource;
+import org.zeroturnaround.zip.ZipEntrySource;
+import org.zeroturnaround.zip.ZipUtil;
 import parser.Parser;
 
 import java.io.*;
@@ -18,6 +22,7 @@ import java.util.List;
 
 public class VGenerator implements VGeneratorInterface {
     private String path = "\\website";
+
 
     public VGenerator(String path) {
         this.path = path;
@@ -48,7 +53,8 @@ public class VGenerator implements VGeneratorInterface {
         return writer.toString();
     }
 
-    public void generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
+    private HashMap<String, String> generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
+        HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/categories.tpl");
         Velocity.init();
@@ -56,10 +62,12 @@ public class VGenerator implements VGeneratorInterface {
         context.put("categoryMap", categoryMap);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "categoryMap", template);
-        fh.writeFileToResources(getPath() + "/questions/categories.js", writer.toString());
+        filesContentMap.put("scripts/categories.js", writer.toString());
+        return filesContentMap;
     }
 
-    public void generateQCountJS(int questionCount){
+    private HashMap<String, String> generateQCountJS(int questionCount){
+        HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/QCount.tpl");
         Velocity.init();
@@ -67,24 +75,45 @@ public class VGenerator implements VGeneratorInterface {
         context.put("questionCount", questionCount);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "categoryMap", template);
-        fh.writeFileToResources(getPath() + "/questions/QCount.js",writer.toString());
+        filesContentMap.put("scripts/QCount.js",writer.toString());
+        return filesContentMap;
     }
 
-    public void generateQuestions(SARoot saRoot) throws IOException {
+    private HashMap<String, String> generateQuestions(SARoot saRoot) throws IOException {
+        HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/questions/question.tpl");
         for (Question question:
              saRoot.getQuestions()) {
-            fh.writeFileToResources(getPath() + "/questions/"+question.getId() + ".json",generateQuestion(question, template));
+            filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(question, template));
         }
+        return filesContentMap;
     }
 
     public static void main(String[] args) throws IOException {
         VGenerator vGenerator = new VGenerator();
         FileHelper fileHelper = new FileHelper();
         SARoot saRoot = Parser.getRootFromString(fileHelper.getFileFromResources("test.xml"));
-        vGenerator.generateQuestions(saRoot);
-        vGenerator.generateCategoriesJS(saRoot.getCategoryQuestionMap());
-        vGenerator.generateQCountJS(saRoot.getQuestions().size());
+        vGenerator.createZipArchive(saRoot, "website.zip");
+    }
+
+    private HashMap<String, String> getFilesContentMap(SARoot saRoot) throws IOException {
+        HashMap<String, String> filesContentMap = new HashMap<>();
+        filesContentMap.putAll(generateQuestions(saRoot));
+
+        filesContentMap.putAll(generateCategoriesJS(saRoot.getCategoryQuestionMap()));
+        filesContentMap.putAll(generateQCountJS(saRoot.getQuestions().size()));
+        return filesContentMap;
+    }
+
+    public void createZipArchive(SARoot saRoot, String path) throws IOException {
+        File websiteFile = new File(path);
+        ZipUtil.pack(new File(getClass().getClassLoader().getResource("website").getFile()), websiteFile);
+        ArrayList<ZipEntrySource> entries = new ArrayList<>();
+        for (HashMap.Entry<String, String> entry : getFilesContentMap(saRoot).entrySet()){
+            entries.add(new ByteSource(entry.getKey(), entry.getValue().getBytes()));
+        }
+        ZipEntrySource[] entriesArray = entries.toArray(new ZipEntrySource[entries.size()]);
+        ZipUtil.addOrReplaceEntries(websiteFile, entriesArray);
     }
 }
