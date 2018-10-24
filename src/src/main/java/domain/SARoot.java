@@ -20,7 +20,18 @@ public class SARoot {
 
     private List<Question> questions = new ArrayList<>();
 
-    public List<Question> getQuestions() {
+    private List<Conclusion> conclusions = new ArrayList<>();
+
+	public List<Conclusion> getConclusions() {
+		return conclusions;
+	}
+
+	@XmlElement(name = "conclusion")
+	public void setConclusions(List<Conclusion> conclusions) {
+		this.conclusions = conclusions;
+	}
+
+	public List<Question> getQuestions() {
     	int i = 0;
 		for (Question question :
 				questions) {
