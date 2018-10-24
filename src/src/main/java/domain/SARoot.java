@@ -24,7 +24,7 @@ public class SARoot {
         return questions;
     }
 
-    @XmlElement
+    @XmlElement(name="question")
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
