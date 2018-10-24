@@ -1,5 +1,6 @@
 package generator;
 
+import domain.Answer;
 import domain.Category;
 import domain.Question;
 import domain.SARoot;
@@ -76,6 +77,26 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
+    private HashMap<String, String> generateSolution(SARoot saRoot){
+        HashMap<String, String> filesContentMap = new HashMap<>();
+        FileHelper fh = new FileHelper();
+        String template = fh.getFileFromResources("templates/scripts/solution.tpl");
+        StringBuilder solution = new StringBuilder();
+        for (Question question:
+                saRoot.getQuestions()) {
+            for (Answer answer: question.getAnswers()){
+                solution.append(answer.getCorrect() ? "1" : "0");
+            }
+        }
+        Velocity.init();
+        Context context = new VelocityContext();
+        context.put("solution", solution.toString());
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "solution", template);
+        filesContentMap.put("scripts/solution.js",writer.toString());
+        return filesContentMap;
+    }
+
     public static void main(String[] args) throws IOException {
         VGenerator vGenerator = new VGenerator();
         FileHelper fileHelper = new FileHelper();
@@ -86,7 +107,7 @@ public class VGenerator implements VGeneratorInterface {
     private HashMap<String, String> getFilesContentMap(SARoot saRoot) throws IOException {
         HashMap<String, String> filesContentMap = new HashMap<>();
         filesContentMap.putAll(generateQuestions(saRoot));
-
+        filesContentMap.putAll(generateSolution(saRoot));
         filesContentMap.putAll(generateCategoriesJS(saRoot.getCategoryQuestionMap()));
         filesContentMap.putAll(generateQCountJS(saRoot.getQuestions().size()));
         return filesContentMap;
