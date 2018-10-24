@@ -6,6 +6,14 @@ public class Conclusion {
     private int range;
     private String content;
 
+    public Conclusion() {
+    }
+
+    public Conclusion(int range, String content) {
+        this.range = range;
+        this.content = content;
+    }
+
     public int getRange() {
         return range;
     }

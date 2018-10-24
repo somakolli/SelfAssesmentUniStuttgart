@@ -1,9 +1,6 @@
 package generator;
 
-import domain.Answer;
-import domain.Category;
-import domain.Question;
-import domain.SARoot;
+import domain.*;
 import helper.FileHelper;
 import helper.MarkdownHelper;
 import org.apache.velocity.Template;
@@ -97,10 +94,25 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
+    private HashMap<String, String> generateConclusion(SARoot saRoot){
+        HashMap<String, String> filesContentMap = new HashMap<>();
+        FileHelper fh = new FileHelper();
+        String template = fh.getFileFromResources("templates/questions/conclusion.tpl");
+        Velocity.init();
+        Context context = new VelocityContext();
+        context.put("conclusion", saRoot.getConclusions());
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "conclusion", template);
+        filesContentMap.put("questions/conclusion.json",writer.toString());
+        return filesContentMap;
+    }
+
     public static void main(String[] args) throws IOException {
         VGenerator vGenerator = new VGenerator();
         FileHelper fileHelper = new FileHelper();
         SARoot saRoot = Parser.getRootFromString(fileHelper.getFileFromResources("test.xml"));
+        saRoot.getConclusions().add(new Conclusion(20, "very Bad"));
+        saRoot.getConclusions().add(new Conclusion(50, "not to bad"));
         vGenerator.createZipArchive(saRoot, "website.zip");
     }
 
