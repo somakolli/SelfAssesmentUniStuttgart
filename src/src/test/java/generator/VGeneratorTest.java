@@ -2,9 +2,6 @@ package generator;
 
 import domain.Answer;
 import domain.Question;
-import domain.SARoot;
-import generator.VGeneratorInterface;
-import generator.VGenrator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,7 +28,7 @@ public class VGeneratorTest {
         question.getAnswers().add(answer);
         question.getAnswers().add(answer1);
 
-        VGenrator generator = new VGenrator();
+        VGenerator generator = new VGenerator();
         String generatedCode = generator.generateQuestion(question,
                 "<h5>$question.getQuestion()</h5>\n" +
                         "<ul id=\"$question.getId()\" class=\"list-group list-group-flush\">\n" +

@@ -3,7 +3,9 @@ package helper;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileHelper {
     public FileHelper() {
@@ -21,5 +23,14 @@ public class FileHelper {
         }
 
         return result;
+    }
+
+    public void writeFileToResources(String fileName, String content){
+        try {
+            Files.write(Paths.get(fileName), content.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
