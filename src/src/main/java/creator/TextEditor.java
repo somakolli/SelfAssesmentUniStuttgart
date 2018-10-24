@@ -317,6 +317,8 @@ public class TextEditor extends Application {
 					text.setEditable(true);
 				}
 
+				twMap.UpdateQuestionIds();
+
 			} else {
 				// ... user chose CANCEL or closed the dialog
 
@@ -533,6 +535,8 @@ public class TextEditor extends Application {
 					text.setEditable(true);
 				}
 
+				twMap.UpdateQuestionIds();
+
 			} else {
 				// ... user chose CANCEL or closed the dialog
 
@@ -566,8 +570,6 @@ public class TextEditor extends Application {
 
 		MenuItem tableMenuItem = new MenuItem("Table");
 		tableMenuItem.setOnAction(actionEvent -> {
-
-			
 
 		});
 
@@ -662,6 +664,8 @@ public class TextEditor extends Application {
 			item = new TreeItem<>("Answer: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
 
 		}
+
+		twMap.UpdateQuestionIds();
 	}
 
 	/**
@@ -757,62 +761,62 @@ public class TextEditor extends Application {
 
 	}
 
-//	public int[] properties() {
-//		Stage propStage = new Stage();
-//		BorderPane root = new BorderPane();
-//		Scene scene = new Scene(root, 300, 100);
-//
-//		HBox textBox = new HBox();
-//		textBox.setAlignment(Pos.BOTTOM_CENTER);
-//		textBox.getChildren().add(new Label("Rows"));
-//		TextField stext = new TextField("");
-//		textBox.getChildren().add(stext);
-//
-//		HBox textBox2 = new HBox();
-//		textBox2.setAlignment(Pos.BOTTOM_CENTER);
-//		textBox2.getChildren().add(new Label("Cols"));
-//		TextField stext2 = new TextField("");
-//		textBox2.getChildren().add(stext2);
-//
-//		root.setTop(textBox);
-//		root.setCenter(textBox2);
-//
-//		HBox bBox = new HBox(3);
-//
-//		Button bsave = new Button("Insert");
-//		Label eLabel = new Label("");
-//		int[] i = new int[1];
-//
-//		bsave.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent e) {
-//
-//				propStage.close();
-//				
-//				i[0] = Integer.parseInt(stext.getText());
-//				i[1] = Integer.parseInt(stext2.getText());
-//				
-//			}
-//		});
-//		
-//		Button bexit = new Button("Exit");
-//		bexit.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent e) {
-//
-//				propStage.close();
-//
-//			}
-//		});
-//
-//		bBox.getChildren().add(bsave);
-//		bBox.getChildren().add(bexit);
-//		bBox.getChildren().add(eLabel);
-//		root.setBottom(bBox);
-//		propStage.setScene(scene);
-//		// primaryStage.setFullScreen(true);
-//		propStage.show();
-//	}
+	// public int[] properties() {
+	// Stage propStage = new Stage();
+	// BorderPane root = new BorderPane();
+	// Scene scene = new Scene(root, 300, 100);
+	//
+	// HBox textBox = new HBox();
+	// textBox.setAlignment(Pos.BOTTOM_CENTER);
+	// textBox.getChildren().add(new Label("Rows"));
+	// TextField stext = new TextField("");
+	// textBox.getChildren().add(stext);
+	//
+	// HBox textBox2 = new HBox();
+	// textBox2.setAlignment(Pos.BOTTOM_CENTER);
+	// textBox2.getChildren().add(new Label("Cols"));
+	// TextField stext2 = new TextField("");
+	// textBox2.getChildren().add(stext2);
+	//
+	// root.setTop(textBox);
+	// root.setCenter(textBox2);
+	//
+	// HBox bBox = new HBox(3);
+	//
+	// Button bsave = new Button("Insert");
+	// Label eLabel = new Label("");
+	// int[] i = new int[1];
+	//
+	// bsave.setOnAction(new EventHandler<ActionEvent>() {
+	// @Override
+	// public void handle(ActionEvent e) {
+	//
+	// propStage.close();
+	//
+	// i[0] = Integer.parseInt(stext.getText());
+	// i[1] = Integer.parseInt(stext2.getText());
+	//
+	// }
+	// });
+	//
+	// Button bexit = new Button("Exit");
+	// bexit.setOnAction(new EventHandler<ActionEvent>() {
+	// @Override
+	// public void handle(ActionEvent e) {
+	//
+	// propStage.close();
+	//
+	// }
+	// });
+	//
+	// bBox.getChildren().add(bsave);
+	// bBox.getChildren().add(bexit);
+	// bBox.getChildren().add(eLabel);
+	// root.setBottom(bBox);
+	// propStage.setScene(scene);
+	// // primaryStage.setFullScreen(true);
+	// propStage.show();
+	// }
 
 	/**
 	 * Searches a user input in the text contained by the Textarea.
