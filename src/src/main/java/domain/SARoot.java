@@ -21,6 +21,12 @@ public class SARoot {
     private List<Question> questions = new ArrayList<>();
 
     public List<Question> getQuestions() {
+    	int i = 0;
+		for (Question question :
+				questions) {
+			question.setId(i);
+			i++;
+		}
         return questions;
     }
 
@@ -35,8 +41,7 @@ public class SARoot {
 	public List<Category> getCategories() {
 		return categories;
 	}
-	
-	
+
 	/**
 	 * @param categories the categories to set
 	 */
@@ -55,7 +60,6 @@ public class SARoot {
 		}
 
 		return categoryQuestionMap;
-
 	}
 
 }
