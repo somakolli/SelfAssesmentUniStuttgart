@@ -1,7 +1,6 @@
 package parser; 
 
 import domain.*;
-import Parser;
 
 import org.junit.After;
 import org.junit.Assert;
