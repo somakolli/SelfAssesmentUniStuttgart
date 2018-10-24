@@ -21,23 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class VGenerator implements VGeneratorInterface {
-    private String path = "\\website";
-
-
-    public VGenerator(String path) {
-        this.path = path;
-    }
 
     public VGenerator(){
 
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     @Override
