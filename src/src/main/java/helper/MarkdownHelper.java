@@ -1,4 +1,4 @@
-package generator;
+package helper;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;

@@ -1,5 +1,6 @@
 package generator;
 
+import helper.MarkdownHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
