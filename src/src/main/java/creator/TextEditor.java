@@ -247,6 +247,12 @@ public class TextEditor extends Application {
 		MenuItem generator = new MenuItem("Generate website");
 		generator.setOnAction(actionEvent -> {
 			// TODO: Implement functionality
+			
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Generate");
+			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("ZIP files (*.zip)", "*.zip"));
+			fileChooser.setInitialFileName("website.zip");
+			File file = fileChooser.showSaveDialog(primaryStage);
 
 			SARoot saroot = new SARoot();
 
@@ -256,7 +262,7 @@ public class TextEditor extends Application {
 
 			try {
 
-				vg.createZipArchive(saroot, "website.zip");
+				vg.createZipArchive(saroot, file.getPath());
 
 			} catch (IOException e) {
 
