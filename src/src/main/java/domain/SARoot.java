@@ -31,6 +31,9 @@ public class SARoot {
 		this.conclusions = conclusions;
 	}
 
+	public SARoot() {
+	}
+
 	public SARoot(SARoot other) {
 		this.categories = other.categories;
 		this.questions = other.questions;
