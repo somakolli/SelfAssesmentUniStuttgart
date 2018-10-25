@@ -32,6 +32,7 @@ public class VGenerator implements VGeneratorInterface {
         Context context = new VelocityContext();
         context.put("question", question);
         StringWriter writer = new StringWriter();
+        System.out.println(question.getQuestion());
         Velocity.evaluate(context, writer, "question", template);
         return writer.toString();
     }
@@ -68,7 +69,7 @@ public class VGenerator implements VGeneratorInterface {
         String template = fh.getFileFromResources("templates/questions/question.tpl");
         for (Question question:
              saRoot.getQuestions()) {
-            filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(question, template));
+        filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(new Question(question), template));
         }
         return filesContentMap;
     }
@@ -137,10 +138,13 @@ public class VGenerator implements VGeneratorInterface {
     }
 
     public String getQuestionHtml(Question question){
-        return "<h1>Question</h1>";
+        return "<h1>" + question.getQuestion() + "</h1>";
+    }
+    public String getCategoryHtml(Category category){
+        return "<h1>" + category.getContent() + "</h1>";
     }
 
     public String getConclusionHtml(Conclusion conclusion){
-        return "<h1>Conclustion</h1>";
+        return "<h1>" + conclusion.getContent() + "</h1>";
     }
 }
