@@ -31,6 +31,12 @@ public class SARoot {
 		this.conclusions = conclusions;
 	}
 
+	public SARoot(SARoot other) {
+		this.categories = other.categories;
+		this.questions = other.questions;
+		this.conclusions = other.conclusions;
+	}
+
 	public List<Question> getQuestions() {
     	int i = 0;
 		for (Question question :

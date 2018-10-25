@@ -14,6 +14,11 @@ public class Conclusion {
         this.content = content;
     }
 
+    public Conclusion(Conclusion other) {
+        this.range = other.range;
+        this.content = other.content;
+    }
+
     public int getRange() {
         return range;
     }

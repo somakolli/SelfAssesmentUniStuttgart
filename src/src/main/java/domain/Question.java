@@ -26,6 +26,14 @@ public class Question implements SAObject {
     public Question() {
     }
 
+    public Question(Question other) {
+        this.id = other.id;
+        this.question = other.question;
+        this.answers = other.answers;
+        this.points = other.points;
+        this.time = other.time;
+        this.category = other.category;
+    }
 
     public int getTime() {
         return time;
