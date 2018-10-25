@@ -1,8 +1,10 @@
 package domain;
 
+import java.util.HashMap;
+
 import javax.xml.bind.annotation.XmlElement;
 
-public class Conclusion {
+public class Conclusion implements SAObject {
     private int range;
     private String content;
 
@@ -31,4 +33,10 @@ public class Conclusion {
     public void setContent(String content) {
         this.content = content;
     }
+
+	@Override
+	public HashMap<String, String> getStringProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

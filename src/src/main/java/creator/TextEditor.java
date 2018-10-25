@@ -69,19 +69,33 @@ public class TextEditor extends Application {
 		TextArea text = new TextArea();
 		text.setEditable(false);
 		primaryStage.setTitle("Self Assessment Test Creator");
-		primaryStage.setResizable(false);
-		
+		// Confirmation on Close
+		primaryStage.setOnCloseRequest(actionEvent -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Exit Platform?");
+			alert.setHeaderText("All unsaved changes will be lost.");
+			alert.setContentText("Do you want this?");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				Platform.exit();
+			} else {
+				actionEvent.consume();
+			}
+		});
+		// primaryStage.setResizable(false);
+
 		MenuBar menuBar = new MenuBar();
 		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
 		root.setTop(menuBar);
-		
+
 		// Webview & Engine
-		
+
 		WebView mywebview = new WebView();
 		WebEngine engine = mywebview.getEngine();
-		mywebview.setPrefHeight(900);
+		// mywebview.setPrefHeight(900);
 		VBox vbox = new VBox();
-		vbox.setPrefWidth(700);
+		// vbox.setPrefWidth(700);
 		vbox.getChildren().addAll(mywebview);
 		root.setRight(vbox);
 
@@ -173,6 +187,24 @@ public class TextEditor extends Application {
 
 					table.setEditable(true);
 
+				} else if (twMap.isConclusion(selectedItem)) {
+
+					TableColumn<SAObject, Integer> rangeCol = new TableColumn<SAObject, Integer>("Range");
+
+					rangeCol.setCellValueFactory(new PropertyValueFactory<>("range"));
+					rangeCol.setCellFactory(
+							TextFieldTableCell.<SAObject, Integer>forTableColumn(new IntegerStringConverter()));
+					rangeCol.setOnEditCommit((CellEditEvent<SAObject, Integer> t) -> {
+
+						((Conclusion) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setRange(t.getNewValue());
+
+					});
+
+					table.getColumns().add(rangeCol);
+					table.getItems().add(twMap.getSAObject(selectedItem));
+					table.setEditable(true);
+
 				}
 
 				// do what ever you want
@@ -206,6 +238,13 @@ public class TextEditor extends Application {
 		newaMenuItem.setOnAction(actionEvent -> {
 
 			createAnswer();
+
+		});
+
+		MenuItem newconcMenuItem = new MenuItem("New Conclusion");
+		newconcMenuItem.setOnAction(actionEvent -> {
+
+			createConclusion();
 
 		});
 
@@ -259,7 +298,7 @@ public class TextEditor extends Application {
 
 		MenuItem generator = new MenuItem("Generate website");
 		generator.setOnAction(actionEvent -> {
-			
+
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Generate");
 			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("ZIP files (*.zip)", "*.zip"));
@@ -291,9 +330,9 @@ public class TextEditor extends Application {
 
 		});
 
-		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, delMenuItem, new SeparatorMenuItem(),
-				generator, new SeparatorMenuItem(), openMenuItem, saveMenuItem, new SeparatorMenuItem(), prev,
-				new SeparatorMenuItem(), exitMenuItem);
+		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, newconcMenuItem, delMenuItem,
+				new SeparatorMenuItem(), generator, new SeparatorMenuItem(), openMenuItem, saveMenuItem,
+				new SeparatorMenuItem(), prev, new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Search");
@@ -332,6 +371,13 @@ public class TextEditor extends Application {
 
 		});
 
+		MenuItem newConcContMenuItem = new MenuItem("New Conclusion");
+		newConcContMenuItem.setOnAction(actionEvent -> {
+
+			createConclusion();
+
+		});
+
 		MenuItem DelContMenuItem = new MenuItem("Delete");
 		DelContMenuItem.setOnAction(actionEvent -> {
 
@@ -339,8 +385,8 @@ public class TextEditor extends Application {
 
 		});
 
-		treecm.getItems().addAll(newCContMenuItem, newQContMenuItem, newAContMenuItem, new SeparatorMenuItem(),
-				DelContMenuItem);
+		treecm.getItems().addAll(newCContMenuItem, newQContMenuItem, newAContMenuItem, newConcContMenuItem,
+				new SeparatorMenuItem(), DelContMenuItem);
 		tree.setContextMenu(treecm);
 
 		// TODO Adding Insert Media to the Textarea ContextMenu
@@ -363,30 +409,31 @@ public class TextEditor extends Application {
 
 		});
 
-		MenuItem tableMenuItem = new MenuItem("Table");
-		tableMenuItem.setOnAction(actionEvent -> {
+		// MenuItem tableMenuItem = new MenuItem("Table");
+		// tableMenuItem.setOnAction(actionEvent -> {
+		//
+		// });
+		//
+		// MenuItem deletecm = new MenuItem("Delete");
+		// deletecm.setOnAction(actionEvent -> {
+		//
+		// });
+		//
+		// MenuItem insertcm = new MenuItem("Delete");
+		// insertcm.setOnAction(actionEvent -> {
+		//
+		// });
+		//
+		// MenuItem undocm = new MenuItem("Delete");
+		// undocm.setOnAction(actionEvent -> {
+		//
+		// });
+		//
+		// MenuItem redocm = new MenuItem("Delete");
+		// redocm.setOnAction(actionEvent -> {
+		//
+		// });
 
-		});
-
-		MenuItem deletecm = new MenuItem("Delete");
-		deletecm.setOnAction(actionEvent -> {
-
-		});
-
-		MenuItem insertcm = new MenuItem("Delete");
-		insertcm.setOnAction(actionEvent -> {
-
-		});
-
-		MenuItem undocm = new MenuItem("Delete");
-		undocm.setOnAction(actionEvent -> {
-
-		});
-
-		MenuItem redocm = new MenuItem("Delete");
-		redocm.setOnAction(actionEvent -> {
-
-		});
 		insertMenu.getItems().addAll(imageMenuItem);
 		menuBar.getMenus().add(insertMenu);
 
@@ -470,6 +517,13 @@ public class TextEditor extends Application {
 		}
 	}
 
+	public void createConclusion() {
+
+		Conclusion c = new Conclusion();
+		makeBranch(rootitem, c);
+
+	}
+
 	public void delete(TextArea text) {
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -482,8 +536,10 @@ public class TextEditor extends Application {
 			// ... user chose OK
 			text.setText("");
 
+		
 			if (twMap.isCategory(currentSelectedTreeItem)) {
 				twMap.removePair(currentSelectedTreeItem);
+
 				rootitem.getChildren().remove(currentSelectedTreeItem);
 				// No need to update since category names are unique
 				// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
@@ -491,7 +547,6 @@ public class TextEditor extends Application {
 				// }
 
 			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
 				twMap.removePair(currentSelectedTreeItem);
 
 				ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
@@ -505,7 +560,6 @@ public class TextEditor extends Application {
 				}
 
 			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
 				twMap.removePair(currentSelectedTreeItem);
 
 				ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
@@ -514,6 +568,19 @@ public class TextEditor extends Application {
 
 				for (int i = 0; i < ol.size(); i++) {
 					ol.get(i).setValue("Answer: " + (i + 1));
+				}
+				// TODO
+			} else if (twMap.isConclusion(currentSelectedTreeItem)) {
+				twMap.removePair(currentSelectedTreeItem);
+			
+				ObservableList<TreeItem<String>> ol = rootitem.getChildren();
+
+				rootitem.getChildren().remove(currentSelectedTreeItem);
+
+				for (int i = 0; i < ol.size(); i++) {
+
+					ol.get(i).setValue("Conclusion: " + (i + 1));
+
 				}
 
 			}
@@ -604,9 +671,18 @@ public class TextEditor extends Application {
 
 			item = new TreeItem<>("Answer: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
 
+		} else if (twMap.isConclusion(obj)) {
+
+			for (int i = 0; i < twMap.getConclusionTreeItems().size(); i++) {
+				twMap.getConclusionTreeItems().get(i).setValue("Conclusion: " + (i + 1));
+			}
+
+			item = new TreeItem<>("Conclusion: " + (twMap.getConclusions().size() + 1));
+
 		}
 
 		twMap.UpdateQuestionIds();
+
 	}
 
 	/**
@@ -617,7 +693,6 @@ public class TextEditor extends Application {
 	 * @param text
 	 * @throws IOException
 	 */
-
 	public void open(Stage primaryStage, TextArea text) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
@@ -653,17 +728,17 @@ public class TextEditor extends Application {
 
 			for (Category category : Categories) {
 
-				System.out.println("CAT:" + category.getCategoryName());
+			
 				makeBranch(rootitem, category);
 
 				for (Question question : Questions) {
-					System.out.println("Que:" + question.getId());
+				
 					if (question.getCategory().equals(category)) {
 
 						makeBranch(twMap.getTreeItem(category), question);
 
 						for (Answer a : question.getAnswers()) {
-							System.out.println("Ans:" + a.getId());
+							
 							makeBranch(twMap.getTreeItem(question), a);
 
 						}
@@ -901,11 +976,8 @@ public class TextEditor extends Application {
 		replace.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				System.out.println(fList.size());
-				System.out.println(i);
-				for (int i : fList) {
-					System.out.println(i);
-				}
+				
+				
 				if (fList.size() != 0) {
 					fullText.replaceText(fList.get(i), fList.get(i) + stext.getText().length(), stext2.getText());
 					fList.remove(i);

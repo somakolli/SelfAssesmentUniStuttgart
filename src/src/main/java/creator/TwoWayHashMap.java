@@ -19,6 +19,7 @@ public class TwoWayHashMap {
 	private HashMap<SAObject, TreeItem<String>> backward = new HashMap<SAObject, TreeItem<String>>();
 	private ArrayList<Question> Questions = new ArrayList<Question>();
 	private ArrayList<Category> Categories = new ArrayList<Category>();
+	private ArrayList<Conclusion> Conclusions = new ArrayList<Conclusion>();
 	public ArrayList<TreeItem<String>> AllTreeItems = new ArrayList<TreeItem<String>>();
 
 	public TwoWayHashMap() {
@@ -47,6 +48,9 @@ public class TwoWayHashMap {
 			if (!q.getAnswers().contains(secondkey)) {
 				q.getAnswers().add((Answer) secondkey);
 			}
+		} else if (secondkey.getClass().isInstance(new Conclusion())) {
+			Conclusion conc = (Conclusion) forward.get(firstkey.getParent());
+			Conclusions.add(conc);
 		}
 
 	}
@@ -70,7 +74,7 @@ public class TwoWayHashMap {
 		}
 		return tis;
 	}
-	
+
 	/**
 	 * Returns all Question TreeItems.
 	 * 
@@ -110,6 +114,11 @@ public class TwoWayHashMap {
 		}
 	}
 
+	public ArrayList<Conclusion> getConclusions() {
+
+		return Conclusions;
+	}
+
 	/**
 	 * Returns all Category TreeItems.
 	 * 
@@ -119,6 +128,21 @@ public class TwoWayHashMap {
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
 		for (int i = 0; i < AllTreeItems.size(); i++) {
 			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Category())) {
+				tis.add(AllTreeItems.get(i));
+			}
+		}
+		return tis;
+	}
+
+	/**
+	 * Returns all Conclusion TreeItems.
+	 * 
+	 * @return
+	 */
+	public ArrayList<TreeItem<String>> getConclusionTreeItems() {
+		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
+		for (int i = 0; i < AllTreeItems.size(); i++) {
+			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Conclusion())) {
 				tis.add(AllTreeItems.get(i));
 			}
 		}
@@ -151,20 +175,16 @@ public class TwoWayHashMap {
 					Questions.get(i).getAnswers().remove(forward.get(firstkey));
 				}
 			}
+		} else if (forward.get(firstkey).getClass().isInstance(new Conclusion())) {
+
+			Conclusions.remove(forward.get(firstkey));
+
 		}
+
 		forward.remove(firstkey);
 		backward.values().remove(firstkey);
 
 		AllTreeItems.remove(firstkey);
-	}
-
-	public void clear(TreeView t) {
-		t.getRoot().getChildren().clear();
-		Questions.clear();
-		Categories.clear();
-		forward.clear();
-		backward.clear();
-		AllTreeItems.clear();
 	}
 
 	/**
@@ -192,10 +212,28 @@ public class TwoWayHashMap {
 					Questions.get(i).getAnswers().remove(secondkey);
 				}
 			}
+		} else if (secondkey.getClass().isInstance(new Conclusion())) {
+
+			Conclusions.remove(secondkey);
+
 		}
 		forward.values().remove(secondkey);
 		backward.remove(secondkey);
 		AllTreeItems.remove(backward.get(secondkey));
+	}
+
+	/**
+	 * Resets the given treeview and the twMap's Contents.
+	 * 
+	 * @param t
+	 */
+	public void clear(TreeView t) {
+		t.getRoot().getChildren().clear();
+		Questions.clear();
+		Categories.clear();
+		forward.clear();
+		backward.clear();
+		AllTreeItems.clear();
 	}
 
 	/**
@@ -204,6 +242,7 @@ public class TwoWayHashMap {
 	public void printContents() {
 		System.out.println("Amount of Categories: " + Categories.size());
 		System.out.println("Amount of Questions: " + Questions.size());
+		System.out.println("Amount of Conclusions: " + Conclusions.size());
 		System.out.println("Amount of TreeItems: " + AllTreeItems.size());
 		System.out.println("forward Pairs: ");
 		for (int i = 0; i < AllTreeItems.size(); i++) {
@@ -361,6 +400,42 @@ public class TwoWayHashMap {
 	}
 
 	/**
+	 * Returns true, if the given SAObject is an Answer.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isConclusion(SAObject object) {
+		try {
+			if (object.getClass().isInstance(new Conclusion())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns true, if the given TreeItem is related to a Conclusion.
+	 * 
+	 * @param object
+	 * @return
+	 */
+	public boolean isConclusion(TreeItem<String> object) {
+		try {
+			if (forward.get(object).getClass().isInstance(new Conclusion())) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	/**
 	 * Returns true if the map is empty.
 	 * 
 	 * @return
@@ -480,6 +555,9 @@ public class TwoWayHashMap {
 		} else if (Object.getClass().isInstance(new Answer())) {
 			Answer answer = (Answer) Object;
 			answer.setContent(content);
+		} else if (Object.getClass().isInstance(new Conclusion())) {
+			Conclusion conclusion = (Conclusion) Object;
+			conclusion.setContent(content);
 		}
 	}
 
@@ -499,6 +577,9 @@ public class TwoWayHashMap {
 		} else if (Object.getClass().isInstance(new Answer())) {
 			Answer answer = (Answer) forward.get(Object);
 			answer.setContent(content);
+		} else if (Object.getClass().isInstance(new Conclusion())) {
+			Conclusion conclusion = (Conclusion) forward.get(Object);
+			conclusion.setContent(content);
 		}
 	}
 
@@ -518,6 +599,9 @@ public class TwoWayHashMap {
 		} else if (Object.getClass().isInstance(new Answer())) {
 			Answer a = (Answer) Object;
 			return a.getContent();
+		} else if (Object.getClass().isInstance(new Conclusion())) {
+			Conclusion c = (Conclusion) Object;
+			return c.getContent();
 		}
 		return null;
 
@@ -539,6 +623,9 @@ public class TwoWayHashMap {
 		} else if (forward.get(Object).getClass().isInstance(new Answer())) {
 			Answer a = (Answer) forward.get(Object);
 			return a.getContent();
+		} else if (forward.get(Object).getClass().isInstance(new Conclusion())) {
+			Conclusion c = (Conclusion) forward.get(Object);
+			return c.getContent();
 		}
 		return null;
 
@@ -575,6 +662,12 @@ public class TwoWayHashMap {
 	public int getCategoryAmount() {
 
 		return Categories.size();
+
+	}
+
+	public int getConclusionAmount() {
+
+		return Conclusions.size();
 
 	}
 
