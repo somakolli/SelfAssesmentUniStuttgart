@@ -16,7 +16,11 @@ public class Category implements SAObject {
 	public Category() {
 
 	}
-	
+
+	public Category(Category other) {
+		this.categoryName = other.categoryName;
+		this.content = other.content;
+	}
 
 	/**
 	 * 

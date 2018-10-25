@@ -13,7 +13,21 @@ public class Answer implements SAObject {
     //private List<String> mediaPath = new ArrayList<>();
     private Boolean isCorrect = false;
 
-    
+    public Answer(){
+    }
+
+    public Answer(int id, String content, Boolean isCorrect) {
+        this.id = id;
+        this.content = content;
+        this.isCorrect = isCorrect;
+    }
+
+    public Answer(Answer other) {
+        this.id = other.id;
+        this.content = other.content;
+        this.isCorrect = other.isCorrect;
+    }
+
     public Boolean getCorrect() {
 		return this.isCorrect;
 	}

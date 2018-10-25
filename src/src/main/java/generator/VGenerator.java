@@ -28,7 +28,6 @@ public class VGenerator implements VGeneratorInterface {
     public String generateQuestion(Question question, String template) throws IOException {
         //convert Markdown to HTML and remove linebreaks
         question.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()).replace("\n", "").replace("\r", ""));
-
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", question);
@@ -118,6 +117,7 @@ public class VGenerator implements VGeneratorInterface {
 
     private HashMap<String, String> getFilesContentMap(SARoot saRoot) throws IOException {
         HashMap<String, String> filesContentMap = new HashMap<>();
+        filesContentMap.putAll(generateConclusion(saRoot));
         filesContentMap.putAll(generateQuestions(saRoot));
         filesContentMap.putAll(generateSolution(saRoot));
         filesContentMap.putAll(generateCategoriesJS(saRoot.getCategoryQuestionMap()));
@@ -129,10 +129,18 @@ public class VGenerator implements VGeneratorInterface {
         File websiteFile = new File(path);
         ZipUtil.pack(new File(getClass().getClassLoader().getResource("website").getFile()), websiteFile);
         ArrayList<ZipEntrySource> entries = new ArrayList<>();
-        for (HashMap.Entry<String, String> entry : getFilesContentMap(saRoot).entrySet()){
+        for (HashMap.Entry<String, String> entry : getFilesContentMap(new SARoot(saRoot)).entrySet()){
             entries.add(new ByteSource(entry.getKey(), entry.getValue().getBytes()));
         }
         ZipEntrySource[] entriesArray = entries.toArray(new ZipEntrySource[entries.size()]);
         ZipUtil.addOrReplaceEntries(websiteFile, entriesArray);
+    }
+
+    public String getQuestionHtml(Question question){
+        return "<h1>Question</h1>";
+    }
+
+    public String getConclusionHtml(Conclusion conclusion){
+        return "<h1>Conclustion</h1>";
     }
 }
