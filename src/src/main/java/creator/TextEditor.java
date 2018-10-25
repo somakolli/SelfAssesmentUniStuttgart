@@ -308,6 +308,7 @@ public class TextEditor extends Application {
 			SARoot saroot = new SARoot();
 
 			saroot.setQuestions(twMap.getQuestions());
+			saroot.setConclusions(twMap.getConclusions());
 
 			VGenerator vg = new VGenerator();
 
@@ -378,7 +379,7 @@ public class TextEditor extends Application {
 
 		});
 
-		MenuItem DelContMenuItem = new MenuItem("Delete");
+		MenuItem DelContMenuItem = new MenuItem("Delete Item");
 		DelContMenuItem.setOnAction(actionEvent -> {
 
 			delete(text);
@@ -536,7 +537,6 @@ public class TextEditor extends Application {
 			// ... user chose OK
 			text.setText("");
 
-		
 			if (twMap.isCategory(currentSelectedTreeItem)) {
 				twMap.removePair(currentSelectedTreeItem);
 
@@ -572,14 +572,14 @@ public class TextEditor extends Application {
 				// TODO
 			} else if (twMap.isConclusion(currentSelectedTreeItem)) {
 				twMap.removePair(currentSelectedTreeItem);
-			
-				ObservableList<TreeItem<String>> ol = rootitem.getChildren();
+
+				ArrayList<TreeItem<String>> al = twMap.getConclusionTreeItems();
 
 				rootitem.getChildren().remove(currentSelectedTreeItem);
 
-				for (int i = 0; i < ol.size(); i++) {
+				for (int i = 0; i < al.size(); i++) {
 
-					ol.get(i).setValue("Conclusion: " + (i + 1));
+					al.get(i).setValue("Conclusion: " + (i + 1));
 
 				}
 
@@ -728,17 +728,16 @@ public class TextEditor extends Application {
 
 			for (Category category : Categories) {
 
-			
 				makeBranch(rootitem, category);
 
 				for (Question question : Questions) {
-				
+
 					if (question.getCategory().equals(category)) {
 
 						makeBranch(twMap.getTreeItem(category), question);
 
 						for (Answer a : question.getAnswers()) {
-							
+
 							makeBranch(twMap.getTreeItem(question), a);
 
 						}
@@ -773,6 +772,7 @@ public class TextEditor extends Application {
 		Parser parser = new Parser();
 		SARoot root = new SARoot();
 		root.setQuestions(twMap.getQuestions());
+		root.setConclusions(twMap.getConclusions());
 		parser.writeObjectsToXML(root, file);
 
 	}
@@ -976,8 +976,7 @@ public class TextEditor extends Application {
 		replace.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				
-				
+
 				if (fList.size() != 0) {
 					fullText.replaceText(fList.get(i), fList.get(i) + stext.getText().length(), stext2.getText());
 					fList.remove(i);
