@@ -20,6 +20,8 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.*;
@@ -63,14 +65,25 @@ public class TextEditor extends Application {
 	public void start(Stage primaryStage) {
 
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 800, 600);
+		Scene scene = new Scene(root, 1600, 800);
 		TextArea text = new TextArea();
 		text.setEditable(false);
 		primaryStage.setTitle("Self Assessment Test Creator");
-
+		primaryStage.setResizable(false);
+		
 		MenuBar menuBar = new MenuBar();
 		menuBar.prefWidthProperty().bind(primaryStage.widthProperty());
 		root.setTop(menuBar);
+		
+		// Webview & Engine
+		
+		WebView mywebview = new WebView();
+		WebEngine engine = mywebview.getEngine();
+		mywebview.setPrefHeight(900);
+		VBox vbox = new VBox();
+		vbox.setPrefWidth(700);
+		vbox.getChildren().addAll(mywebview);
+		root.setRight(vbox);
 
 		// Tabelle zum ändern der eigenschaften
 
@@ -246,7 +259,6 @@ public class TextEditor extends Application {
 
 		MenuItem generator = new MenuItem("Generate website");
 		generator.setOnAction(actionEvent -> {
-			// TODO: Implement functionality
 			
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Generate");
@@ -275,7 +287,7 @@ public class TextEditor extends Application {
 		MenuItem prev = new MenuItem("Preview");
 		prev.setOnAction(actionEvent -> {
 			// TODO: Implement functionality
-			System.out.println("Do sth.");
+			engine.load("https://www.google.de");
 
 		});
 
