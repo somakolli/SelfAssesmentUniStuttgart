@@ -66,8 +66,8 @@ public class TextEditor extends Application {
 
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1600, 800);
-		TextArea text = new TextArea();
-		text.setEditable(false);
+
+		
 		primaryStage.setTitle("Self Assessment Test Creator");
 		// Confirmation on Close
 		primaryStage.setOnCloseRequest(actionEvent -> {
@@ -83,6 +83,7 @@ public class TextEditor extends Application {
 				actionEvent.consume();
 			}
 		});
+
 		// primaryStage.setResizable(false);
 
 		MenuBar menuBar = new MenuBar();
@@ -90,7 +91,6 @@ public class TextEditor extends Application {
 		root.setTop(menuBar);
 
 		// Webview & Engine
-
 		WebView mywebview = new WebView();
 		WebEngine engine = mywebview.getEngine();
 		// mywebview.setPrefHeight(900);
@@ -98,6 +98,20 @@ public class TextEditor extends Application {
 		// vbox.setPrefWidth(700);
 		vbox.getChildren().addAll(mywebview);
 		root.setRight(vbox);
+
+		TextArea text = new TextArea();
+		text.setEditable(false);
+		text.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				// TODO: Implement functionality
+		
+				
+				changedEvent(engine,newValue);
+
+			}
+		});
 
 		// Tabelle zum ändern der eigenschaften
 
@@ -327,7 +341,31 @@ public class TextEditor extends Application {
 		MenuItem prev = new MenuItem("Preview");
 		prev.setOnAction(actionEvent -> {
 			// TODO: Implement functionality
-			engine.load("https://www.google.de");
+			VGenerator v = new VGenerator();
+
+			if (twMap.isCategory(currentSelectedTreeItem)) {
+
+				engine.loadContent(v.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)),
+						"text/html");
+
+			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+
+				engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)),
+						"text/html");
+
+			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+
+				engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)),
+						"text/html");
+
+			} else if (twMap.isConclusion(currentSelectedTreeItem)) {
+
+				engine.loadContent(v.getConclusionHtml((Conclusion) twMap.getSAObject(currentSelectedTreeItem)),
+						"text/html");
+
+			} else {
+
+			}
 
 		});
 
@@ -438,6 +476,37 @@ public class TextEditor extends Application {
 		insertMenu.getItems().addAll(imageMenuItem);
 		menuBar.getMenus().add(insertMenu);
 
+	}
+	
+	public void changedEvent(WebEngine engine, String newValue) {
+		
+		SAObject sao = twMap.getSAObject(currentSelectedTreeItem);
+		VGenerator v = new VGenerator();
+
+		if (twMap.isCategory(currentSelectedTreeItem)) {
+			twMap.setContent(sao, newValue);
+			engine.loadContent(v.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)),
+					"text/html");
+
+		} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+			twMap.setContent(sao, newValue);
+			engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)),
+					"text/html");
+
+		} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+			twMap.setContent(sao, newValue);
+			engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem.getParent())),
+					"text/html");
+
+		} else if (twMap.isConclusion(currentSelectedTreeItem)) {
+			twMap.setContent(sao, newValue);
+			engine.loadContent(v.getConclusionHtml((Conclusion) twMap.getSAObject(currentSelectedTreeItem)),
+					"text/html");
+
+		} else {
+
+		}
+		
 	}
 
 	public void createCategory() {
@@ -569,7 +638,7 @@ public class TextEditor extends Application {
 				for (int i = 0; i < ol.size(); i++) {
 					ol.get(i).setValue("Answer: " + (i + 1));
 				}
-				// TODO
+
 			} else if (twMap.isConclusion(currentSelectedTreeItem)) {
 				twMap.removePair(currentSelectedTreeItem);
 
