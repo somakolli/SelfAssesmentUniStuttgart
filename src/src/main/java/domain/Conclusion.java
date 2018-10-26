@@ -10,12 +10,14 @@ public class Conclusion implements SAObject {
 
     public Conclusion() {
     }
+    
+   
 
     public Conclusion(int range, String content) {
         this.range = range;
         this.content = content;
     }
-
+    
     public Conclusion(Conclusion other) {
         this.range = other.range;
         this.content = other.content;
