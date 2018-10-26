@@ -1,4 +1,5 @@
 const exampleString = "00101101001111100010101010";
+var x;
 
 //console.log(calcQNr(exampleString));
 
@@ -9,10 +10,11 @@ function loadQuestion(currNum) {
         $(".container-fluid").children().first().replaceWith(data.question);
         setProgressBar(currNum);
         setHeader(currNum);
+        clearInterval(x);
         if(data.time > 0){
-            startTimer(data.time);
+            startTimer(data.time, x);
         } else {
-            hideTimer();
+            hideTimer(x);
         }
     });
 }

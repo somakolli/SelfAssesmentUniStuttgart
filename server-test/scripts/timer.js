@@ -17,9 +17,8 @@ var x = setInterval(function () {
         $("#timer").text("EXPIRED");
     }
 }, 1000); */
-var x;
 
-function startTimer(limit) {
+function startTimer(limit, x) {
     $("#timer").css("visibility", "visible");
     var currentTime = new Date();
     currentTime.setMinutes(currentTime.getMinutes() + 1);
@@ -33,7 +32,6 @@ function startTimer(limit) {
         var seconds = Math.floor((distance % (1000 * limit)) / 1000);
 
         $("#timer").text("Timer: " + seconds + "s ");
-
         if (distance <= 0) {
             clearInterval(x);
             $("#timer").text("EXPIRED");
@@ -42,9 +40,8 @@ function startTimer(limit) {
     }, 1000);
 }
 
-function hideTimer(){
+function hideTimer(x){
     clearInterval(x);
     $("#timer").css("visibility", "hidden");
 }
-
 

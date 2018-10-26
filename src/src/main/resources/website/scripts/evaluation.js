@@ -18,7 +18,7 @@ function loadEvaluation(state) {
         $(data.header).insertBefore("#evaluation")
         let answersAndCount = stateToAnswers(state);
         let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
-        let concData = setUpEvaluation(getCategories(), result);
+        let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
     });
 }
 
@@ -71,12 +71,12 @@ function evaluate(solution, answers, allAnswers) {
 }
 
 /**
- * input: map containing the id's of each category and how many questions it consisted of, 
+ * input: map containing the id's of each category and how many questions it consisted of, the binary results of each individual question, the points of each question
  * get the idnividual fractions of rightly answered questions for each category 
  * collect fractions to choose the fitting fazit later on
  * output: overall score of the test
  */
-function setUpEvaluation(categories, result) {
+function setUpEvaluation(categories, result, questionPoints) {
     let j = 0;
     let overall = 0;
     //let overall = [];
@@ -84,12 +84,14 @@ function setUpEvaluation(categories, result) {
     for (let [key, value] of categories) {
         //console.log("value: " + value)
         let correct = 0;
+        let categoryTotal = 0;
         //j + value includes all questions that the current category consists of
         for (let i = j; i < j + value; i++) {
             //sum up the 1's (correctly answered question) for each category
-            correct += result[i];
+            correct += result[i] * questionPoints[i];
+            categoryTotal += questionPoints[i]; 
         }
-        showFraction(key, correct, value);
+        showFraction(key, correct, categoryTotal);
         overall += correct;
         //overall.push([correct, value]);
         j += value;
