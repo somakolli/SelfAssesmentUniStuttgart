@@ -338,40 +338,10 @@ public class TextEditor extends Application {
 
 		});
 
-		MenuItem prev = new MenuItem("Preview");
-		prev.setOnAction(actionEvent -> {
-			// TODO: Implement functionality
-			VGenerator v = new VGenerator();
-
-			if (twMap.isCategory(currentSelectedTreeItem)) {
-
-				engine.loadContent(v.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)),
-						"text/html");
-
-			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-
-				engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)),
-						"text/html");
-
-			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-
-				engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)),
-						"text/html");
-
-			} else if (twMap.isConclusion(currentSelectedTreeItem)) {
-
-				engine.loadContent(v.getConclusionHtml((Conclusion) twMap.getSAObject(currentSelectedTreeItem)),
-						"text/html");
-
-			} else {
-
-			}
-
-		});
 
 		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, newconcMenuItem, delMenuItem,
 				new SeparatorMenuItem(), generator, new SeparatorMenuItem(), openMenuItem, saveMenuItem,
-				new SeparatorMenuItem(), prev, new SeparatorMenuItem(), exitMenuItem);
+				new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Search");
@@ -749,7 +719,13 @@ public class TextEditor extends Application {
 			item = new TreeItem<>("Conclusion: " + (twMap.getConclusions().size() + 1));
 
 		}
-
+		
+		//Conclusions always on the Bottom
+		for(TreeItem<String> ti: twMap.getConclusionTreeItems()) {
+			root.getChildren().remove(ti);
+			root.getChildren().add(ti);
+		}
+		
 		twMap.UpdateQuestionIds();
 
 	}
