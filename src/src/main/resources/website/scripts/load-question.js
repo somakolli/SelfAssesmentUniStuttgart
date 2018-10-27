@@ -10,10 +10,9 @@ function loadQuestion(currNum) {
         setProgressBar(currNum);
         setHeader(currNum);
         if(data.time > 0){
+            $('<div id="timer"></div>').insertBefore(".bottom-right");
             startTimer(data.time);
-        } else {
-            hideTimer();
-        }
+        } 
     });
 }
 

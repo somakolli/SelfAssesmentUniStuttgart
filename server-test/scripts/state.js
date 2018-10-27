@@ -10,9 +10,11 @@ function updateState() {
         questionList.push(answerListToBitString(getAnswerList()));
         let questionListString = answerListToBinary(questionList);
         if(questionListString == "00000"){
+            $("#timer").remove();
             loadQuestion(0);
             //history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
         } else {
+            $("#timer").remove();
             let curr = calcQNr(questionListString);
             //console.log("curr :" + curr + ", " + questionListString)
             if (getQcount() == curr) {

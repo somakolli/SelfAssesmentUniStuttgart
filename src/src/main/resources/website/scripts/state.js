@@ -9,6 +9,7 @@ function updateState() {
         let questionList = stateToAnswerList();
         questionList.push(answerListToBitString(getAnswerList()));
         let questionListString = answerListToBinary(questionList);
+        $("#timer").remove();
         if(questionListString == "00000"){
             loadQuestion(0);
             //history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));

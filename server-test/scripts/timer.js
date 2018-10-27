@@ -32,6 +32,10 @@ function startTimer(limit, x) {
         var seconds = Math.floor((distance % (1000 * limit)) / 1000);
 
         $("#timer").text("Timer: " + seconds + "s ");
+
+        $(".bottom-right").click(function(){
+            clearInterval(x);
+        })
         if (distance <= 0) {
             clearInterval(x);
             $("#timer").text("EXPIRED");

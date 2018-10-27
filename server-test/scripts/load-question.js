@@ -12,10 +12,11 @@ function loadQuestion(currNum) {
         setHeader(currNum);
         clearInterval(x);
         if(data.time > 0){
+            $('<div id="timer"></div>').insertBefore(".bottom-right");
             startTimer(data.time, x);
-        } else {
+        } /* else {
             hideTimer(x);
-        }
+        } */
     });
 }
 
