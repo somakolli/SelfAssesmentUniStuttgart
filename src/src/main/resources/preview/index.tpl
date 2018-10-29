@@ -366,8 +366,6 @@
 <body>
     <div class="container-fluid">
         <div class="card border-dark mb-3">
-        </div>
-        <div class="card border-dark mb-3">
             <div class="card-header">$question.getQuestion()</div>
             <div class="card-body">
                 <ul id="question$question.getId()" class="list-group list-group-flush">

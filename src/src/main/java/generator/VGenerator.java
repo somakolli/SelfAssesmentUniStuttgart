@@ -30,6 +30,10 @@ public class VGenerator implements VGeneratorInterface {
     private String generateQuestion(Question question, String template){
         //convert Markdown to HTML and remove linebreaks
         question.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()).replace("\n", "").replace("\r", ""));
+        for (Answer answer :
+                question.getAnswers()) {
+            answer.setContent(MarkdownHelper.markdownToHtml(question.getQuestion()).replace("\n", "").replace("\r", ""));
+        }
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", question);
@@ -118,6 +122,16 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
+    private Question parseMarkdown(Question question){
+        Question questionCopy = new Question(question);
+        questionCopy.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()));
+        for (Answer answer :
+                questionCopy.getAnswers()) {
+            answer.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
+        }
+        return questionCopy;
+    }
+
     public void createZipArchive(SARoot saRoot, String path){
         File websiteFile = new File(path);
         ZipUtil.pack(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("website")).getFile()), websiteFile);
@@ -132,6 +146,10 @@ public class VGenerator implements VGeneratorInterface {
     public String getQuestionHtml(Question question){
         Question questionCopy = new Question(question);
         questionCopy.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()));
+        for (Answer answer :
+                questionCopy.getAnswers()) {
+            answer.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
+        }
         FileHelper fh = new FileHelper();
         String indexTemplate = fh.getFileFromResources("preview/index.tpl");
         Velocity.init();
