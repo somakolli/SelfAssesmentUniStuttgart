@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
+
 /**
  * 
  * 
@@ -93,11 +95,8 @@ public class TextEditor extends Application {
 		// Webview & Engine
 		WebView mywebview = new WebView();
 		WebEngine engine = mywebview.getEngine();
-		// mywebview.setPrefHeight(900);
-		VBox vbox = new VBox();
-		// vbox.setPrefWidth(700);
-		vbox.getChildren().addAll(mywebview);
-		root.setRight(vbox);
+		//root.setRight(mywebview);
+		
 
 		TextArea text = new TextArea();
 		text.setEditable(false);
@@ -122,6 +121,12 @@ public class TextEditor extends Application {
 
 		// Tree
 		rootitem.setExpanded(true);
+		
+		SplitPane s = new SplitPane();
+		s.getItems().add(text);
+		s.getItems().add(mywebview);
+		root.setCenter(s);
+		
 		tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -330,7 +335,7 @@ public class TextEditor extends Application {
 
 				vg.createZipArchive(saroot, file.getPath());
 
-			} catch (IOException e) {
+			} catch (Exception e) {
 
 				e.printStackTrace();
 
@@ -353,7 +358,7 @@ public class TextEditor extends Application {
 		sMenu.getItems().addAll(sucheMenuItem, esucheMenuItem);
 		menuBar.getMenus().addAll(sMenu);
 
-		root.setCenter(text);
+		//root.setCenter(text);
 		primaryStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
 		primaryStage.show();
