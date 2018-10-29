@@ -22,6 +22,7 @@ public class Question implements SAObject {
     //wen die zeit 0 ist dann ist es keine
     private int time = 0;
     private Category category = new Category();
+    private boolean singleChoice = false;
 
     public Question() {
     }
@@ -33,6 +34,21 @@ public class Question implements SAObject {
         this.points = other.points;
         this.time = other.time;
         this.category = other.category;
+        this.singleChoice = other.singleChoice;
+    }
+
+    public long getNumberOfTrueAnswers(){
+        //expresion to count all answers which are correct
+        return answers.stream().filter(Answer::getCorrect).count();
+    }
+
+    public boolean isSingleChoice() {
+        //if there is not exactly one answer correct it cannot be single choice
+        return singleChoice && getNumberOfTrueAnswers() == 1;
+    }
+
+    public void setSingleChoice(boolean singleChoice) {
+        this.singleChoice = singleChoice;
     }
 
     public int getTime() {
