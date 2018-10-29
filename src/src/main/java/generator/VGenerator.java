@@ -138,13 +138,13 @@ public class VGenerator implements VGeneratorInterface {
     }
 
     public String getQuestionHtml(Question question){
-        return "<h1>" + question.getQuestion() + "</h1>";
+        return MarkdownHelper.markdownToHtml(question.getQuestion());
     }
     public String getCategoryHtml(Category category){
-        return "<h1>" + category.getContent() + "</h1>";
+        return MarkdownHelper.markdownToHtml(category.getContent());
     }
 
     public String getConclusionHtml(Conclusion conclusion){
-        return "<h1>" + conclusion.getContent() + "</h1>";
+        return MarkdownHelper.markdownToHtml(conclusion.getContent());
     }
 }
