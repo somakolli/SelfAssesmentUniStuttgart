@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Template for a question page</title>
+    <title>Template for a content page</title>
     <style>
         /*!
             * Bootstrap v4.1.1 (https://getbootstrap.com/)
@@ -366,9 +366,9 @@
 <body>
     <div class="container-fluid">
         <div class="card border-dark mb-3">
-            <div class="card-header">$question.getQuestion()</div>
+            <div class="card-header">$question.getContent()</div>
             <div class="card-body">
-                <ul id="question$question.getId()" class="list-group list-group-flush">
+                <ul id="content$content.getId()" class="list-group list-group-flush">
                     #foreach($answer in $question.getAnswers())
                         <li class="list-group-item">
                             <div class="checkbox">

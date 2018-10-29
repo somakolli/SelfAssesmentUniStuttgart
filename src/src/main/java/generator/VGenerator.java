@@ -29,11 +29,14 @@ public class VGenerator implements VGeneratorInterface {
      */
     private String generateQuestion(Question question, String template){
         //convert Markdown to HTML and remove linebreaks
-        question.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()).replace("\n", "").replace("\r", ""));
+        question.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
+        ArrayList<Answer> answers = new ArrayList<>(question.getAnswers());
+
         for (Answer answer :
-                question.getAnswers()) {
-            answer.setContent(MarkdownHelper.markdownToHtml(question.getQuestion()).replace("\n", "").replace("\r", ""));
+                answers) {
+            answer.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
         }
+        question.setAnswers(answers);
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", question);
@@ -124,7 +127,7 @@ public class VGenerator implements VGeneratorInterface {
 
     private Question parseMarkdown(Question question){
         Question questionCopy = new Question(question);
-        questionCopy.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()));
+        questionCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()));
         for (Answer answer :
                 questionCopy.getAnswers()) {
             answer.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
@@ -145,11 +148,13 @@ public class VGenerator implements VGeneratorInterface {
 
     public String getQuestionHtml(Question question){
         Question questionCopy = new Question(question);
-        questionCopy.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()));
+        questionCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()));
+        ArrayList<Answer> answers = new ArrayList<>(question.getAnswers());
         for (Answer answer :
-                questionCopy.getAnswers()) {
+                answers) {
             answer.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
         }
+        questionCopy.setAnswers(answers);
         FileHelper fh = new FileHelper();
         String indexTemplate = fh.getFileFromResources("preview/index.tpl");
         Velocity.init();

@@ -7,9 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Answer implements SAObject {
+public class Answer extends ContentObject {
     private int id;
-    private String content = "";
     //private List<String> mediaPath = new ArrayList<>();
     private Boolean isCorrect = false;
 
@@ -17,14 +16,14 @@ public class Answer implements SAObject {
     }
 
     public Answer(int id, String content, Boolean isCorrect) {
+        super(content);
         this.id = id;
-        this.content = content;
         this.isCorrect = isCorrect;
     }
 
     public Answer(Answer other) {
+        super(other.getContent());
         this.id = other.id;
-        this.content = other.content;
         this.isCorrect = other.isCorrect;
     }
 
@@ -36,24 +35,6 @@ public class Answer implements SAObject {
 	public void setCorrect(Boolean isCorrect) {
 		this.isCorrect = isCorrect;
 	}
-    
-    public String getContent() {
-        return content;
-    }
-
-    @XmlElement
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-//    public List<String> getMediaPath() {
-//        return mediaPath;
-//    }
-
-//    @XmlElement
-//    public void setMediaPath(List<String> mediaPath) {
-//        this.mediaPath = mediaPath;
-//    }
 
     public int getId() {
         return id;
@@ -66,7 +47,7 @@ public class Answer implements SAObject {
 
     public HashMap<String, String> getStringProperties() {
         HashMap<String, String> stringVariables = new HashMap<>();
-        stringVariables.put("content", content);
+        stringVariables.put("content", getContent());
         return stringVariables;
     }
 }

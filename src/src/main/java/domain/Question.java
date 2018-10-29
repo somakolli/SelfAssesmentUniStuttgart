@@ -1,25 +1,21 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @XmlRootElement
-@XmlType(propOrder = {"id", "category", "question", "points", "time", "answers"})
-public class Question implements SAObject {
+//@XmlType(propOrder = {"id", "category", "points", "time", "answers"})
+public class Question extends ContentObject {
     private int id;
-    private String question = "";
 
     private List<Answer> answers = new ArrayList<>();
     //private List<String> mediaPaths = new ArrayList<>();
     private int points = 0;
-    //wen die zeit 0 ist dann ist es keine
+    //if the time is zero there will be no timer
     private int time = 0;
     private Category category = new Category();
     private boolean singleChoice = false;
@@ -28,8 +24,8 @@ public class Question implements SAObject {
     }
 
     public Question(Question other) {
+        super(other.getContent());
         this.id = other.id;
-        this.question = other.question;
         this.answers = other.answers;
         this.points = other.points;
         this.time = other.time;
@@ -37,7 +33,7 @@ public class Question implements SAObject {
         this.singleChoice = other.singleChoice;
     }
 
-    public long getNumberOfTrueAnswers(){
+    private long getNumberOfTrueAnswers(){
         //expresion to count all answers which are correct
         return answers.stream().filter(Answer::getCorrect).count();
     }
@@ -60,17 +56,8 @@ public class Question implements SAObject {
         this.time = time;
     }
 
-    public Question(String question) {
-        this.question = question;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    @XmlElement
-    public void setQuestion(String question) {
-        this.question = question;
+    public Question(String content) {
+        super(content);
     }
 
     public List<Answer> getAnswers() {
@@ -117,7 +104,7 @@ public class Question implements SAObject {
 
     public HashMap<String, String> getStringProperties() {
         HashMap<String, String> stringVariables = new HashMap<>();
-        stringVariables.put("question", this.question);
+        stringVariables.put("content", this.getContent());
         return stringVariables;
     }
 

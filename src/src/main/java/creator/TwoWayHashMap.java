@@ -551,7 +551,7 @@ public class TwoWayHashMap {
 			category.setContent(content);
 		} else if (Object.getClass().isInstance(new Question())) {
 			Question question = (Question) Object;
-			question.setQuestion(content);
+			question.setContent(content);
 		} else if (Object.getClass().isInstance(new Answer())) {
 			Answer answer = (Answer) Object;
 			answer.setContent(content);
@@ -574,7 +574,7 @@ public class TwoWayHashMap {
 			category.setContent(content);
 		} else if (Object.getClass().isInstance(new Question())) {
 			Question question = (Question) forward.get(Object);
-			question.setQuestion(content);
+			question.setContent(content);
 		} else if (Object.getClass().isInstance(new Answer())) {
 			Answer answer = (Answer) forward.get(Object);
 			answer.setContent(content);
@@ -596,7 +596,7 @@ public class TwoWayHashMap {
 			return category.getContent();
 		} else if (Object.getClass().isInstance(new Question())) {
 			Question q = (Question) Object;
-			return q.getQuestion();
+			return q.getContent();
 		} else if (Object.getClass().isInstance(new Answer())) {
 			Answer a = (Answer) Object;
 			return a.getContent();
@@ -620,7 +620,7 @@ public class TwoWayHashMap {
 			return c.getContent();
 		} else if (forward.get(Object).getClass().isInstance(new Question())) {
 			Question q = (Question) forward.get(Object);
-			return q.getQuestion();
+			return q.getContent();
 		} else if (forward.get(Object).getClass().isInstance(new Answer())) {
 			Answer a = (Answer) forward.get(Object);
 			return a.getContent();

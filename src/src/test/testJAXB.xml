@@ -8,7 +8,7 @@
     	<category>
     		<categoryName>testCategoryName</categoryName>
     	</category>
-        <question>testQuestion</question>
+        <content>testQuestion</content>
         <points>5</points>
         <time>60</time>
         <mediaPaths>defaultpath</mediaPaths>
@@ -21,7 +21,7 @@
     </questions>
     <questions>
         <id>1</id>
-        <question></question>
+        <content></content>
         <points>0</points>
         <time>0</time>
            <answers>

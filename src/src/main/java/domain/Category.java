@@ -7,19 +7,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement
-@XmlType(propOrder = { "categoryName", "content" })
-public class Category implements SAObject {
+//@XmlType(propOrder = { "categoryName"})
+public class Category extends ContentObject {
 	
 	private String categoryName = "";
-	private String content = "";
 	
 	public Category() {
 
 	}
 
 	public Category(Category other) {
+		super(other.getContent());
 		this.categoryName = other.categoryName;
-		this.content = other.content;
 	}
 
 	/**
@@ -44,22 +43,4 @@ public class Category implements SAObject {
 		stringVariables.put("category", this.categoryName);
 		return stringVariables;
 	}
-
-
-	/**
-	 * @return the content
-	 */
-	public String getContent() {
-		return content;
-	}
-
-
-	/**
-	 * @param content the content to set
-	 */
-	@XmlElement
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 }

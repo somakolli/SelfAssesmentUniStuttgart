@@ -4,9 +4,8 @@ import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class Conclusion implements SAObject {
+public class Conclusion extends ContentObject {
     private int range;
-    private String content;
 
     public Conclusion() {
     }
@@ -14,13 +13,13 @@ public class Conclusion implements SAObject {
    
 
     public Conclusion(int range, String content) {
+        super(content);
         this.range = range;
-        this.content = content;
     }
     
     public Conclusion(Conclusion other) {
+        super(other.getContent());
         this.range = other.range;
-        this.content = other.content;
     }
 
     public int getRange() {
@@ -30,15 +29,6 @@ public class Conclusion implements SAObject {
     @XmlElement
     public void setRange(int range) {
         this.range = range;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    @XmlElement
-    public void setContent(String content) {
-        this.content = content;
     }
 
 	@Override
