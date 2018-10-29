@@ -12,9 +12,7 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class VGenerator implements VGeneratorInterface {
 
@@ -29,14 +27,17 @@ public class VGenerator implements VGeneratorInterface {
      */
     private String generateQuestion(Question question, String template){
         //convert Markdown to HTML and remove linebreaks
-        question.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
-        ArrayList<Answer> answers = new ArrayList<>(question.getAnswers());
-
+        Question questionCopy = new Question(question);
+        questionCopy.setContent(MarkdownHelper.markdownToHtml(questionCopy.getContent()).replace("\n", "").replace("\r", ""));
+        ArrayList<Answer> answers = new ArrayList<>();
+        
         for (Answer answer :
                 answers) {
-            answer.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
+            Answer answerCopy = new Answer(answer);
+            answerCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
+            answers.add(answerCopy);
         }
-        question.setAnswers(answers);
+        questionCopy.setAnswers(answers);
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", question);
@@ -149,10 +150,12 @@ public class VGenerator implements VGeneratorInterface {
     public String getQuestionHtml(Question question){
         Question questionCopy = new Question(question);
         questionCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()));
-        ArrayList<Answer> answers = new ArrayList<>(question.getAnswers());
+        ArrayList<Answer> answers = new ArrayList<>();
         for (Answer answer :
-                answers) {
-            answer.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
+                questionCopy.getAnswers()) {
+            Answer answerCopy = new Answer(answer);
+            answerCopy.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
+            answers.add(answerCopy);
         }
         questionCopy.setAnswers(answers);
         FileHelper fh = new FileHelper();
