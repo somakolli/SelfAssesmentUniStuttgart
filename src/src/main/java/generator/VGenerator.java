@@ -3,20 +3,18 @@ package generator;
 import domain.*;
 import helper.FileHelper;
 import helper.MarkdownHelper;
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
 import org.zeroturnaround.zip.ByteSource;
-import org.zeroturnaround.zip.FileSource;
 import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
-import parser.Parser;
 
-import java.io.*;
+import java.io.File;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Objects;
 
 public class VGenerator implements VGeneratorInterface {
 
@@ -24,15 +22,18 @@ public class VGenerator implements VGeneratorInterface {
 
     }
 
-    @Override
-    public String generateQuestion(Question question, String template) throws IOException {
+    /**
+     * @param question A question which Content will transformed to HTML and inserted to the template
+     * @param template A template which describes the Structure of the HTML
+     * @return HTML-String which is dervide from the question and template
+     */
+    private String generateQuestion(Question question, String template){
         //convert Markdown to HTML and remove linebreaks
         question.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()).replace("\n", "").replace("\r", ""));
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", question);
         StringWriter writer = new StringWriter();
-        System.out.println(question.getQuestion());
         Velocity.evaluate(context, writer, "question", template);
         return writer.toString();
     }
@@ -63,7 +64,7 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
-    private HashMap<String, String> generateQuestions(SARoot saRoot) throws IOException {
+    private HashMap<String, String> generateQuestions(SARoot saRoot) {
         HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/questions/question.tpl");
@@ -107,16 +108,7 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
-    public static void main(String[] args) throws IOException {
-        VGenerator vGenerator = new VGenerator();
-        FileHelper fileHelper = new FileHelper();
-        SARoot saRoot = Parser.getRootFromString(fileHelper.getFileFromResources("test.xml"));
-        saRoot.getConclusions().add(new Conclusion(20, "very Bad"));
-        saRoot.getConclusions().add(new Conclusion(50, "not to bad"));
-        vGenerator.createZipArchive(saRoot, "website.zip");
-    }
-
-    private HashMap<String, String> getFilesContentMap(SARoot saRoot) throws IOException {
+    private HashMap<String, String> getFilesContentMap(SARoot saRoot){
         HashMap<String, String> filesContentMap = new HashMap<>();
         filesContentMap.putAll(generateConclusion(saRoot));
         filesContentMap.putAll(generateQuestions(saRoot));
@@ -126,19 +118,28 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
-    public void createZipArchive(SARoot saRoot, String path) throws IOException {
+    public void createZipArchive(SARoot saRoot, String path){
         File websiteFile = new File(path);
-        ZipUtil.pack(new File(getClass().getClassLoader().getResource("website").getFile()), websiteFile);
+        ZipUtil.pack(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("website")).getFile()), websiteFile);
         ArrayList<ZipEntrySource> entries = new ArrayList<>();
         for (HashMap.Entry<String, String> entry : getFilesContentMap(new SARoot(saRoot)).entrySet()){
             entries.add(new ByteSource(entry.getKey(), entry.getValue().getBytes()));
         }
-        ZipEntrySource[] entriesArray = entries.toArray(new ZipEntrySource[entries.size()]);
+        ZipEntrySource[] entriesArray = entries.toArray(new ZipEntrySource[0]);
         ZipUtil.addOrReplaceEntries(websiteFile, entriesArray);
     }
 
     public String getQuestionHtml(Question question){
-        return MarkdownHelper.markdownToHtml(question.getQuestion());
+        Question questionCopy = new Question(question);
+        questionCopy.setQuestion(MarkdownHelper.markdownToHtml(question.getQuestion()));
+        FileHelper fh = new FileHelper();
+        String indexTemplate = fh.getFileFromResources("preview/index.tpl");
+        Velocity.init();
+        Context context = new VelocityContext();
+        context.put("question", questionCopy);
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "questionPreview", indexTemplate);
+        return writer.toString();
     }
     public String getCategoryHtml(Category category){
         return MarkdownHelper.markdownToHtml(category.getContent());
