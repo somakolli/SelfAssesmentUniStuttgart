@@ -77,6 +77,7 @@
 
 % für Bildbezeichner
 \usepackage{capt-of}
+\makeindex
 \begin{document}
 	
 % Leere Seite am Anfang
@@ -113,26 +114,42 @@
 		% Bottom of the page
 		{\large \today\par}
 \end{titlepage}	
-	
 
+\tableofcontents
 % inkludiere einzelne Abschnitte
-\input{Tim}
 \newpage
 
-\input{Julian}
-\newpage
+\section{Abstract}
 
-\input{Sokol}
-\newpage
+\section{Einleitung und Motivation}
 
-\input{Jena}
-\newpage
-
+\section{Related Work}
 \input{Jonas}
 \newpage
 
+\section{GUI}
+\input{Julian}
+\newpage
 
+\section{Parser}
+\input{Tim}
+\newpage
 
+\section{Generator}
+\input{Sokol}
+\newpage
+
+\section{Website}
+\input{Jena}
+\newpage
+
+\section{Anwendungsszenario}
+
+\section{Zusammenfassung}
+
+\section{Diskussion und Bewertung}
+
+\section{Ausblick, Future Work}
 
 
 
