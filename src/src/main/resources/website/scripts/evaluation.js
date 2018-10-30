@@ -14,12 +14,18 @@ function loadEvaluation(state) {
     $(".progress").remove();
     $('head').append('<link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">');
     $.get("questions/evaluation.json", function (data) {
-        $("#evaluation").append(data.categories);
-        $(data.header).insertBefore("#evaluation")
+        fillEvaluation();
         let answersAndCount = stateToAnswers(state);
         let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
         let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
     });
+}
+
+function fillEvaluation(categories){
+    $('<div class="jumbotron"> <h1 class="display-4" style="font-weight: bold">Evaluation</h1> <hr class="my-4"> <p>This is the evaluation of the SelfAssessment-Test.<br> The following table will show how well you did on each of the categories of the test by presenting the fraction of correctly given answers for each category of the test.<br> Click on the last field of the table "fazit" to view your feedback regarding the aforementioned results. </p> </div>').insertBefore("#evaluation")
+    for(let [key, value] of categories.entries()){
+        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' +  key.slice(1) + '</td> <td class="bar"> <div id="' + key + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
+    }
 }
 
 //input: state as binary string
@@ -104,7 +110,6 @@ function showFraction(id, correct, total) {
     let fraction = correct / total;
     let width = Math.max(fraction * 100, 5);
     let fillWidth = 100 - width;
-    console.log(width);
     if (fraction < 0.25) {
         $(id).append('<div class="progressBarLow" style="width:' + width + '%">' + correct + '</div>');
     } else if (fraction >= 0.25 && fraction < 0.75) {
