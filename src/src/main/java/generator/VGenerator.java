@@ -38,7 +38,7 @@ public class VGenerator implements VGeneratorInterface {
         ArrayList<Answer> answers = new ArrayList<>();
         
         for (Answer answer :
-                answers) {
+                questionCopy.getAnswers()) {
             Answer answerCopy = new Answer(answer);
             answerCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
             answers.add(answerCopy);
@@ -81,10 +81,11 @@ public class VGenerator implements VGeneratorInterface {
     private HashMap<String, String> generateQuestions(SARoot saRoot) {
         HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
-        String template = fh.getFileFromResources("templates/questions/question.tpl");
         for (Question question:
              saRoot.getQuestions()) {
-        filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(new Question(question), template));
+            String templatePath = question.isSingleChoice() ? "templates/questions/SCquestion.tpl" : "templates/questions/question.tpl";
+            String template = fh.getFileFromResources(templatePath);
+            filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(new Question(question), template));
         }
         return filesContentMap;
     }
