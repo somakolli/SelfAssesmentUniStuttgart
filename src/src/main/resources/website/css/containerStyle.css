@@ -27,4 +27,8 @@
     width: 500px;
     margin-top: 50px;
     }
-  }
+}
+
+.markdown-content{
+    display: inline-block;
+}

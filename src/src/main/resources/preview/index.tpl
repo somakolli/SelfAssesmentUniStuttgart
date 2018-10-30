@@ -29,7 +29,7 @@
                             <div class="checkbox">
                                 <label>
                                 <input type="checkbox" id="answer$answer.getId()" value="$answer.getContent()">
-                                    $answer.getContent()
+                                    <div class="markdown-content">$answer.getContent()</div>
                                 </label>
                             </div>
                         </li>
