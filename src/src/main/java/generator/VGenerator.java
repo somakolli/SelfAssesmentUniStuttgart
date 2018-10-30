@@ -172,9 +172,9 @@ public class VGenerator implements VGeneratorInterface {
         StringWriter writer = new StringWriter();
 
         //just evaluate upper part so velocity does not remove foreachloop
-        Velocity.evaluate(context, writer, "preview", template.substring(0,500));
+        Velocity.evaluate(context, writer, "preview", template.substring(0,400));
 
-        previewTemplate = writer.toString() + template.substring(501);
+        previewTemplate = writer.toString() + template.substring(400);
     }
 
     public String getQuestionHtml(Question question){

@@ -10,10 +10,6 @@
         $bottomContentStyleCss
         $colorCss
         $containerStyleCss
-        $evaluationStyleCss
-        $madieQuestionStyleCss
-        $multiCheckboxStyleCss
-        $overviewStyleCss
         $topContentStyleCss
     </style>
 </head>
