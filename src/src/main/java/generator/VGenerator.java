@@ -3,6 +3,7 @@ package generator;
 import domain.*;
 import helper.FileHelper;
 import helper.MarkdownHelper;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
@@ -40,13 +41,13 @@ public class VGenerator implements VGeneratorInterface {
         for (Answer answer :
                 questionCopy.getAnswers()) {
             Answer answerCopy = new Answer(answer);
-            answerCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
+            answerCopy.setContent(MarkdownHelper.markdownToHtml(answerCopy.getContent()).replace("\n", "").replace("\r", ""));
             answers.add(answerCopy);
         }
         questionCopy.setAnswers(answers);
         Velocity.init();
         Context context = new VelocityContext();
-        context.put("question", question);
+        context.put("question", questionCopy);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "question", template);
         return writer.toString();
