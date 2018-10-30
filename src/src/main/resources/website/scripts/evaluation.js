@@ -13,7 +13,7 @@ function loadEvaluation(state) {
     $(".header").remove();
     $(".progress").remove();
     $('head').append('<link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">');
-    fillEvaluation();
+    fillEvaluation(getCategories());
     let answersAndCount = stateToAnswers(state);
     let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
     let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
