@@ -167,6 +167,7 @@ public class TextEditor extends Application {
 
 					TableColumn<SAObject, Integer> pointsCol = new TableColumn<SAObject, Integer>("Points");
 					TableColumn<SAObject, Integer> timeCol = new TableColumn<SAObject, Integer>("Time");
+					TableColumn<SAObject, Boolean> singleChoiceCol = new TableColumn<SAObject, Boolean>("Single Choice");
 
 					pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
 					pointsCol.setCellFactory(
@@ -186,8 +187,17 @@ public class TextEditor extends Application {
 								.setTime(t.getNewValue());
 					});
 
+					singleChoiceCol.setCellValueFactory(new PropertyValueFactory<>("singleChoice"));
+					singleChoiceCol.setCellFactory(
+							TextFieldTableCell.<SAObject, Boolean>forTableColumn(new BooleanStringConverter()));
+					singleChoiceCol.setOnEditCommit((CellEditEvent<SAObject, Boolean> t) -> {
+						((Question) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setSingleChoice(t.getNewValue());
+					});
+
 					table.getColumns().add(pointsCol);
 					table.getColumns().add(timeCol);
+					table.getColumns().add(singleChoiceCol);
 
 					table.getItems().add(twMap.getSAObject(selectedItem));
 					table.setEditable(true);
