@@ -9,8 +9,6 @@ public class Conclusion extends ContentObject {
 
     public Conclusion() {
     }
-    
-   
 
     public Conclusion(int range, String content) {
         super(content);
