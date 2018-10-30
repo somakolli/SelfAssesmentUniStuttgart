@@ -1,9 +1,6 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -71,7 +68,7 @@ public class SARoot {
 	}
 
 	public HashMap<Category, ArrayList<Question>> getCategoryQuestionMap(){
-		HashMap<Category, ArrayList<Question>> categoryQuestionMap = new HashMap<Category, ArrayList<Question>>();
+		LinkedHashMap<Category, ArrayList<Question>> categoryQuestionMap = new LinkedHashMap<Category, ArrayList<Question>>();
 
 		for (Question question:
 			 questions) {

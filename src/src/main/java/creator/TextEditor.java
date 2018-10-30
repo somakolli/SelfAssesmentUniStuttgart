@@ -30,6 +30,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.BooleanStringConverter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -776,35 +777,19 @@ public class TextEditor extends Application {
 			twMap.clear(tree);
 			currentSelectedTreeItem = tree.getRoot();
 
-			ArrayList<Category> Categories = new ArrayList<Category>();
-			ArrayList<Question> Questions = new ArrayList<Question>();
-
-			for (Question q : parser.getGeneratedQuestions()) {
-
-				Categories.add(q.getCategory());
-				Questions.add(q);
-
-			}
-
-			for (Category category : Categories) {
+			SARoot saRoot = parser.getRootelement();
+			saRoot.setQuestions(parser.getGeneratedQuestions());
+            HashMap<Category, ArrayList<Question>> categoryQuestionHashMap = saRoot.getCategoryQuestionMap();
+			for (Category category : categoryQuestionHashMap.keySet()) {
 
 				makeBranch(rootitem, category);
 
-				for (Question question : Questions) {
-
-					if (question.getCategory().equals(category)) {
-
-						makeBranch(twMap.getTreeItem(category), question);
-
-						for (Answer a : question.getAnswers()) {
-
-							makeBranch(twMap.getTreeItem(question), a);
-
-						}
-
-					}
-
-				}
+				for (Question question : categoryQuestionHashMap.get(category)) {
+                    makeBranch(twMap.getTreeItem(category), question);
+                    for (Answer a : question.getAnswers()) {
+                        makeBranch(twMap.getTreeItem(question), a);
+                    }
+                }
 
 			}
 		}
