@@ -13,18 +13,16 @@ function loadEvaluation(state) {
     $(".header").remove();
     $(".progress").remove();
     $('head').append('<link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">');
-    $.get("questions/evaluation.json", function (data) {
-        fillEvaluation();
-        let answersAndCount = stateToAnswers(state);
-        let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
-        let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
-    });
+    fillEvaluation();
+    let answersAndCount = stateToAnswers(state);
+    let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
+    let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
 }
 
-function fillEvaluation(categories){
+function fillEvaluation(categories) {
     $('<div class="jumbotron"> <h1 class="display-4" style="font-weight: bold">Evaluation</h1> <hr class="my-4"> <p>This is the evaluation of the SelfAssessment-Test.<br> The following table will show how well you did on each of the categories of the test by presenting the fraction of correctly given answers for each category of the test.<br> Click on the last field of the table "fazit" to view your feedback regarding the aforementioned results. </p> </div>').insertBefore("#evaluation")
-    for(let [key, value] of categories.entries()){
-        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' +  key.slice(1) + '</td> <td class="bar"> <div id="' + key + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
+    for (let [key, value] of categories.entries()) {
+        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' + key.slice(1) + '</td> <td class="bar"> <div id="' + key + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
     }
 }
 
@@ -61,18 +59,18 @@ function evaluate(solution, answers, allAnswers) {
     console.log("sol: " + solution)
     let result = [];
     let pointer = 0;
-    for(let i = 0; i < allAnswers.length; i++){
+    for (let i = 0; i < allAnswers.length; i++) {
         let currCorrect = true;
         //pointer indicates the beginn of all answers for one indiv. question, pointer + allAnswers[i] the end
-        for(let j = pointer; j < pointer + allAnswers[i]; j++){
-            if(solution.charAt(j) != answers.charAt(j)){
+        for (let j = pointer; j < pointer + allAnswers[i]; j++) {
+            if (solution.charAt(j) != answers.charAt(j)) {
                 currCorrect = false;
                 break;
             }
         }
         currCorrect == true ? result.push(1) : result.push(0);
         pointer += allAnswers[i];
-    }    
+    }
     return result;
 }
 
@@ -95,7 +93,7 @@ function setUpEvaluation(categories, result, questionPoints) {
         for (let i = j; i < j + value; i++) {
             //sum up the 1's (correctly answered question) for each category
             correct += result[i] * questionPoints[i];
-            categoryTotal += questionPoints[i]; 
+            categoryTotal += questionPoints[i];
         }
         showFraction(key, correct, categoryTotal);
         overall += correct;
@@ -117,17 +115,17 @@ function showFraction(id, correct, total) {
     } else {
         $(id).append('<div class="progressBarGood" style="width:' + width + '%">' + correct + '</div>');
     }
-    if(width < 100){
-        $(id).append('<div class="progressFill" style="width:' + fillWidth +  '%">' + total + '</div>');
+    if (width < 100) {
+        $(id).append('<div class="progressFill" style="width:' + fillWidth + '%">' + total + '</div>');
     }
 }
 
-function addConclusion(concData){
+function addConclusion(concData) {
     $.get("questions/conclusion.json", function (data) {
-        for(let i = 0; i < data.length; i++){
-            if(concData <= data[i].range){
-                $("#fazit").append(data[i].conclusion);     
-                break;    
+        for (let i = 0; i < data.length; i++) {
+            if (concData <= data[i].range) {
+                $("#fazit").append(data[i].conclusion);
+                break;
             }
         }
     });
@@ -137,4 +135,3 @@ function addConclusion(concData){
 
 
 
-    
