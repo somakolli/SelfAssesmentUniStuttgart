@@ -427,8 +427,8 @@ public class TextEditor extends Application {
 			String currenttext = text.getText();
 			String newtext1 = currenttext.substring(0, text.getCaretPosition());
 			String newtext2 = currenttext.substring(text.getCaretPosition());
-			String insert = " " + file.getAbsolutePath() + " ";
-			String finalstring = newtext1 + "![alt text](" + insert + " \"Hover Text\")" + newtext2;
+			String insert = file.getAbsolutePath();
+			String finalstring = newtext1 + "\n<img src=\"file:" + insert + "\" width=\"100px\">\n" + newtext2;
 			text.setText(finalstring);
 
 		});
