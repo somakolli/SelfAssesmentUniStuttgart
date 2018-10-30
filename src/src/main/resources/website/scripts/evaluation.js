@@ -22,7 +22,7 @@ function loadEvaluation(state) {
 function fillEvaluation(categories) {
     $('<div class="jumbotron"> <h1 class="display-4" style="font-weight: bold">Evaluation</h1> <hr class="my-4"> <p>This is the evaluation of the SelfAssessment-Test.<br> The following table will show how well you did on each of the categories of the test by presenting the fraction of correctly given answers for each category of the test.<br> Click on the last field of the table "fazit" to view your feedback regarding the aforementioned results. </p> </div>').insertBefore("#evaluation")
     for (let [key, value] of categories.entries()) {
-        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' + key.slice(1) + '</td> <td class="bar"> <div id="' + key + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
+        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' + key.slice(1) + '</td> <td class="bar"> <div id="' + key.slice(1) + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
     }
 }
 
