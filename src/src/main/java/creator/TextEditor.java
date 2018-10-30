@@ -56,6 +56,7 @@ public class TextEditor extends Application {
 	public static final TwoWayHashMap twMap = new TwoWayHashMap();
 	public static final TableView<SAObject> table = new TableView<SAObject>();
 	public static final TreeView<String> tree = new TreeView<>(rootitem);;
+    private VGenerator vg = new VGenerator();
 
 	public static void main(String[] args) {
 
@@ -329,7 +330,6 @@ public class TextEditor extends Application {
 			saroot.setQuestions(twMap.getQuestions());
 			saroot.setConclusions(twMap.getConclusions());
 
-			VGenerator vg = new VGenerator();
 
 			try {
 
