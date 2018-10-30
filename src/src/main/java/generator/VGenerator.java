@@ -169,8 +169,11 @@ public class VGenerator implements VGeneratorInterface {
         context.put("topContentStyleCss" , fh.getFileFromResources( "website/css/topContentStyle.css"));
         context.put("bootstrapCss", fh.getFileFromResources( "website/css/bootstrap.min.css"));
         StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "preview", template);
-        previewTemplate = writer.toString();
+
+        //just evaluate upper part so velocity does not remove foreachloop
+        Velocity.evaluate(context, writer, "preview", template.substring(0,500));
+
+        previewTemplate = writer.toString() + template.substring(501);
     }
 
     public String getQuestionHtml(Question question){
@@ -184,7 +187,6 @@ public class VGenerator implements VGeneratorInterface {
             answers.add(answerCopy);
         }
         questionCopy.setAnswers(answers);
-        FileHelper fh = new FileHelper();
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", questionCopy);
