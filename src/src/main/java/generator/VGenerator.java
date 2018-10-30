@@ -111,6 +111,19 @@ public class VGenerator implements VGeneratorInterface {
         return filesContentMap;
     }
 
+    private HashMap<String, String> generatePoints(SARoot saRoot){
+        HashMap<String, String> filesContentMap = new HashMap<>();
+        FileHelper fh = new FileHelper();
+        String template = fh.getFileFromResources("templates/scripts/points.tpl");
+        Velocity.init();
+        Context context = new VelocityContext();
+        context.put("questions", saRoot.getQuestions());
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "points", template);
+        filesContentMap.put("scripts/points.js",writer.toString());
+        return filesContentMap;
+    }
+
     private HashMap<String, String> generateConclusion(SARoot saRoot){
         HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
@@ -131,6 +144,7 @@ public class VGenerator implements VGeneratorInterface {
         filesContentMap.putAll(generateSolution(saRoot));
         filesContentMap.putAll(generateCategoriesJS(saRoot.getCategoryQuestionMap()));
         filesContentMap.putAll(generateQCountJS(saRoot.getQuestions().size()));
+        filesContentMap.putAll(generatePoints(saRoot));
         return filesContentMap;
     }
 
