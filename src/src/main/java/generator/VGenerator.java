@@ -16,8 +16,14 @@ import java.util.*;
 
 public class VGenerator implements VGeneratorInterface {
 
-    public VGenerator(){
+    private String previewTemplate;
 
+    public String getPreviewTemplate() {
+        return previewTemplate;
+    }
+
+    public VGenerator(){
+        generatePreviewTemplate();
     }
 
     /**
@@ -32,7 +38,7 @@ public class VGenerator implements VGeneratorInterface {
         ArrayList<Answer> answers = new ArrayList<>();
         
         for (Answer answer :
-                answers) {
+                questionCopy.getAnswers()) {
             Answer answerCopy = new Answer(answer);
             answerCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()).replace("\n", "").replace("\r", ""));
             answers.add(answerCopy);
@@ -75,10 +81,11 @@ public class VGenerator implements VGeneratorInterface {
     private HashMap<String, String> generateQuestions(SARoot saRoot) {
         HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
-        String template = fh.getFileFromResources("templates/questions/question.tpl");
         for (Question question:
              saRoot.getQuestions()) {
-        filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(new Question(question), template));
+            String templatePath = question.isSingleChoice() ? "templates/questions/SCquestion.tpl" : "templates/questions/question.tpl";
+            String template = fh.getFileFromResources(templatePath);
+            filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(new Question(question), template));
         }
         return filesContentMap;
     }
@@ -147,6 +154,25 @@ public class VGenerator implements VGeneratorInterface {
         ZipUtil.addOrReplaceEntries(websiteFile, entriesArray);
     }
 
+    private void generatePreviewTemplate(){
+        FileHelper fh = new FileHelper();
+        String template = fh.getFileFromResources("preview/index.tpl");
+        Velocity.init();
+        Context context = new VelocityContext();
+        context.put("bottomContentStyleCss" , fh.getFileFromResources( "website/css/bottomContentStyle.css"));
+        context.put("colorCss" , fh.getFileFromResources( "website/css/color.css"));
+        context.put("containerStyleCss" , fh.getFileFromResources( "website/css/containerStyle.css"));
+        context.put("evaluationStyleCss" , fh.getFileFromResources( "website/css/evaluationStyle.css"));
+        context.put("mediaQuestionStyleCss" , fh.getFileFromResources( "website/css/mediaQuestionStyle.css"));
+        context.put("multiCheckboxStyleCss" , fh.getFileFromResources( "website/css/multiCheckboxStyle.css"));
+        context.put("overviewStyleCss" , fh.getFileFromResources( "website/css/overviewStyle.css"));
+        context.put("topContentStyleCss" , fh.getFileFromResources( "website/css/topContentStyle.css"));
+        context.put("bootstrapCss", fh.getFileFromResources( "website/css/bootstrap.min.css"));
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "preview", template);
+        previewTemplate = writer.toString();
+    }
+
     public String getQuestionHtml(Question question){
         Question questionCopy = new Question(question);
         questionCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()));
@@ -159,12 +185,11 @@ public class VGenerator implements VGeneratorInterface {
         }
         questionCopy.setAnswers(answers);
         FileHelper fh = new FileHelper();
-        String indexTemplate = fh.getFileFromResources("preview/index.tpl");
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", questionCopy);
         StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "questionPreview", indexTemplate);
+        Velocity.evaluate(context, writer, "questionPreview", previewTemplate);
         return writer.toString();
     }
     public String getCategoryHtml(Category category){
