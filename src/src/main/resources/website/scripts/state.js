@@ -1,30 +1,24 @@
 $(document).ready(function () {
-    updateState();
-    /* loadQuestion(0); */
+    loadQuestionOrEvaluation();
 });
 
-function updateState() {
-    $(document).ready(function () {
-        let stateObj = { state: "" };
-        let questionList = stateToAnswerList();
-        questionList.push(answerListToBitString(getAnswerList()));
-        let questionListString = answerListToBinary(questionList);
-        $("#timer").remove();
-        if(questionListString == "00000"){
-            loadQuestion(0);
-            //history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
-        } else {
-            let curr = calcQNr(questionListString);
-            //console.log("curr :" + curr + ", " + questionListString)
-            if (getQcount() == curr) {
-                loadEvaluation(questionListString);
-            } else {
-                loadQuestion(curr);
-            }
-            history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
-        }
+function loadQuestionOrEvaluation(){
+    let currentQuestionNumber = stateToAnswerList().length;
+    if(currentQuestionNumber === getQcount()){
+        loadEvaluation(stateToBinaryString());
+    } else {
+        loadQuestion(currentQuestionNumber);
+    }
+}
 
-    });
+function updateState() {
+    let stateObj = { state: "" };
+    let questionList = stateToAnswerList();
+    questionList.push(answerListToBitString(getAnswerList()));
+    let questionListString = answerListToBinary(questionList);
+    $("#timer").remove();
+    history.pushState(stateObj, "new State", "?s=" + binaryStringToState(questionListString));
+    loadQuestionOrEvaluation();
 }
 
 let stateToBinaryString = function () {
@@ -44,7 +38,7 @@ let getAnswerList = function () {
     let answersList = [];
     let answers = $("input[type=checkbox]");
     if (answers.length < 1) {
-        answers = $("input[type=radio");
+        answers = $("input[type=radio]");
     }
     answers.each(function () {
         answersList.push({ id: this.id, checked: this.checked });
