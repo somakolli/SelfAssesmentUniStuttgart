@@ -4,15 +4,18 @@ const exampleString = "00101101001111100010101010";
 
 //load currently to be shown question
 function loadQuestion(currNum) {
-    $.get("questions/" + currNum + ".json", function (data) {
+    $.get("questions/" + currNum + ".json", function (questionJson) {
         //let qObj = $.parseJSON(data);
-        $(".container-fluid").children().first().replaceWith(data.question);
-        setProgressBar(currNum);
-        setHeader(currNum);
-        if(data.time > 0){
-            $('<div id="timer"></div>').insertBefore(".bottom-right");
-            startTimer(data.time);
-        } 
+        $.get("questions/" + currNum + ".html", function (questionHtml) {
+            $(".container-fluid").children().first().replaceWith(questionHtml);
+            setProgressBar(currNum);
+            setHeader(currNum);
+            console.log(questionHtml);
+            if(questionJson.time > 0){
+                $('<div id="timer"></div>').insertBefore(".bottom-right");
+                startTimer(questionJson.time);
+            }
+        });
     });
 }
 

@@ -29,28 +29,33 @@ public class VGenerator implements VGeneratorInterface {
 
     /**
      * @param question A question which Content will transformed to HTML and inserted to the template
-     * @param template A template which describes the Structure of the HTML
+     * @param jsonTemplate A template which describes the Structure of the HTML
      * @return HTML-String which is dervide from the question and template
      */
-    private String generateQuestion(Question question, String template){
+    private HashMap<String, String> generateQuestion(Question question, String jsonTemplate, String htmlTemplate){
         //convert Markdown to HTML and remove linebreaks
+        HashMap<String, String> contentFileMap = new HashMap<>();
         Question questionCopy = new Question(question);
-        questionCopy.setContent(MarkdownHelper.markdownToHtml(questionCopy.getContent()).replace("\n", "").replace("\r", ""));
+        questionCopy.setContent(MarkdownHelper.markdownToHtml(questionCopy.getContent()));
         ArrayList<Answer> answers = new ArrayList<>();
         
         for (Answer answer :
                 questionCopy.getAnswers()) {
             Answer answerCopy = new Answer(answer);
-            answerCopy.setContent(MarkdownHelper.markdownToHtml(answerCopy.getContent()).replace("\n", "").replace("\r", ""));
+            answerCopy.setContent(MarkdownHelper.markdownToHtml((answerCopy.getContent())));
             answers.add(answerCopy);
         }
         questionCopy.setAnswers(answers);
         Velocity.init();
         Context context = new VelocityContext();
         context.put("question", questionCopy);
-        StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "question", template);
-        return writer.toString();
+        StringWriter jsonWriter = new StringWriter();
+        StringWriter htmlWriter = new StringWriter();
+        Velocity.evaluate(context, jsonWriter, "question", jsonTemplate);
+        Velocity.evaluate(context, htmlWriter, "question", htmlTemplate);
+        contentFileMap.put("questions/"+question.getId() + ".json", jsonWriter.toString());
+        contentFileMap.put("questions/"+question.getId() + ".html", htmlWriter.toString());
+        return contentFileMap;
     }
 
     private HashMap<String, String> generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
@@ -84,9 +89,11 @@ public class VGenerator implements VGeneratorInterface {
         FileHelper fh = new FileHelper();
         for (Question question:
              saRoot.getQuestions()) {
-            String templatePath = question.isSingleChoice() ? "templates/questions/SCquestion.tpl" : "templates/questions/question.tpl";
-            String template = fh.getFileFromResources(templatePath);
-            filesContentMap.put("questions/"+question.getId() + ".json", generateQuestion(new Question(question), template));
+            String templatePath = "templates/questions/question.tpl";
+
+            String jsonTemplate = fh.getFileFromResources(templatePath);
+            String htmlTemplate = fh.getFileFromResources("templates/questions/questionHtml.tpl");
+            filesContentMap.putAll(generateQuestion(new Question(question), jsonTemplate, htmlTemplate));
         }
         return filesContentMap;
     }
