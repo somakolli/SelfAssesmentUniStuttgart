@@ -433,6 +433,22 @@ public class TextEditor extends Application {
 			text.setText(finalstring);
 
 		});
+		MenuItem videoMenuItem = new MenuItem("Video");
+		videoMenuItem.setOnAction(actionEvent -> {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Select .mp4");
+			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Video Files", "*.mp4"));
+			fileChooser.setInitialFileName("");
+			File file = fileChooser.showOpenDialog(primaryStage);
+
+			String currenttext = text.getText();
+			String newtext1 = currenttext.substring(0, text.getCaretPosition());
+			String newtext2 = currenttext.substring(text.getCaretPosition());
+			String insert = file.getAbsolutePath();
+			String finalstring = newtext1 + "\n<video src=\"file:" + insert + "\" width=\"100px\">\n" + newtext2;
+			text.setText(finalstring);
+
+		});
 
 		// MenuItem tableMenuItem = new MenuItem("Table");
 		// tableMenuItem.setOnAction(actionEvent -> {
@@ -460,6 +476,7 @@ public class TextEditor extends Application {
 		// });
 
 		insertMenu.getItems().addAll(imageMenuItem);
+		insertMenu.getItems().addAll(videoMenuItem);
 		menuBar.getMenus().add(insertMenu);
 
 	}

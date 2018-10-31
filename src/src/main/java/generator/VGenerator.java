@@ -7,12 +7,17 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.zeroturnaround.zip.ByteSource;
 import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Files;
 import java.util.*;
 
 public class VGenerator implements VGeneratorInterface {
@@ -22,6 +27,8 @@ public class VGenerator implements VGeneratorInterface {
     public String getPreviewTemplate() {
         return previewTemplate;
     }
+
+    public HashMap<String, byte[]> bytesMap = new HashMap<>();
 
     public VGenerator(){
         generatePreviewTemplate();
@@ -54,7 +61,7 @@ public class VGenerator implements VGeneratorInterface {
         Velocity.evaluate(context, jsonWriter, "question", jsonTemplate);
         Velocity.evaluate(context, htmlWriter, "question", htmlTemplate);
         contentFileMap.put("questions/"+question.getId() + ".json", jsonWriter.toString());
-        contentFileMap.put("questions/"+question.getId() + ".html", htmlWriter.toString());
+        contentFileMap.put("questions/"+question.getId() + ".html", replaceImgAndVideoSrc(htmlWriter.toString()));
         return contentFileMap;
     }
 
@@ -165,6 +172,31 @@ public class VGenerator implements VGeneratorInterface {
         return questionCopy;
     }
 
+    private String replaceImgAndVideoSrc(String htmlString){
+        Document htmlDoc = Jsoup.parse(htmlString);
+        for(Element video : htmlDoc.select("video[src]")){
+            File file = new File(video.attr("src").replace("file:", ""));
+            String zipPath = "videos/" + file.getName();
+            try {
+                bytesMap.put(zipPath, Files.readAllBytes(file.toPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            video.attr("src", zipPath);
+        }
+        for(Element img : htmlDoc.select("img[src]")){
+            File file = new File(img.attr("src").replace("file:", ""));
+            String zipPath = "images/" + file.getName();
+            try {
+                bytesMap.put(zipPath, Files.readAllBytes(file.toPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            img.attr("src", zipPath);
+        }
+        return htmlDoc.body().children().toString();
+    }
+
     public void createZipArchive(SARoot saRoot, String path){
         File websiteFile = new File(path);
         ZipUtil.pack(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("website")).getFile()), websiteFile);
@@ -172,8 +204,12 @@ public class VGenerator implements VGeneratorInterface {
         for (HashMap.Entry<String, String> entry : getFilesContentMap(new SARoot(saRoot)).entrySet()){
             entries.add(new ByteSource(entry.getKey(), entry.getValue().getBytes()));
         }
+        for (HashMap.Entry<String, byte[]> entry : bytesMap.entrySet()){
+            entries.add(new ByteSource(entry.getKey(), entry.getValue()));
+        }
         ZipEntrySource[] entriesArray = entries.toArray(new ZipEntrySource[0]);
         ZipUtil.addOrReplaceEntries(websiteFile, entriesArray);
+        bytesMap = new HashMap<>();
     }
 
     private void generatePreviewTemplate(){
