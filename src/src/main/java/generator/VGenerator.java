@@ -174,7 +174,7 @@ public class VGenerator implements VGeneratorInterface {
 
     private String replaceImgAndVideoSrc(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
-        for(Element video : htmlDoc.select("video[src]")){
+        for(Element video : htmlDoc.select("source[src]")){
             File file = new File(video.attr("src").replace("file:", ""));
             String zipPath = "videos/" + file.getName();
             try {

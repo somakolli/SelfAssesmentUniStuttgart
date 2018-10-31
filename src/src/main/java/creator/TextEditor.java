@@ -445,7 +445,7 @@ public class TextEditor extends Application {
 			String newtext1 = currenttext.substring(0, text.getCaretPosition());
 			String newtext2 = currenttext.substring(text.getCaretPosition());
 			String insert = file.getAbsolutePath();
-			String finalstring = newtext1 + "\n<video src=\"file:" + insert + "\" width=\"100px\">\n" + newtext2;
+			String finalstring = newtext1 + "\n<video width=\"100px\" controls><source src=\"file:" + insert + "\"></video>\n" + newtext2;
 			text.setText(finalstring);
 
 		});
