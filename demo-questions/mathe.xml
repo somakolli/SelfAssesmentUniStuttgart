@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <question>
+        <content>Wie viel ist 1+1
+
+&lt;video autoplay src="file:/home/sokol/Desktop/mov_bbb.mp4" width="200px"&gt;&lt;/video&gt;
+</content>
+        <answer>
+            <content>5
+</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>2</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>3</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>1000</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>0</id>
+        <points>1</points>
+        <singleChoice>false</singleChoice>
+        <time>30</time>
+    </question>
+    <question>
+        <content>Wie viel ist 2⁰</content>
+        <answer>
+            <content>0</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>1</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>2</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>1</id>
+        <points>3</points>
+        <singleChoice>false</singleChoice>
+        <time>30</time>
+    </question>
+    <question>
+        <content>Wie viel ist 10*10?</content>
+        <answer>
+            <content>100</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>200</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>20</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Höhere_Mathematik</categoryName>
+        </category>
+        <id>2</id>
+        <points>4</points>
+        <singleChoice>false</singleChoice>
+        <time>50</time>
+    </question>
+    <question>
+        <content>Wie viel ist 2⁸</content>
+        <answer>
+            <content>256</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>512</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>128</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Höhere_Mathematik</categoryName>
+        </category>
+        <id>3</id>
+        <points>10</points>
+        <singleChoice>false</singleChoice>
+        <time>30</time>
+    </question>
+</saRoot>
