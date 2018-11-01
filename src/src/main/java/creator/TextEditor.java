@@ -755,8 +755,8 @@ public class TextEditor extends Application {
 		
 		//Conclusions always on the Bottom
 		for(TreeItem<String> ti: twMap.getConclusionTreeItems()) {
-			root.getChildren().remove(ti);
-			root.getChildren().add(ti);
+			rootitem.getChildren().remove(ti);
+			rootitem.getChildren().add(ti);
 		}
 		
 		twMap.UpdateQuestionIds();
@@ -798,10 +798,6 @@ public class TextEditor extends Application {
 
             HashMap<Category, ArrayList<Question>> categoryQuestionHashMap = saRoot.getCategoryQuestionMap();
 
-            for(Conclusion conclusion : saRoot.getConclusions()){
-                makeBranch(rootitem, conclusion);
-            }
-
 			for (Category category : categoryQuestionHashMap.keySet()) {
 
 				makeBranch(rootitem, category);
@@ -814,6 +810,11 @@ public class TextEditor extends Application {
                 }
 
 			}
+			
+			  for(Conclusion conclusion : saRoot.getConclusions()){
+	                makeBranch(rootitem, conclusion);
+	            }
+			
 		}
 	}
 

@@ -38,7 +38,7 @@ public class TwoWayHashMap {
 		backward.put(secondkey, firstkey);
 		AllTreeItems.add(firstkey);
 		if (secondkey.getClass().isInstance(new Category())) {
-			Category c = (Category) forward.get(firstkey.getParent());
+			Category c = (Category) secondkey;
 			Categories.add(c);
 		} else if (secondkey.getClass().isInstance(new Question())) {
 			Questions.add((Question) secondkey);
@@ -49,7 +49,7 @@ public class TwoWayHashMap {
 				q.getAnswers().add((Answer) secondkey);
 			}
 		} else if (secondkey.getClass().isInstance(new Conclusion())) {
-			Conclusion conc = (Conclusion) forward.get(firstkey);
+			Conclusion conc = (Conclusion) secondkey;
 			Conclusions.add(conc);
 		}
 
