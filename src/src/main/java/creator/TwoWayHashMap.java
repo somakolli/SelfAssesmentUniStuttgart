@@ -10,7 +10,7 @@ import javafx.scene.control.TreeView;
 /**
  * Hilfsklasse zum Mappen von SAObjects auf TreeItems
  * 
- * @author Julian Blumenröther
+ * @author Julian Blumenrï¿½ther
  * @version 1.0
  */
 public class TwoWayHashMap {
@@ -49,7 +49,7 @@ public class TwoWayHashMap {
 				q.getAnswers().add((Answer) secondkey);
 			}
 		} else if (secondkey.getClass().isInstance(new Conclusion())) {
-			Conclusion conc = (Conclusion) forward.get(firstkey.getParent());
+			Conclusion conc = (Conclusion) forward.get(firstkey);
 			Conclusions.add(conc);
 		}
 
@@ -126,9 +126,9 @@ public class TwoWayHashMap {
 	 */
 	public ArrayList<TreeItem<String>> getCategoryTreeItems() {
 		ArrayList<TreeItem<String>> tis = new ArrayList<TreeItem<String>>();
-		for (int i = 0; i < AllTreeItems.size(); i++) {
-			if (forward.get(AllTreeItems.get(i)).getClass().isInstance(new Category())) {
-				tis.add(AllTreeItems.get(i));
+		for (TreeItem<String> AllTreeItem : AllTreeItems) {
+			if (forward.get(AllTreeItem).getClass().isInstance(new Category())) {
+				tis.add(AllTreeItem);
 			}
 		}
 		return tis;
@@ -170,9 +170,9 @@ public class TwoWayHashMap {
 		} else if (forward.get(firstkey).getClass().isInstance(new Question())) {
 			Questions.remove(forward.get(firstkey));
 		} else if (forward.get(firstkey).getClass().isInstance(new Answer())) {
-			for (int i = 0; i < Questions.size(); i++) {
-				if (Questions.get(i).getAnswers().contains(forward.get(firstkey))) {
-					Questions.get(i).getAnswers().remove(forward.get(firstkey));
+			for (domain.Question Question : Questions) {
+				if (Question.getAnswers().contains(forward.get(firstkey))) {
+					Question.getAnswers().remove(forward.get(firstkey));
 				}
 			}
 		} else if (forward.get(firstkey).getClass().isInstance(new Conclusion())) {
@@ -207,9 +207,9 @@ public class TwoWayHashMap {
 		} else if (secondkey.getClass().isInstance(new Question())) {
 			Questions.remove(secondkey);
 		} else if (secondkey.getClass().isInstance(new Answer())) {
-			for (int i = 0; i < Questions.size(); i++) {
-				if (Questions.get(i).getAnswers().contains(secondkey)) {
-					Questions.get(i).getAnswers().remove(secondkey);
+			for (domain.Question Question : Questions) {
+				if (Question.getAnswers().contains(secondkey)) {
+					Question.getAnswers().remove(secondkey);
 				}
 			}
 		} else if (secondkey.getClass().isInstance(new Conclusion())) {
@@ -299,11 +299,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isCategory(SAObject object) {
 		try {
-			if (object.getClass().isInstance(new Category())) {
-				return true;
-			} else {
-				return false;
-			}
+			return object.getClass().isInstance(new Category());
 		} catch (Exception e) {
 			return false;
 		}
@@ -317,11 +313,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isCategory(TreeItem<String> object) {
 		try {
-			if (forward.get(object).getClass().isInstance(new Category())) {
-				return true;
-			} else {
-				return false;
-			}
+			return forward.get(object).getClass().isInstance(new Category());
 		} catch (Exception e) {
 			return false;
 		}
@@ -335,11 +327,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isQuestion(SAObject object) {
 		try {
-			if (object.getClass().isInstance(new Question())) {
-				return true;
-			} else {
-				return false;
-			}
+			return object.getClass().isInstance(new Question());
 		} catch (Exception e) {
 			return false;
 		}
@@ -353,11 +341,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isQuestion(TreeItem<String> object) {
 		try {
-			if (forward.get(object).getClass().isInstance(new Question())) {
-				return true;
-			} else {
-				return false;
-			}
+			return forward.get(object).getClass().isInstance(new Question());
 		} catch (Exception e) {
 			return false;
 		}
@@ -371,11 +355,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isAnswer(SAObject object) {
 		try {
-			if (object.getClass().isInstance(new Answer())) {
-				return true;
-			} else {
-				return false;
-			}
+			return object.getClass().isInstance(new Answer());
 		} catch (Exception e) {
 			return false;
 		}
@@ -389,11 +369,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isAnswer(TreeItem<String> object) {
 		try {
-			if (forward.get(object).getClass().isInstance(new Answer())) {
-				return true;
-			} else {
-				return false;
-			}
+			return forward.get(object).getClass().isInstance(new Answer());
 		} catch (Exception e) {
 			return false;
 		}
@@ -407,12 +383,9 @@ public class TwoWayHashMap {
 	 */
 	public boolean isConclusion(SAObject object) {
 		try {
-			if (object.getClass().isInstance(new Conclusion())) {
-				return true;
-			} else {
-				return false;
-			}
+			return object.getClass().isInstance(new Conclusion());
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -425,11 +398,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isConclusion(TreeItem<String> object) {
 		try {
-			if (forward.get(object).getClass().isInstance(new Conclusion())) {
-				return true;
-			} else {
-				return false;
-			}
+			return forward.get(object).getClass().isInstance(new Conclusion());
 		} catch (Exception e) {
 			return false;
 		}
@@ -455,11 +424,7 @@ public class TwoWayHashMap {
 	 */
 	public boolean isConsistent() {
 
-		if (backward.size() == forward.size() && forward.size() == AllTreeItems.size()) {
-			return true;
-		} else {
-			return false;
-		}
+		return backward.size() == forward.size() && forward.size() == AllTreeItems.size();
 	}
 
 	/**
@@ -497,9 +462,9 @@ public class TwoWayHashMap {
 	 */
 	public Question getQuestion(Answer a) {
 
-		for (int i = 0; i < Questions.size(); i++) {
-			if (Questions.get(i).getAnswers().contains(a)) {
-				return Questions.get(i);
+		for (domain.Question Question : Questions) {
+			if (Question.getAnswers().contains(a)) {
+				return Question;
 			}
 
 		}
@@ -517,9 +482,9 @@ public class TwoWayHashMap {
 	 */
 	public Category getCategory(Answer a) {
 		Question q = null;
-		for (int i = 0; i < Questions.size(); i++) {
-			if (Questions.get(i).getAnswers().contains(a)) {
-				q = Questions.get(i);
+		for (domain.Question Question : Questions) {
+			if (Question.getAnswers().contains(a)) {
+				q = Question;
 			}
 		}
 

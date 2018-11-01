@@ -1,8 +1,8 @@
 [
-    #foreach($conslusion in $conclusions)
+    #foreach($conclusion in $conclusions)
     {
-        "range" : $conslusion.getRange(),
-        "conclusion": "$conslusion.getContent()"
+        "range" : $conclusion.getRange(),
+        "conclusion": "$conclusion.getContent()"
     },
     #end
 
