@@ -144,10 +144,11 @@ public class VGenerator implements VGeneratorInterface {
         String template = fh.getFileFromResources("templates/questions/conclusion.tpl");
         Velocity.init();
         Context context = new VelocityContext();
-        context.put("conclusion", saRoot.getConclusions());
+        context.put("conclusions", saRoot.getConclusions());
         StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "conclusion", template);
+        Velocity.evaluate(context, writer, "conclusions", template);
         filesContentMap.put("questions/conclusion.json",writer.toString());
+
         return filesContentMap;
     }
 

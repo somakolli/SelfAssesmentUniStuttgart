@@ -18,8 +18,6 @@ import javax.xml.bind.Unmarshaller;
 public class Parser implements IParser {
 
 	private File file;
-	private List<Question> generatedQuestions = new ArrayList<>();
-	private List<Answer> generatedAnswers = new ArrayList<>();
 	private SARoot rootElement = new SARoot();
 	private boolean manually = false;
 
@@ -86,13 +84,11 @@ public class Parser implements IParser {
 		try {
 			// setup marshaller
 			JAXBContext jaxbContext = JAXBContext.newInstance(SARoot.class, Category.class, Question.class,
-					Answer.class);
+					Answer.class, Conclusion.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			// start marshaller to read XML file
-			SARoot rootElement = (SARoot) jaxbUnmarshaller.unmarshal(this.file);
+			this.rootElement = (SARoot) jaxbUnmarshaller.unmarshal(this.file);
 			// generate Lists for Objects
-			this.generatedQuestions = generateQuestionList(rootElement);
-			this.generatedAnswers = generateAnswerList(rootElement);
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -143,49 +139,6 @@ public class Parser implements IParser {
 
 	}
 
-	/**
-	 * generated a List of Questions: order is the same as in the XML file
-	 *
-	 * @param root the root Element of the XML file
-	 * @return List of all Questions
-	 */
-	@Override
-	public List<Question> generateQuestionList(SARoot root) {
-		List<Question> newQuestions = new ArrayList<>();
-		newQuestions.addAll(root.getQuestions());
-		return newQuestions;
-	}
-
-	/**
-	 * generated a List of Answers: order is the same as in the XML file
-	 *
-	 * @param root the root Element of the XML file
-	 * @return List of all Answers
-	 */
-	@Override
-	public List<Answer> generateAnswerList(SARoot root) {
-		List<Answer> newAnswers = new ArrayList<>();
-		for (Question q : root.getQuestions()) {
-			newAnswers.addAll(q.getAnswers());
-		}
-		return newAnswers;
-	}
-
-	public List<Question> getGeneratedQuestions() {
-		return generatedQuestions;
-	}
-
-	public void setGeneratedQuestions(List<Question> generatedQuerstions) {
-		this.generatedQuestions = generatedQuerstions;
-	}
-
-	public List<Answer> getGeneratedAnswers() {
-		return generatedAnswers;
-	}
-
-	public void setGeneratedAnswers(List<Answer> generatedAnswers) {
-		this.generatedAnswers = generatedAnswers;
-	}
 
 	public void setFile(File newFile) {
 		this.file = newFile;

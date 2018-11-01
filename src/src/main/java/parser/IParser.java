@@ -26,22 +26,6 @@ public interface IParser {
     public void startParser();
 
     /**
-     * generated a List of Questions: order is the same as in the XML file
-     *
-     * @param root the root Element of the XML file
-     * @return List of all Questions
-     */
-    public List<Question> generateQuestionList(SARoot root);
-
-    /**
-     * generated a List of Answers: order is the same as in the XML file
-     *
-     * @param root the root Element of the XML file
-     * @return List of all Answers
-     */
-    public List<Answer> generateAnswerList(SARoot root);
-
-    /**
      * Stores All questions (including the answers/...) in a XML file
      *
 	 * @param root The root Object for the XML file

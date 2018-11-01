@@ -3,9 +3,11 @@ package domain;
 import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Conclusion extends ContentObject {
-    private int range;
+    private int range = 0;
 
     public Conclusion() {
     }

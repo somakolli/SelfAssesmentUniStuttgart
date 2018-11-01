@@ -795,8 +795,13 @@ public class TextEditor extends Application {
 			currentSelectedTreeItem = tree.getRoot();
 
 			SARoot saRoot = parser.getRootelement();
-			saRoot.setQuestions(parser.getGeneratedQuestions());
+
             HashMap<Category, ArrayList<Question>> categoryQuestionHashMap = saRoot.getCategoryQuestionMap();
+
+            for(Conclusion conclusion : saRoot.getConclusions()){
+                makeBranch(rootitem, conclusion);
+            }
+
 			for (Category category : categoryQuestionHashMap.keySet()) {
 
 				makeBranch(rootitem, category);
