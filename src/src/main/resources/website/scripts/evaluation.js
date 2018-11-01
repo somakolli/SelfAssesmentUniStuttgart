@@ -29,22 +29,14 @@ function fillEvaluation(categories) {
 //input: state as binary string
 //convert state to binary string of answers
 //output: user answers as binary string, array of how many answer options each question consisted of
-function stateToAnswers(state) {
-    let alLength = 5;
-    let nextQ = 0;
-    let i = 0;
+function stateToAnswers() {
+    let answerArray = stateToAnswerList();
     let answerString = "";
     let allAnswers = [];
-    while (i < state.length) {
-        let answerCount = parseInt(state.substring(i, i + alLength), 2);
-        allAnswers.push(answerCount);
-        i += alLength;
-        nextQ = i + answerCount;
-        while (i < nextQ) {
-            answerString += state[i];
-            i++;
-        }
-        //console.log(answerString)
+    for(let i = 0; i < answerArray.length; i++){
+        let currentAnswerString = answerArray[i];
+        answerString+=currentAnswerString;
+        allAnswers.push(currentAnswerString.length);
     }
     return [answerString, allAnswers];
 }
