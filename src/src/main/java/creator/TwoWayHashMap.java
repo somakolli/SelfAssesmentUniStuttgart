@@ -231,6 +231,7 @@ public class TwoWayHashMap {
 		t.getRoot().getChildren().clear();
 		Questions.clear();
 		Categories.clear();
+		Conclusions.clear();
 		forward.clear();
 		backward.clear();
 		AllTreeItems.clear();
