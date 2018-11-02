@@ -29,10 +29,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.BooleanStringConverter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
 
@@ -340,7 +337,7 @@ public class TextEditor extends Application {
 
 			saroot.setQuestions(twMap.getQuestions());
 			saroot.setConclusions(twMap.getConclusions());
-
+			Collections.sort(saroot.getConclusions());
 
 			try {
 
