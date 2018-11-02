@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <question>
+        <content>Zunächst eine einfache Funktion, auf der linken Seite sind die jeweiligen Elemente und deren Funktion aufgelistet:
+
+
+&lt;img src="file:C:\Users\Rezar\Desktop\kontrollfluss.png" width="400px"&gt;
+
+Was ist das Ergebnis des Aufrufes der Funktion: max(10,20)?
+
+
+</content>
+        <answer>
+            <content>       10</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>       20</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>       max</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>       result</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Kontrollfluss</categoryName>
+        </category>
+        <id>0</id>
+        <points>2</points>
+        <singleChoice>true</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>&lt;img src="file:C:\Users\Rezar\Desktop\Kontrollfluss-Frage2.png" width="400px"&gt;
+
+Was ist der zurückgegebende Wert der des Aufrufes: funct(5) 
+</content>
+        <answer>
+            <content>5</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>10</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>15</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>20</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Kontrollfluss</categoryName>
+        </category>
+        <id>1</id>
+        <points>2</points>
+        <singleChoice>true</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>
+&lt;img src="file:C:\Users\Rezar\Desktop\Kontrollfluss-Frage3.png" width="400px"&gt;
+
+Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
+</content>
+        <answer>
+            <content>a = 1, b = 12</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>a = 10, b = 10</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>a = -2, b = 2</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Mit keinem der Genannten.</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Kontrollfluss</categoryName>
+        </category>
+        <id>2</id>
+        <points>4</points>
+        <singleChoice>false</singleChoice>
+        <time>60</time>
+    </question>
+</saRoot>
