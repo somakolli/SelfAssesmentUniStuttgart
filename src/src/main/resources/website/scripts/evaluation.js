@@ -17,6 +17,7 @@ function loadEvaluation(state) {
     let answersAndCount = stateToAnswers(state);
     let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
     let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
+    addConclusion(concData);
 }
 
 function fillEvaluation(categories) {
@@ -47,8 +48,8 @@ function stateToAnswers() {
  * output: an array of 1's and 0's in order of the questions, 1 representing a correctly answered question etc.
  */
 function evaluate(solution, answers, allAnswers) {
-    console.log("ans: " + answers)
-    console.log("sol: " + solution)
+    /* console.log("ans: " + answers)
+    console.log("sol: " + solution) */
     let result = [];
     let pointer = 0;
     for (let i = 0; i < allAnswers.length; i++) {
@@ -101,14 +102,14 @@ function showFraction(id, correct, total) {
     let width = Math.max(fraction * 100, 5);
     let fillWidth = 100 - width;
     if (fraction < 0.25) {
-        $(id).append('<div class="progressBarLow" style="width:' + width + '%">' + correct + '</div>');
+        $('[id="' + id + '"]').append('<div class="progressBarLow" style="width:' + width + '%">' + correct + '</div>');
     } else if (fraction >= 0.25 && fraction < 0.75) {
-        $(id).append('<div class="progressBarAverage" style="width:' + width + '%">' + correct + '</div>');
+        $('[id="' + id + '"]').append('<div class="progressBarAverage" style="width:' + width + '%">' + correct + '</div>');
     } else {
-        $(id).append('<div class="progressBarGood" style="width:' + width + '%">' + correct + '</div>');
+        $('[id="' + id + '"]').append('<div class="progressBarGood" style="width:' + width + '%">' + correct + '</div>');
     }
     if (width < 100) {
-        $(id).append('<div class="progressFill" style="width:' + fillWidth + '%">' + total + '</div>');
+        $('[id="' + id + '"]').append('<div class="progressFill" style="width:' + fillWidth + '%">' + total + '</div>');
     }
 }
 
