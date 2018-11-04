@@ -661,17 +661,6 @@ public class TextEditor extends Application {
 
 		item.setExpanded(true);
 		root.getChildren().add(item);
-
-		if (twMap.isConclusion(obj)) {
-			Conclusion c = (Conclusion)obj;
-			int maxrange = 0;
-			for(Conclusion con: twMap.getConclusions()) {
-				if(con.getRange() > maxrange) {
-					maxrange = con.getRange();
-				}
-			}
-			c.setRange(maxrange+10);
-		}
 		
 		if (!twMap.contains(obj)) {
 			twMap.put(item, obj);
