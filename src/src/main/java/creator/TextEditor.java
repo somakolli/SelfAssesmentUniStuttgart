@@ -890,7 +890,7 @@ public class TextEditor extends Application {
 		bsuche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel, index);
+				asuche(checkBox, fList, fullText, stext, eLabel);
 			}
 		});
 
@@ -968,7 +968,7 @@ public class TextEditor extends Application {
 		bsuche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel, index);
+				asuche(checkBox, fList, fullText, stext, eLabel);
 			}
 		});
 
@@ -1033,7 +1033,7 @@ public class TextEditor extends Application {
 		replaceAll.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel, index);
+				asuche(checkBox, fList, fullText, stext, eLabel);
 				if (fList.size() != 0) {
 					if (checkBox.isSelected()) {
 						fullText.setText(fullText.getText().replaceAll("(?i)" + stext.getText(), stext2.getText()));
@@ -1086,9 +1086,9 @@ public class TextEditor extends Application {
 
 	}
 
-	public void asuche(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext, Label eLabel, int i) {
+	public void asuche(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext, Label eLabel) {
 		fList.clear();
-		i = 0;
+		int i = 0;
 		if (checkBox.isSelected()) {
 			if (stext.getText().toLowerCase() != null && !stext.getText().isEmpty()) {
 				int index = fullText.getText().toLowerCase().indexOf(stext.getText().toLowerCase());
