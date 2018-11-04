@@ -34,10 +34,6 @@ import java.util.*;
 import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
 
 /**
- * 
- * 
- * *TODO Context Menu Button for inserting a link, Window on the right to
- * convert to.
  *
  * Benutzeroberfläche zum Erstellen eines Self-Assesment-Tests.
  * 
@@ -50,11 +46,11 @@ public class TextEditor extends Application {
 
 	public static final TreeItem<String> rootitem = new TreeItem<>();
 	public static TreeItem<String> currentSelectedTreeItem = rootitem;
-	public int i = 0;
+	public int index = 0;
 	public static final TwoWayHashMap twMap = new TwoWayHashMap();
 	public static final TableView<SAObject> table = new TableView<SAObject>();
 	public static final TreeView<String> tree = new TreeView<>(rootitem);;
-    private VGenerator vg = new VGenerator();
+	private VGenerator vg = new VGenerator();
 
 	public static void main(String[] args) {
 
@@ -68,7 +64,6 @@ public class TextEditor extends Application {
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 1600, 800);
 
-		
 		primaryStage.setTitle("Self Assessment Test Creator");
 		// Confirmation on Close
 		primaryStage.setOnCloseRequest(actionEvent -> {
@@ -94,8 +89,7 @@ public class TextEditor extends Application {
 		// Webview & Engine
 		WebView mywebview = new WebView();
 		WebEngine engine = mywebview.getEngine();
-		//root.setRight(mywebview);
-		
+		// root.setRight(mywebview);
 
 		TextArea text = new TextArea();
 		text.setEditable(false);
@@ -103,10 +97,8 @@ public class TextEditor extends Application {
 			@Override
 			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
 					final String newValue) {
-				// TODO: Implement functionality
-		
-				
-				changedEvent(engine,newValue);
+
+				changedEvent(engine, newValue);
 
 			}
 		});
@@ -120,12 +112,12 @@ public class TextEditor extends Application {
 
 		// Tree
 		rootitem.setExpanded(true);
-		
+
 		SplitPane s = new SplitPane();
 		s.getItems().add(text);
 		s.getItems().add(mywebview);
 		root.setCenter(s);
-		
+
 		tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 
 			@Override
@@ -165,7 +157,8 @@ public class TextEditor extends Application {
 
 					TableColumn<SAObject, Integer> pointsCol = new TableColumn<SAObject, Integer>("Points");
 					TableColumn<SAObject, Integer> timeCol = new TableColumn<SAObject, Integer>("Time");
-					TableColumn<SAObject, Boolean> singleChoiceCol = new TableColumn<SAObject, Boolean>("Single Choice");
+					TableColumn<SAObject, Boolean> singleChoiceCol = new TableColumn<SAObject, Boolean>(
+							"Single Choice");
 
 					pointsCol.setCellValueFactory(new PropertyValueFactory<>("points"));
 					pointsCol.setCellFactory(
@@ -287,8 +280,8 @@ public class TextEditor extends Application {
 		openMenuItem.setOnAction(actionEvent -> {
 			try {
 				open(primaryStage, text);
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				
 			}
 		});
 
@@ -296,14 +289,12 @@ public class TextEditor extends Application {
 		saveMenuItem.setOnAction(actionEvent -> {
 
 			try {
+				save(primaryStage, text);
 				if (!currentSelectedTreeItem.equals(null)) {
 					twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
 				}
 			} catch (Exception e) {
-
-			} finally {
-
-				save(primaryStage, text);
+				
 			}
 		});
 
@@ -351,14 +342,12 @@ public class TextEditor extends Application {
 
 		});
 
-
 		fileMenu.getItems().addAll(newcMenuItem, newqMenuItem, newaMenuItem, newconcMenuItem, delMenuItem,
 				new SeparatorMenuItem(), generator, new SeparatorMenuItem(), openMenuItem, saveMenuItem,
 				new SeparatorMenuItem(), exitMenuItem);
 		menuBar.getMenus().addAll(fileMenu);
 
 		Menu sMenu = new Menu("Search");
-
 		MenuItem sucheMenuItem = new MenuItem("Search");
 		sucheMenuItem.setOnAction(actionEvent -> suche(text));
 		MenuItem esucheMenuItem = new MenuItem("Search and Replace");
@@ -366,7 +355,7 @@ public class TextEditor extends Application {
 		sMenu.getItems().addAll(sucheMenuItem, esucheMenuItem);
 		menuBar.getMenus().addAll(sMenu);
 
-		//root.setCenter(text);
+		// root.setCenter(text);
 		primaryStage.setScene(scene);
 		// primaryStage.setFullScreen(true);
 		primaryStage.show();
@@ -411,8 +400,6 @@ public class TextEditor extends Application {
 				new SeparatorMenuItem(), DelContMenuItem);
 		tree.setContextMenu(treecm);
 
-		// TODO Adding Insert Media to the Textarea ContextMenu
-
 		Menu insertMenu = new Menu("Insert");
 		MenuItem imageMenuItem = new MenuItem("Image");
 		imageMenuItem.setOnAction(actionEvent -> {
@@ -442,56 +429,30 @@ public class TextEditor extends Application {
 			String newtext1 = currenttext.substring(0, text.getCaretPosition());
 			String newtext2 = currenttext.substring(text.getCaretPosition());
 			String insert = file.getAbsolutePath();
-			String finalstring = newtext1 + "\n<video width=\"100px\" controls><source src=\"file:" + insert + "\"></video>\n" + newtext2;
+			String finalstring = newtext1 + "\n<video width=\"100px\" controls><source src=\"file:" + insert
+					+ "\"></video>\n" + newtext2;
 			text.setText(finalstring);
 
 		});
-
-		// MenuItem tableMenuItem = new MenuItem("Table");
-		// tableMenuItem.setOnAction(actionEvent -> {
-		//
-		// });
-		//
-		// MenuItem deletecm = new MenuItem("Delete");
-		// deletecm.setOnAction(actionEvent -> {
-		//
-		// });
-		//
-		// MenuItem insertcm = new MenuItem("Delete");
-		// insertcm.setOnAction(actionEvent -> {
-		//
-		// });
-		//
-		// MenuItem undocm = new MenuItem("Delete");
-		// undocm.setOnAction(actionEvent -> {
-		//
-		// });
-		//
-		// MenuItem redocm = new MenuItem("Delete");
-		// redocm.setOnAction(actionEvent -> {
-		//
-		// });
 
 		insertMenu.getItems().addAll(imageMenuItem);
 		insertMenu.getItems().addAll(videoMenuItem);
 		menuBar.getMenus().add(insertMenu);
 
 	}
-	
+
 	public void changedEvent(WebEngine engine, String newValue) {
-		
+
 		SAObject sao = twMap.getSAObject(currentSelectedTreeItem);
 		VGenerator v = new VGenerator();
 
 		if (twMap.isCategory(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
-			engine.loadContent(v.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)),
-					"text/html");
+			engine.loadContent(v.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)), "text/html");
 
 		} else if (twMap.isQuestion(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
-			engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)),
-					"text/html");
+			engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)), "text/html");
 
 		} else if (twMap.isAnswer(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
@@ -506,7 +467,7 @@ public class TextEditor extends Application {
 		} else {
 
 		}
-		
+
 	}
 
 	public void createCategory() {
@@ -596,79 +557,83 @@ public class TextEditor extends Application {
 
 	public void delete(TextArea text) {
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete Tree Item?");
-		alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
-		alert.setContentText("Do you want this?");
+		try {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete Tree Item?");
+			alert.setHeaderText("You are about to delete " + currentSelectedTreeItem.getValue() + "!");
+			alert.setContentText("Do you want this?");
 
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
-			// ... user chose OK
-			text.setText("");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				// ... user chose OK
+				text.setText("");
 
-			if (twMap.isCategory(currentSelectedTreeItem)) {
-				twMap.removePair(currentSelectedTreeItem);
+				if (twMap.isCategory(currentSelectedTreeItem)) {
+					twMap.removePair(currentSelectedTreeItem);
 
-				rootitem.getChildren().remove(currentSelectedTreeItem);
-				// No need to update since category names are unique
-				// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
-				// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
-				// }
+					rootitem.getChildren().remove(currentSelectedTreeItem);
+					// No need to update since category names are unique
+					// for (int i = 0; i < twMap.getCategoryTreeItems().size(); i++) {
+					// twMap.getCategoryTreeItems().get(i).setValue("Category: " + (i + 1));
+					// }
 
-			} else if (twMap.isQuestion(currentSelectedTreeItem)) {
-				twMap.removePair(currentSelectedTreeItem);
+				} else if (twMap.isQuestion(currentSelectedTreeItem)) {
+					twMap.removePair(currentSelectedTreeItem);
 
-				ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
+					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
 
-				currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
 
-				for (int i = 0; i < ol.size(); i++) {
+					for (int i = 0; i < ol.size(); i++) {
 
-					ol.get(i).setValue("Question: " + (i + 1));
+						ol.get(i).setValue("Question: " + (i + 1));
+
+					}
+
+				} else if (twMap.isAnswer(currentSelectedTreeItem)) {
+					twMap.removePair(currentSelectedTreeItem);
+
+					ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
+
+					currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
+
+					for (int i = 0; i < ol.size(); i++) {
+						ol.get(i).setValue("Answer: " + (i + 1));
+					}
+
+				} else if (twMap.isConclusion(currentSelectedTreeItem)) {
+					twMap.removePair(currentSelectedTreeItem);
+
+					ArrayList<TreeItem<String>> al = twMap.getConclusionTreeItems();
+
+					rootitem.getChildren().remove(currentSelectedTreeItem);
+
+					for (int i = 0; i < al.size(); i++) {
+
+						al.get(i).setValue("Conclusion: " + (i + 1));
+
+					}
 
 				}
 
-			} else if (twMap.isAnswer(currentSelectedTreeItem)) {
-				twMap.removePair(currentSelectedTreeItem);
-
-				ObservableList<TreeItem<String>> ol = currentSelectedTreeItem.getParent().getChildren();
-
-				currentSelectedTreeItem.getParent().getChildren().remove(currentSelectedTreeItem);
-
-				for (int i = 0; i < ol.size(); i++) {
-					ol.get(i).setValue("Answer: " + (i + 1));
+				if (twMap.AllTreeItems.size() == 0) {
+					table.getColumns().clear();
+					table.getItems().clear();
 				}
 
-			} else if (twMap.isConclusion(currentSelectedTreeItem)) {
-				twMap.removePair(currentSelectedTreeItem);
-
-				ArrayList<TreeItem<String>> al = twMap.getConclusionTreeItems();
-
-				rootitem.getChildren().remove(currentSelectedTreeItem);
-
-				for (int i = 0; i < al.size(); i++) {
-
-					al.get(i).setValue("Conclusion: " + (i + 1));
-
+				if (rootitem.getChildren().isEmpty()) {
+					text.setEditable(false);
+				} else {
+					text.setEditable(true);
 				}
 
-			}
+				twMap.UpdateQuestionIds();
 
-			if (twMap.AllTreeItems.size() == 0) {
-				table.getColumns().clear();
-				table.getItems().clear();
-			}
-
-			if (rootitem.getChildren().isEmpty()) {
-				text.setEditable(false);
 			} else {
-				text.setEditable(true);
+				// ... user chose CANCEL or closed the dialog
+
 			}
-
-			twMap.UpdateQuestionIds();
-
-		} else {
-			// ... user chose CANCEL or closed the dialog
+		} catch (Exception e) {
 
 		}
 
@@ -749,13 +714,13 @@ public class TextEditor extends Application {
 			item = new TreeItem<>("Conclusion: " + (twMap.getConclusions().size() + 1));
 
 		}
-		
-		//Conclusions always on the Bottom
-		for(TreeItem<String> ti: twMap.getConclusionTreeItems()) {
+
+		// Conclusions always on the Bottom
+		for (TreeItem<String> ti : twMap.getConclusionTreeItems()) {
 			rootitem.getChildren().remove(ti);
 			rootitem.getChildren().add(ti);
 		}
-		
+
 		twMap.UpdateQuestionIds();
 
 	}
@@ -793,25 +758,25 @@ public class TextEditor extends Application {
 
 			SARoot saRoot = parser.getRootelement();
 
-            HashMap<Category, ArrayList<Question>> categoryQuestionHashMap = saRoot.getCategoryQuestionMap();
+			HashMap<Category, ArrayList<Question>> categoryQuestionHashMap = saRoot.getCategoryQuestionMap();
 
 			for (Category category : categoryQuestionHashMap.keySet()) {
 
 				makeBranch(rootitem, category);
 
 				for (Question question : categoryQuestionHashMap.get(category)) {
-                    makeBranch(twMap.getTreeItem(category), question);
-                    for (Answer a : question.getAnswers()) {
-                        makeBranch(twMap.getTreeItem(question), a);
-                    }
-                }
+					makeBranch(twMap.getTreeItem(category), question);
+					for (Answer a : question.getAnswers()) {
+						makeBranch(twMap.getTreeItem(question), a);
+					}
+				}
 
 			}
-			
-			  for(Conclusion conclusion : saRoot.getConclusions()){
-	                makeBranch(rootitem, conclusion);
-	            }
-			
+
+			for (Conclusion conclusion : saRoot.getConclusions()) {
+				makeBranch(rootitem, conclusion);
+			}
+
 		}
 	}
 
@@ -905,6 +870,7 @@ public class TextEditor extends Application {
 	 * @param fullText
 	 */
 	public void suche(TextArea fullText) {
+		
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 100);
@@ -914,7 +880,7 @@ public class TextEditor extends Application {
 		TextField stext = new TextField("");
 		textBox.getChildren().add(stext);
 		root.setTop(textBox);
-		CheckBox checkBox = new CheckBox("Take capital letters into account?");
+		CheckBox checkBox = new CheckBox("Don't take capital letters into account?");
 		root.setCenter(checkBox);
 		HBox bBox = new HBox(4);
 		Button bsuche = new Button("Search");
@@ -924,7 +890,7 @@ public class TextEditor extends Application {
 		bsuche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel);
+				asuche(checkBox, fList, fullText, stext, eLabel, index);
 			}
 		});
 
@@ -932,12 +898,12 @@ public class TextEditor extends Application {
 		bnext.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if (i == fList.size() - 1) {
-					i = 0;
+				if (index == fList.size() - 1) {
+					index = 0;
 				} else {
-					i++;
+					index++;
 				}
-				fullText.selectRange(fList.get(i), fList.get(i) + stext.getText().length());
+				fullText.selectRange(fList.get(index), fList.get(index) + stext.getText().length());
 
 			}
 		});
@@ -946,12 +912,12 @@ public class TextEditor extends Application {
 		bPrevious.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				if (i == 0) {
-					i = fList.size() - 1;
+				if (index == 0) {
+					index = fList.size() - 1;
 				} else {
-					i--;
+					index--;
 				}
-				fullText.selectRange(fList.get(i), fList.get(i) + stext.getText().length());
+				fullText.selectRange(fList.get(index), fList.get(index) + stext.getText().length());
 
 			}
 		});
@@ -971,8 +937,10 @@ public class TextEditor extends Application {
 	 * results with another User Imput.
 	 * 
 	 * @param fullText
+	 * 
 	 */
 	public void esuche(TextArea fullText) {
+		
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 150);
@@ -1000,7 +968,7 @@ public class TextEditor extends Application {
 		bsuche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel);
+				asuche(checkBox, fList, fullText, stext, eLabel, index);
 			}
 		});
 
@@ -1009,12 +977,12 @@ public class TextEditor extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 				if (fList.size() != 0) {
-					if (i == fList.size() - 1) {
-						i = 0;
+					if (index == fList.size() - 1) {
+						index = 0;
 					} else {
-						i++;
+						index++;
 					}
-					fullText.selectRange(fList.get(i), fList.get(i) + stext.getText().length());
+					fullText.selectRange(fList.get(index), fList.get(index) + stext.getText().length());
 
 				}
 			}
@@ -1026,12 +994,12 @@ public class TextEditor extends Application {
 			public void handle(ActionEvent e) {
 				if (fList.size() != 0) {
 
-					if (i == 0) {
-						i = fList.size() - 1;
+					if (index == 0) {
+						index = fList.size() - 1;
 					} else {
-						i--;
+						index--;
 					}
-					fullText.selectRange(fList.get(i), fList.get(i) + stext.getText().length());
+					fullText.selectRange(fList.get(index), fList.get(index) + stext.getText().length());
 
 				}
 			}
@@ -1043,17 +1011,17 @@ public class TextEditor extends Application {
 			public void handle(ActionEvent e) {
 
 				if (fList.size() != 0) {
-					fullText.replaceText(fList.get(i), fList.get(i) + stext.getText().length(), stext2.getText());
-					fList.remove(i);
+					fullText.replaceText(fList.get(index), fList.get(index) + stext.getText().length(), stext2.getText());
+					fList.remove(index);
 					if (fList.size() != 0) {
 						checkindex(checkBox, fList, fullText, stext);
 					}
 				}
 				if (fList.size() != 0) {
-					if (i >= fList.size()) {
-						i = fList.size() - 1;
+					if (index >= fList.size()) {
+						index = fList.size() - 1;
 					}
-					fullText.selectRange(fList.get(i), fList.get(i) + stext.getText().length());
+					fullText.selectRange(fList.get(index), fList.get(index) + stext.getText().length());
 				} else {
 					fullText.selectRange(0, 0);
 				}
@@ -1065,7 +1033,7 @@ public class TextEditor extends Application {
 		replaceAll.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel);
+				asuche(checkBox, fList, fullText, stext, eLabel, index);
 				if (fList.size() != 0) {
 					if (checkBox.isSelected()) {
 						fullText.setText(fullText.getText().replaceAll("(?i)" + stext.getText(), stext2.getText()));
@@ -1118,7 +1086,7 @@ public class TextEditor extends Application {
 
 	}
 
-	public void asuche(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext, Label eLabel) {
+	public void asuche(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext, Label eLabel, int i) {
 		fList.clear();
 		i = 0;
 		if (checkBox.isSelected()) {
