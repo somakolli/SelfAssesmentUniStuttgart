@@ -552,6 +552,14 @@ public class TextEditor extends Application {
 	public void createConclusion() {
 
 		Conclusion c = new Conclusion();
+
+		int maxRange = 0;
+		for (Conclusion conclusion :
+				twMap.getConclusions()) {
+			if (conclusion.getRange() > maxRange)
+				maxRange = conclusion.getRange();
+		}
+		c.setRange(maxRange + 10);
 		makeBranch(rootitem, c);
 
 	}
