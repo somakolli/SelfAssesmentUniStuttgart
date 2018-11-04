@@ -140,6 +140,7 @@ public class TextEditor extends Application {
 				table.getItems().clear();
 
 				if (twMap.isCategory(selectedItem)) {
+					text.setEditable(false);
 					TableColumn<SAObject, String> nameCol = new TableColumn<SAObject, String>("Name");
 					nameCol.setCellValueFactory(new PropertyValueFactory<>("categoryName"));
 					nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -349,10 +350,10 @@ public class TextEditor extends Application {
 
 		Menu sMenu = new Menu("Search");
 		MenuItem sucheMenuItem = new MenuItem("Search");
-		sucheMenuItem.setOnAction(actionEvent -> suche(text));
-		MenuItem esucheMenuItem = new MenuItem("Search and Replace");
-		esucheMenuItem.setOnAction(actionEvent -> esuche(text));
-		sMenu.getItems().addAll(sucheMenuItem, esucheMenuItem);
+		sucheMenuItem.setOnAction(actionEvent -> searchStage(text));
+		MenuItem repsucheMenuItem = new MenuItem("Search and Replace");
+		repsucheMenuItem.setOnAction(actionEvent -> repsearchStage(text));
+		sMenu.getItems().addAll(sucheMenuItem, repsucheMenuItem);
 		menuBar.getMenus().addAll(sMenu);
 
 		// root.setCenter(text);
@@ -653,6 +654,17 @@ public class TextEditor extends Application {
 		item.setExpanded(true);
 		root.getChildren().add(item);
 
+		if (twMap.isConclusion(obj)) {
+			Conclusion c = (Conclusion)obj;
+			int maxrange = 0;
+			for(Conclusion con: twMap.getConclusions()) {
+				if(con.getRange() > maxrange) {
+					maxrange = con.getRange();
+				}
+			}
+			c.setRange(maxrange+10);
+		}
+		
 		if (!twMap.contains(obj)) {
 			twMap.put(item, obj);
 		}
@@ -865,11 +877,11 @@ public class TextEditor extends Application {
 	// }
 
 	/**
-	 * Searches a user input in the text contained by the Textarea.
+	 * Creates the Stage for the Search.
 	 * 
 	 * @param fullText
 	 */
-	public void suche(TextArea fullText) {
+	public void searchStage(TextArea fullText) {
 		
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
@@ -890,7 +902,7 @@ public class TextEditor extends Application {
 		bsuche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel);
+				search(checkBox, fList, fullText, stext, eLabel);
 			}
 		});
 
@@ -933,13 +945,12 @@ public class TextEditor extends Application {
 	};
 
 	/**
-	 * Searches a user input in the text contained by the Textarea and replaces the
-	 * results with another User Imput.
+	 * Creates The stage for searching and replacing.
 	 * 
 	 * @param fullText
 	 * 
 	 */
-	public void esuche(TextArea fullText) {
+	public void repsearchStage(TextArea fullText) {
 		
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
@@ -968,7 +979,7 @@ public class TextEditor extends Application {
 		bsuche.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel);
+				search(checkBox, fList, fullText, stext, eLabel);
 			}
 		});
 
@@ -1033,7 +1044,7 @@ public class TextEditor extends Application {
 		replaceAll.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				asuche(checkBox, fList, fullText, stext, eLabel);
+				search(checkBox, fList, fullText, stext, eLabel);
 				if (fList.size() != 0) {
 					if (checkBox.isSelected()) {
 						fullText.setText(fullText.getText().replaceAll("(?i)" + stext.getText(), stext2.getText()));
@@ -1060,7 +1071,7 @@ public class TextEditor extends Application {
 		// primaryStage.setFullScreen(true);
 		searchStage.show();
 	};
-
+	
 	public void checkindex(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext) {
 		if (checkBox.isSelected()) {
 			fList.clear();
@@ -1085,8 +1096,17 @@ public class TextEditor extends Application {
 		}
 
 	}
-
-	public void asuche(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext, Label eLabel) {
+	
+	/**
+	 * Searches a user input in the text contained by the TextArea.
+	 * 
+	 * @param checkBox
+	 * @param fList
+	 * @param fullText
+	 * @param stext
+	 * @param eLabel
+	 */
+	public void search(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext, Label eLabel) {
 		fList.clear();
 		int i = 0;
 		if (checkBox.isSelected()) {
