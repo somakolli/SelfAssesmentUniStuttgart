@@ -552,6 +552,14 @@ public class TextEditor extends Application {
 	public void createConclusion() {
 
 		Conclusion c = new Conclusion();
+
+		int maxRange = 0;
+		for (Conclusion conclusion :
+				twMap.getConclusions()) {
+			if (conclusion.getRange() > maxRange)
+				maxRange = conclusion.getRange();
+		}
+		c.setRange(maxRange + 10);
 		makeBranch(rootitem, c);
 
 	}
@@ -653,17 +661,6 @@ public class TextEditor extends Application {
 
 		item.setExpanded(true);
 		root.getChildren().add(item);
-
-		if (twMap.isConclusion(obj)) {
-			Conclusion c = (Conclusion)obj;
-			int maxrange = 0;
-			for(Conclusion con: twMap.getConclusions()) {
-				if(con.getRange() > maxrange) {
-					maxrange = con.getRange();
-				}
-			}
-			c.setRange(maxrange+10);
-		}
 		
 		if (!twMap.contains(obj)) {
 			twMap.put(item, obj);
