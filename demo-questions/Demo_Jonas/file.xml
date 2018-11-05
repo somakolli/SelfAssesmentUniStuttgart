@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <question>
+        <content>Ein Korb mit 1kg Erdbeeren, die einen Wassergehalt von 99% von dem 1kg haben, steht in der Sonne. Dadurch verringert sich der Wassergehalt auf 98%.
+&lt;br /&gt;  **Wie viel wiegen die Erdbeeren jetzt?**</content>
+        <answer>
+            <content>999g</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>990g</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>500g</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Keine der oberen Antworten ist richtig.</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>0</id>
+        <points>4</points>
+        <singleChoice>true</singleChoice>
+        <time>120</time>
+    </question>
+    <question>
+        <content>Lösen sie das folgende Gleichungssystem: &lt;br /&gt; **2x - y = 2**&lt;br /&gt; **-3x - 3y = -12**</content>
+        <answer>
+            <content>x = 2, y = 2</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>x = 0, y = -2</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>x = 1, y = 0</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Keine der oberen Antworten ist richtig.</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>1</id>
+        <points>4</points>
+        <singleChoice>true</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>Gegeben ist der Graph einer Funktion: ![graph0]( C:\Users\Jonas\Desktop\graph0.png  "") 
+
+**Wie sieht der Graph der 1.Ableitung aus?**</content>
+        <answer>
+            <content>![graph1]( C:\Users\Jonas\Desktop\graph1.png  "") </content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>![graph2]( C:\Users\Jonas\Desktop\graph2.png  "") </content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>![graph3]( C:\Users\Jonas\Desktop\graph3.png  "") </content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Keine der oberen Antworten ist richtig.</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>2</id>
+        <points>4</points>
+        <singleChoice>true</singleChoice>
+        <time>120</time>
+    </question>
+</saRoot>
