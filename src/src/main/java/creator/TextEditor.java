@@ -35,9 +35,9 @@ import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
 
 /**
  *
- * BenutzeroberflÃ¤che zum Erstellen eines Self-Assesment-Tests.
+ * Benutzeroberfläche zum Erstellen eines Self-Assesment-Tests.
  * 
- * @author Julian BlumenrÃ¶ther
+ * @author Julian Blumenröther
  * @version 1.0
  * 
  * 
@@ -103,7 +103,7 @@ public class TextEditor extends Application {
 			}
 		});
 
-		// Tabelle zum Ã¤ndern der eigenschaften
+		// Tabelle zum ändern der eigenschaften
 
 		table.setPrefHeight(60);
 		root.setBottom(table);
@@ -279,11 +279,32 @@ public class TextEditor extends Application {
 
 		MenuItem openMenuItem = new MenuItem("Import xml");
 		openMenuItem.setOnAction(actionEvent -> {
-			try {
-				open(primaryStage, text);
-			} catch (Exception e) {
-				
-			}
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Select an Option.");
+			alert.setHeaderText("Merge with current Progress?");
+			alert.setContentText(
+					"Choosing no will delete your current progress. \nChoosing yes will merge the current progress with the chosen File.");
+			ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+			ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+			ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
+			alert.showAndWait().ifPresent(type -> {
+				if (type == okButton) {
+					try {
+						open(primaryStage, text, true);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else if (type == noButton) {
+					try {
+						open(primaryStage, text, false);
+					} catch (IOException e) {
+
+					}
+				} else {
+
+				}
+			});
 		});
 
 		MenuItem saveMenuItem = new MenuItem("Export xml");
@@ -295,7 +316,7 @@ public class TextEditor extends Application {
 					twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
 				}
 			} catch (Exception e) {
-				
+
 			}
 		});
 
@@ -552,14 +573,6 @@ public class TextEditor extends Application {
 	public void createConclusion() {
 
 		Conclusion c = new Conclusion();
-
-		int maxRange = 0;
-		for (Conclusion conclusion :
-				twMap.getConclusions()) {
-			if (conclusion.getRange() > maxRange)
-				maxRange = conclusion.getRange();
-		}
-		c.setRange(maxRange + 10);
 		makeBranch(rootitem, c);
 
 	}
@@ -661,7 +674,18 @@ public class TextEditor extends Application {
 
 		item.setExpanded(true);
 		root.getChildren().add(item);
-		
+
+		if (twMap.isConclusion(obj)) {
+			Conclusion c = (Conclusion) obj;
+			int maxrange = 0;
+			for (Conclusion con : twMap.getConclusions()) {
+				if (con.getRange() > maxrange) {
+					maxrange = con.getRange();
+				}
+			}
+			c.setRange(maxrange + 10);
+		}
+
 		if (!twMap.contains(obj)) {
 			twMap.put(item, obj);
 		}
@@ -742,7 +766,7 @@ public class TextEditor extends Application {
 	 * @param text
 	 * @throws IOException
 	 */
-	public void open(Stage primaryStage, TextArea text) throws IOException {
+	public void open(Stage primaryStage, TextArea text, boolean keep) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
@@ -762,7 +786,10 @@ public class TextEditor extends Application {
 			parser.setFile(file);
 			parser.startParser();
 
-			twMap.clear(tree);
+			if (!keep) {
+				twMap.clear(tree);
+			}
+			
 			currentSelectedTreeItem = tree.getRoot();
 
 			SARoot saRoot = parser.getRootelement();
@@ -879,7 +906,7 @@ public class TextEditor extends Application {
 	 * @param fullText
 	 */
 	public void searchStage(TextArea fullText) {
-		
+
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 100);
@@ -948,7 +975,7 @@ public class TextEditor extends Application {
 	 * 
 	 */
 	public void repsearchStage(TextArea fullText) {
-		
+
 		Stage searchStage = new Stage();
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root, 400, 150);
@@ -1019,7 +1046,8 @@ public class TextEditor extends Application {
 			public void handle(ActionEvent e) {
 
 				if (fList.size() != 0) {
-					fullText.replaceText(fList.get(index), fList.get(index) + stext.getText().length(), stext2.getText());
+					fullText.replaceText(fList.get(index), fList.get(index) + stext.getText().length(),
+							stext2.getText());
 					fList.remove(index);
 					if (fList.size() != 0) {
 						checkindex(checkBox, fList, fullText, stext);
@@ -1068,7 +1096,7 @@ public class TextEditor extends Application {
 		// primaryStage.setFullScreen(true);
 		searchStage.show();
 	};
-	
+
 	public void checkindex(CheckBox checkBox, List<Integer> fList, TextArea fullText, TextField stext) {
 		if (checkBox.isSelected()) {
 			fList.clear();
@@ -1093,7 +1121,7 @@ public class TextEditor extends Application {
 		}
 
 	}
-	
+
 	/**
 	 * Searches a user input in the text contained by the TextArea.
 	 * 
