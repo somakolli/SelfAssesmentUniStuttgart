@@ -36,30 +36,24 @@ const base64url = {
  * @return {Uint8Array} Bytes
  */
 function bytesFromBase64String (string) {
-    const options = base64url
-    const alphabet = options.alphabet
+    const options = base64url;
+    const alphabet = options.alphabet;
 
     // translate each character into an octet
-    const length = string.length
-    const octets = []
-    let character, octet
-    let i = -1
+    const length = string.length;
+    const octets = [];
+    let character, octet;
+    let i = -1;
 
     // go through each character
     while (++i < length) {
-        character = string[i]
+        character = string[i];
 
-        if (options.lineSeparator &&
-            character === options.lineSeparator[0] &&
-            string.substr(i, options.lineSeparator.length) ===
-            options.lineSeparator) {
-            // this is a line separator, skip it
-            i = i + options.lineSeparator.length - 1
-        } else if (character === options.padCharacter) {
+        if (character === options.padCharacter) {
             // this is a pad character, ignore it
         } else {
             // this is an octet or a foreign character
-            octet = alphabet.indexOf(character)
+            octet = alphabet.indexOf(character);
             if (octet !== -1) {
                 octets.push(octet)
             } else if (options.foreignCharactersForbidden) {
@@ -70,7 +64,7 @@ function bytesFromBase64String (string) {
     }
 
     // calculate original padding and verify it
-    const padding = (4 - octets.length % 4) % 4
+    const padding = (4 - octets.length % 4) % 4;
     if (padding === 3) {
         throw new ByteEncodingError(
             `A single remaining encoded character in the last quadruple or a ` +
@@ -83,16 +77,16 @@ function bytesFromBase64String (string) {
     }
 
     // map pairs of octets (4) to pairs of bytes (3)
-    const size = octets.length / 4 * 3
-    const bytes = new Uint8Array(size)
-    let j
+    const size = octets.length / 4 * 3;
+    const bytes = new Uint8Array(size);
+    let j;
     for (i = 0; i < octets.length; i += 4) {
         // calculate byte index
-        j = i / 4 * 3
+        j = i / 4 * 3;
         // byte 1: bits 1-6 from octet 1 joined by bits 1-2 from octet 2
-        bytes[j] = (octets[i] << 2) | (octets[i + 1] >> 4)
+        bytes[j] = (octets[i] << 2) | (octets[i + 1] >> 4);
         // byte 2: bits 3-6 from octet 2 joined by bits 1-4 from octet 3
-        bytes[j + 1] = ((octets[i + 1] & 15) << 4) | (octets[i + 2] >> 2)
+        bytes[j + 1] = ((octets[i + 1] & 15) << 4) | (octets[i + 2] >> 2);
         // byte 3: bits 1-2 from octet 3 joined by bits 1-6 from octet 4
         bytes[j + 2] = ((octets[i + 2] & 3) << 6) | octets[i + 3]
     }
@@ -106,33 +100,33 @@ function bytesFromBase64String (string) {
  * @return {string} Base64 string
  */
 function base64StringFromBytes (bytes) {
-    const options = base64url
-    const alphabet = options.alphabet
+    const options = base64url;
+    const alphabet = options.alphabet;
     const padCharacter = !options.padCharacterOptional && options.padCharacter
-        ? options.padCharacter : ''
+        ? options.padCharacter : '';
 
     // encode each 3-byte-pair
-    let string = ''
-    let byte1, byte2, byte3
-    let octet1, octet2, octet3, octet4
+    let string = '';
+    let byte1, byte2, byte3;
+    let octet1, octet2, octet3, octet4;
 
     for (let i = 0; i < bytes.length; i += 3) {
         // collect pair bytes
-        byte1 = bytes[i]
-        byte2 = i + 1 < bytes.length ? bytes[i + 1] : NaN
-        byte3 = i + 2 < bytes.length ? bytes[i + 2] : NaN
+        byte1 = bytes[i];
+        byte2 = i + 1 < bytes.length ? bytes[i + 1] : NaN;
+        byte3 = i + 2 < bytes.length ? bytes[i + 2] : NaN;
 
         // bits 1-6 from byte 1
-        octet1 = byte1 >> 2
+        octet1 = byte1 >> 2;
 
         // bits 7-8 from byte 1 joined by bits 1-4 from byte 2
-        octet2 = ((byte1 & 3) << 4) | (byte2 >> 4)
+        octet2 = ((byte1 & 3) << 4) | (byte2 >> 4);
 
         // bits 4-8 from byte 2 joined by bits 1-2 from byte 3
-        octet3 = ((byte2 & 15) << 2) | (byte3 >> 6)
+        octet3 = ((byte2 & 15) << 2) | (byte3 >> 6);
 
         // bits 3-8 from byte 3
-        octet4 = byte3 & 63
+        octet4 = byte3 & 63;
 
         // map octets to characters
         string +=
@@ -144,7 +138,7 @@ function base64StringFromBytes (bytes) {
 
     if (options.maxLineLength) {
         // limit text line length, insert line separators
-        let limitedString = ''
+        let limitedString = '';
         for (let i = 0; i < string.length; i += options.maxLineLength) {
             limitedString +=
                 (limitedString !== '' ? options.lineSeparator : '') +
@@ -177,13 +171,13 @@ function bytesFromBinaryString (string) {
 
     // decode each byte
     const bytes = chunk(string, 8).map((byteString, index) => {
-        const byte = parseInt(byteString, 2)
+        const byte = parseInt(byteString, 2);
         if (byteString.match(/[0-1]{8}/) === null || isNaN(byte)) {
             throw new ByteEncodingError(
                 `Invalid binary encoded byte '${byteString}'`)
         }
         return byte
-    })
+    });
 
     return new Uint8Array(bytes)
 }
