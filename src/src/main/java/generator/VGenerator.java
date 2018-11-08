@@ -154,6 +154,7 @@ public class VGenerator implements VGeneratorInterface {
 
     private HashMap<String, String> getFilesContentMap(SARoot saRoot){
         HashMap<String, String> filesContentMap = new HashMap<>();
+        System.out.println(saRoot.getConclusions().size());
         filesContentMap.putAll(generateConclusion(saRoot));
         filesContentMap.putAll(generateQuestions(saRoot));
         filesContentMap.putAll(generateSolution(saRoot));
