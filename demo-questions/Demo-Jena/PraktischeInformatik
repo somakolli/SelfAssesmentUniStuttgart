@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <question>
+        <content>Betrachten Sie den folgenden Stack. Der Stack ist eine in der Informatik häufig genutzte Datenstruktur zur Speicherung von Daten. Die Daten werden auf dem Stack abgelegt ("push") und die abgelegten Daten wieder gelesen ("peek")  ohne sie zu entfernen oder sie werden entfernt ("pop"). Der Stack operiert dabei nach dem "Last-in-First-Out"-Prinzip. Das bedeutet, dass stets nur das oberste Element, das heißt das Element, welches als letztes auf den Stack gelegt wurde, gelesen oder entfernt wird. Betrachten Sie nun den folgenden Stack. 
+&lt;img src="stack.png" width="300px"&gt;&lt;br&gt;  Es wurden die Zahlen 4, 7, 5 und 6 der Reihe nach auf den Stack gelegt. Sie lesen das oberste Element ("peek"), danach entfernen Sie es ("pop"). Danach lesen ("peek") Sie erneut das oberste Element des Stacks. Welches Element lesen Sie? 
+</content>
+        <answer>
+            <content>7</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>4</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>5</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>6</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Praktische Informatik</categoryName>
+        </category>
+        <id>0</id>
+        <points>0</points>
+        <singleChoice>false</singleChoice>
+        <time>0</time>
+    </question>
+</saRoot>
