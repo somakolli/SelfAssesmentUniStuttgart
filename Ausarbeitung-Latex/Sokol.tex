@@ -1,3 +1,48 @@
 \label{Sokol}
-\subsection{Hier kommt der erste Teil-Abschnitt }
-bliBlaBlub
+Für das einfache Verwalten der Webseite, ist es vorgesehen, dass sie statisch ist.
+In diesem Fall heißt das, dass es keinen Server geben soll, der dynamisch auf Anfragen des Benutzers reagiert.
+Alle dynamischen Funktionen, wie das Laden neuer Fragen, finden auf der Benutzerebene statt.
+Der Server liefert dem Benutzer bei Bedarf, also nur statische Dateien.
+
+Der Vorteil dieses Designs ist, dass die Webseitendateien nur ein Mal aus den Java Objekten generiert werden müssen.
+Für diese Funktion haben wir uns für die Template Engine Velocity\footnote{\url{http://velocity.apache.org/}} entschieden.
+
+\subsubsection{Velocity}
+
+Velocity erlaubt es Dokumente mit Variablen zu bestücken, die dann von Velocity mit dem Text aus den Java Objekten ersetzt werden.
+Diese Dokumente werden Templates genannt.
+Dafür werden Velocity das Java Objekt, der Name des Java Objektes in dem Tamplate und das Template an sich übergeben.
+Velocity liest daraufhin das Template, sucht sich die Stellen heraus, die Variablen enthalten, und ersetzt diese mit den Inhalten des Java Objektes.
+
+Ein Beispiel eines Velocity Templates ist in Listing~\ref{lst:velocity-example} gegeben.
+Für das Beispiel wird angenommen, dass Velocity ein Question Objekt übergeben bekommt.
+Dieses Question Objekt hat eine Funktion 'getContent()', die einen String zurückgibt, und eine andere Funktion 'getAnswers()', die eine Liste mit Answer Objekten zurückgibt.
+Das Answer Objekt hat wiederum auch eine Funktion 'getContent()'.
+Außerdem wird Velocity der Variablenname 'question' und das aufgeführte Template übergeben.
+
+Das Zeichen '\$' in dem Template signalisiert Velocity, dass der danach kommende Text für Velocity vorgesehen ist.
+So bemerkt Velocity, dass '\$question', das übergebene Question Objekt referenziert und ruft im ersten Fall die Funktion 'getContent()' auf.
+Die Funktion wird ausgewertet und der zurückgegebene String wird an der Stelle des Funktionsaufrufs gesetzt.
+
+Im Beispiel-Template sieht man auch eine 'foreach' Schleife, die mit '\#foreach' beginnt und mit '\#end' endet.
+Diese Schleife sorgt dafür, dass der Abschnitt, der sich in der Schleife befindet, so oft geschrieben wird, wie es Answer Objekte in der von 'question.getAnswers()' zurückgegebenen Liste gibt.
+
+Daraufhin wird '\$answer.getContent()' mit der entsprechenden Rückgabe der Answer Objektes ersetzt.
+
+
+\begin{lstlisting}[basicstyle=\tiny,label={lst:velocity-example},caption={Beispiel eines Velocity Templates.},language=HTML]
+<h1>$question.getContent()</h1>
+<ul>
+#foreach($answer in $question.getAnswers())
+<li>$answer.getContent()</li>
+#end
+</ul>
+\end{lstlisting}
+
+\subsubsection{Erstellung der Webseite}
+Für alle Dateien der Webseite, die Inhalte von den Java Objekten benötigen, wird eine Template Datei erstellt.
+Daraufhin werden die ausgewerteten Templates, mit den anderen für die Webseite benötigten Dateien, in ein ZIP-Archiv gepackt und in einen von dem Benutzer des Generators festgelegten Ort gespeichert.
+
+Um die Webseite dann zu veröffentlichen, müssen die Dateien im Archiv über einen HTTP-Server angeboten werden.
+
+
