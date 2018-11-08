@@ -205,7 +205,7 @@ public class VGenerator implements VGeneratorInterface {
         File websiteResourcesFile = new File(fh.getPathFormResources("src/main/resources/website"));
         //File websiteResourcesFile = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("website")).getFile());
         if(!websiteResourcesFile.exists()){
-            websiteResourcesFile = new File(fh.getPathFormResources("/website"));
+            websiteResourcesFile = new File(fh.getPathFormResources("website"));
             //websiteResourcesFile = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("/website")).getFile());
         }
         System.out.println("Path: "+websiteResourcesFile.getAbsolutePath());
