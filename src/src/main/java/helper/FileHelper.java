@@ -33,4 +33,8 @@ public class FileHelper {
         }
 
     }
+
+    public String getPathFormResources(String fileName){
+        return Paths.get(fileName).toString();
+    }
 }
