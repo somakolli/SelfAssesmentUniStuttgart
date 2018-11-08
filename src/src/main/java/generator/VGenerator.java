@@ -202,7 +202,14 @@ public class VGenerator implements VGeneratorInterface {
     public void createZipArchive(SARoot saRoot, String path){
         FileHelper fh = new FileHelper();
         File websiteFile = new File(path);
-        File websiteResourcesFile = new File(fh.getPathFormResources("website"));
+        File websiteResourcesFile = new File(fh.getPathFormResources("src/main/resources/website"));
+        //File websiteResourcesFile = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("website")).getFile());
+        if(!websiteResourcesFile.exists()){
+            websiteResourcesFile = new File(fh.getPathFormResources("/website"));
+            //websiteResourcesFile = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("/website")).getFile());
+        }
+        System.out.println("Path: "+websiteResourcesFile.getAbsolutePath());
+        //ZipUtil.pack(new File(Objects.requireNonNull(getClass().getClassLoader().getResource("website")).getFile()), websiteFile);
         ZipUtil.pack(websiteResourcesFile, websiteFile);
         ArrayList<ZipEntrySource> entries = new ArrayList<>();
         for (HashMap.Entry<String, String> entry : getFilesContentMap(new SARoot(saRoot)).entrySet()){
