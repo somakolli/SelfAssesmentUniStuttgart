@@ -9,7 +9,7 @@ Ein Wort *w* wird von A erkannt, falls der Automat seine Arbeit im Endzustand *q
 &lt;br&gt;
 Z.b. wird *w0* = aba von A erkannt, *w1* = bab aber nicht.
 
-&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/myDea.jpg" width="330px"&gt;
+&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/Demo_Tim/myDea.jpg" width="330px"&gt;
 &lt;br&gt;
 Welche Wörter erkennt A ?</content>
         <answer>
@@ -43,7 +43,7 @@ Welche Wörter erkennt A ?</content>
     </question>
     <question>
         <content>Betrachten Sie die folgende Wahrheitstabelle: &lt;br&gt;
-&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/wahrheitstabelle.png" width="340px"&gt;
+&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/Demo_Tim/wahrheitstabelle.png" width="340px"&gt;
 &lt;br&gt;
 Sei die Funktion f definiert durch: &lt;br&gt;
 f(A,B) = (!A * B) + (A * !B)
@@ -54,21 +54,21 @@ Welche dieser Belegungen der letzten Spalte sind gültig?
 </content>
         <answer>
             <content>
-&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/lsg1.png" width="100px"&gt;
+&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/Demo_Tim/lsg1.png" width="100px"&gt;
 </content>
             <correct>false</correct>
             <id>0</id>
         </answer>
         <answer>
             <content>
-&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/lsg2.png" width="100px"&gt;
+&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/Demo_Tim/lsg2.png" width="100px"&gt;
 </content>
             <correct>true</correct>
             <id>0</id>
         </answer>
         <answer>
             <content>
-&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/lsg3.png" width="100px"&gt;
+&lt;img src="file:/SelfAssesmentUniStuttgart/demo-questions/Demo_Tim/lsg3.png" width="100px"&gt;
 </content>
             <correct>false</correct>
             <id>0</id>
