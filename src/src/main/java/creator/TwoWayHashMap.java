@@ -106,7 +106,9 @@ public class TwoWayHashMap {
 		}
 		return res;
 	}
-
+/**
+ * Updates the Question id's.
+ */
 	public void UpdateQuestionIds() {
 		for (int i = 0; i < Questions.size(); i++) {
 			Question q = Questions.get(i);
@@ -115,7 +117,6 @@ public class TwoWayHashMap {
 	}
 
 	public ArrayList<Conclusion> getConclusions() {
-
 		return Conclusions;
 	}
 
@@ -526,8 +527,7 @@ public class TwoWayHashMap {
 			conclusion.setContent(content);
 		}
 	}
-	
-	
+
 	/**
 	 * Sets the Content of a SAObject corresponting to the given TreeItem.
 	 * 
