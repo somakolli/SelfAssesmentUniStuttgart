@@ -13,9 +13,9 @@
 \usepackage{color}
 \usepackage{hyperref}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=red,
+    colorlinks=false,
+    linkcolor=black,
+    urlcolor=black,
     linktoc=all
 }
 \usepackage{xr}
@@ -71,7 +71,7 @@
 \fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
 \fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
 \fancyhead[C]{} %zentrierte Kopfzeile
-\fancyhead[R]{\thepage} %Kopfzeile rechts
+\fancyhead[R]{\arabic{page}} %Kopfzeile rechts
 \renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
 %\fancyfoot[C]{\thepage} %Seitennummer
 %\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
@@ -135,10 +135,13 @@
 		% Bottom of the page
 		{\large \today\par}
 \end{titlepage}	
+\pagenumbering{arabic}
+\onecolumn
 \tableofcontents
 % inkludiere einzelne Abschnitte
 \clearpage
 
+\twocolumn
 \section*{Kurzfassung}
 \input{Abstract}
 
@@ -146,12 +149,13 @@
 \section{Einleitung und Motivation}
 \input{Einleitung-und-Motivation}
 
-\section{Related Work}
+\section{Verwandte Arbeiten}
 \input{Jonas}
 
 
 \section{Architektur}
 \input{Architektur}
+
 
 \section{Implementierung}
 
@@ -167,36 +171,14 @@
 \input{Sokol}
 
 
-\subsection{Website}
+\subsection{Webseite}
 \input{Jena}
 
 
 \section{Anwendungsszenario}
-\subsection{Programm ausführen}
-Zuerst führt man die Datei \textit{TextEditor.java} aus, die wie folgt im Projekt-Ordner zu finden ist:\newline 
-
-\textit{src>>main>>java>>creator>>TextEditor.java}\newline 
-
-Jetzt öffnet sich das Haupt-Fenster des Creators (siehe Abbildung \ref{fig:Bild0}).
-\subsection{Fragen hinzufügen}
-Nun fügen wir unter File in der Toolbar neue Kategorien mit Fragen und deren Antworten hinzu. Dabei geben wir an, wie viele Punkte eine Antwort gibt, wie viel Zeit sie maximal beötigt, und ob sie Single Choice zulässt an (Abbildung \ref{fig:Bild0}). Nachdem wir angegeben haben welche Anworten korrekt sind, fügen wir noch entsprechende Conclusions hinzu, deren Range angibt, bis zu wie vielen Punkten jene Conclusion am Ende in der Bewertung angezeigt wird. 
-\subsection{Webseite generieren}
-Falls wir noch nicht fertig sind und eine Pause machen möchten, kann unser Fortschritt als XML-Datei export und zu einem späteren Zeitpunkt wieder importiert werden.\newline Um die letztendliche HTML-Datei zu erstellen clickt man als Nächstes auf \textit{Generate Website} unter \textit{File} und speichert das Projekt mit der inkludierten HTML-Datei in einem beliebigen Ordner.
-\subsubsection*{\textit{optional: lokalen Server erstellen}}
-Da der Selfassessment-Test einen Server benötigt, kann man, falls man keinen Server besitzt, auch das Ganze auf einem Lokalen Server testen. Dies gelingt zum Beispiel mit \textit{Node.js}.
-\subsection{Selfasessment-Test durchführen}
-Sobald die Verbindung zu einem Server besteht, kann der Test benutzt werden. Der Test an sich ist sehr intuitiv zu bedienen. Man wählt seine Antworten aus und clickt auf \textit{Next}. Sollte der Timer ablaufen wird die eingeloggte Antwort genommen und zur nächsten Frage gesprungen. Am Ende kann man noch seine Bewertung einsehen.
+\input{Anwendungsszenario}
 
 \section{Zusammenfassung und Ausblick}
+\input{Zusammenfassung_Ausblick}
 
-\onecolumn
-% einfacher Zeilenabstand
-\singlespacing
-% Literaturliste soll im Inhaltsverzeichnis auftauchen
-\newpage
-\addcontentsline{toc}{section}{Literaturverzeichnis}
-% Literaturverzeichnis anzeigen
-\renewcommand\refname{Literaturverzeichnis}
-
-\bibliography{Hauptdatei}
 \end{document}

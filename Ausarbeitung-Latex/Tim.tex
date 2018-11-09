@@ -1,42 +1,42 @@
 \label{Tim}
-In diesem Kapitel wird die Parser Komponente vorgestellt.
+In diesem Kapitel wird die Parser-Komponente vorgestellt.
 Ihre primäre Aufgabe besteht darin, zwischen dem Speichermedium und dem Generierungsprozess zu vermitteln.
-Als Speichermedium dienen hierbei einfache XML Dateien, während die aktive Generierung mit Java Objekten arbeitet.
+Als Speichermedium dienen hierbei einfache XML Dateien, während die aktive Generierung mit Java-Objekten arbeitet.
 
-Im folgenden wird zunächst die Interne Struktur vorgestellt, welche der Implementierung zugrunde liegt. Anschließend wird die Funktionalitäten der Parser Komponente im Detail vorgestellt. 
+Im folgenden wird zunächst die Interne Struktur vorgestellt, welche der Implementierung zugrunde liegt. Anschließend werden die Funktionalitäten der Parser Komponente im Detail vorgestellt. 
 
 \subsubsection{Interne Struktur}
-Generell sind alle hier relevanten Teile eines Self Assessment Tests ( Kategorien, Fragen, Antworten, Ergebnis ) Java Objekte. 
-Nachdem eine Frage erstellt wurde ist sie zunächst ein Java Objekt der Klasse 'Question'.
+Generell sind alle hier relevanten Teile eines Self Assessment Tests ( Kategorien, Fragen, Antworten, Feedback ) Java-Objekte. 
+Nachdem eine Frage erstellt wurde ist sie zunächst ein Java-Objekt der Klasse 'Question'.
 Als solches besitzt die Frage verschiedene Attribute wie z.b. ihre Kategorie, den Aufgabentext und insbesondere eine Liste der ihr zugehörigen Antworten.
 Somit ist gleichzeitig das Mapping zwischen Fragen und Kategorien, sowie zwischen Fragen und Antworten gegeben.
 Um den ganzen erstellten Test zu sichern genügt es also, eine Liste der Fragen speichern.
-Der Einfachheit halber haben wir eine Toplevel Klasse namens 'SARoot' eingeführt. 
-Ein Test wird so letztlich durch ein Objekt der Klasse 'SARoot' repräsentiert, welches eine Liste von Fragen und Kategorien, sowie das Ergebnis beinhaltet.   
+Der Einfachheit halber haben wir eine Toplevel-Klasse namens 'SARoot' eingeführt. 
+Ein Test wird so letztlich durch ein Objekt der Klasse 'SARoot' repräsentiert, welches eine Liste von Fragen und Kategorien, sowie das Feedback beinhaltet.   
 
 \subsubsection{Speichern von Fragen}
-Wie in Kapitel 4.2 beschrieben, kann der Ersteller den aktuellen Arbeitsstand speichern, indem er den Test als XML Datei exportiert.
+Wie in Kapitel 4.2 beschrieben, kann der Ersteller den aktuellen Arbeitsstand speichern, indem er den Test als XML-Datei exportiert.
 In der GUI findet man diese Operation unter 'Export XML'.
-Hierbei werden im Hintergrund alle erstellten Java Objekte an die Parser Komponente übergeben, welche diese dann in XML Elemente umwandelt und in einer Datei abspeichert.
-Genauer gesagt wird hier genau ein Toplevel Objekt übergeben, welches alle Objekte beinhaltet.
+Hierbei werden im Hintergrund alle erstellten Java-Objekte an die Parser-Komponente übergeben, welche diese dann in XML-Elemente umwandelt und in einer Datei abspeichert.
+Genauer gesagt wird hier genau ein Toplevel-Objekt übergeben, welches alle anderen Objekte beinhaltet.
 
 Intern verwendet die Parser Komponente die 'Java Architecture for XML Binding (JAXB)'
 \footnote{\url{https://javaee.github.io/jaxb-v2/}\label{JAXB}}.
-Der von JAXB bereitgestellte 'marshaller' ermöglicht es Java Objekte von spezifizierten Klassen direkt in XML Elemente zu verwandeln und anschließend in eine XML Datei zu schreiben.
-Um vom 'marshaller' erkannt zu werden benötigen alle unsere Java Klassen die von JAXB vorgeschlagenen XML Tags.
+Der von JAXB bereitgestellte 'marshaller' ermöglicht es Java-Objekte von spezifizierten Klassen direkt in XML-Elemente zu verwandeln und anschließend in eine XML-Datei zu schreiben.
+Um vom 'marshaller' erkannt zu werden benötigen alle unsere Java-Klassen die von JAXB vorgeschlagenen XML-Tags.
 
-Die Parser Komponente nutzt diese Funktion der JAXB API um unser Speichermedium, eine XML Datei, zu erstellen.
+Die Parser-Komponente nutzt diese Funktion der JAXB API um unser Speichermedium, eine XML-Datei, zu erstellen.
 So können die nur zur Laufzeit existierenden Objekte persistent gespeichert werden.
 
 \subsubsection{Einlesen von Fragen}
-Um gespeicherte Fragen oder ganze Tests wiederverwendbar zu machen, bietet die Parser Komponente die Möglichkeit XML Dateien einzulesen.
-Es findet als eine Überführung von XML Elementen in Java Objekte statt.
-Ähnlich wie beim Speichern verwendet die Parser Komponente hierzu wieder eine Funktionalität des JAXB 'marshaller's.
-Die Funktionalität besteht darin, aus XML Elementen Java Objekte von Klassen mit passenden XML Tags zu erzeugen.
+Um gespeicherte Fragen oder ganze Tests wiederverwendbar zu machen, bietet die Parser-Komponente die Möglichkeit XML-Dateien einzulesen.
+Dabei findet eine Überführung von XML-Elementen in Java-Objekte statt.
+Ähnlich wie beim Speichern verwendet die Parser-Komponente hierzu wieder eine Funktionalität des JAXB 'marshaller's.
+Diese Funktionalität besteht darin, aus XML-Elementen Java-Objekte von Klassen mit passenden XML-Tags zu erzeugen.
 
-Das Resultat des Einlesens ist ein Toplevel Objekt der Klasse 'SARoot'. 
-Aus diesem Objekt kann der gesamte Self Assessment Test erstellt und die Webseite generiert werden. 
+Das Resultat des Einlesens ist ein Toplevel-Objekt der Klasse 'SARoot'. 
+Aus diesem Objekt kann der gesamte Self-Assessment-Test erstellt und die Webseite generiert werden. 
 
-Die GUI greift auf die Parser Komponente zurück um die 'Import XML' Operation durchzuführen. 
-Außerdem ist es dem erfahrenen Ersteller nun möglich den gesamten Self Assessment Test 'von Hand' in einer XML Datei zu verfassen, ohne hierfür die GUI zu verwenden. 
+Die GUI greift wieder auf die Parser-Komponente zurück um die 'Import XML' Operation durchzuführen. 
+Außerdem ist es dem erfahrenen Ersteller nun möglich den gesamten Self-Assessment-Test 'von Hand' in einer XML-Datei zu verfassen, ohne hierfür die GUI zu verwenden. 
 
