@@ -4,6 +4,7 @@ import javafx.application.Application;
 
 import domain.*;
 import generator.VGenerator;
+import javafx.stage.DirectoryChooser;
 import parser.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.application.Platform;
@@ -35,9 +36,9 @@ import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
 
 /**
  *
- * Benutzeroberfläche zum Erstellen eines Self-Assesment-Tests.
+ * Benutzeroberflï¿½che zum Erstellen eines Self-Assesment-Tests.
  * 
- * @author Julian Blumenröther
+ * @author Julian Blumenrï¿½ther
  * @version 1.0
  * 
  * 
@@ -103,7 +104,7 @@ public class TextEditor extends Application {
 			}
 		});
 
-		// Tabelle zum ändern der eigenschaften
+		// Tabelle zum ï¿½ndern der eigenschaften
 
 		table.setPrefHeight(60);
 		root.setBottom(table);
@@ -423,43 +424,34 @@ public class TextEditor extends Application {
 				new SeparatorMenuItem(), DelContMenuItem);
 		tree.setContextMenu(treecm);
 
-		Menu insertMenu = new Menu("Insert");
+		Menu insertMenu = new Menu("Insert Media");
 		MenuItem imageMenuItem = new MenuItem("Image");
 		imageMenuItem.setOnAction(actionEvent -> {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Select .jpg or .png File");
-			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png"));
-			fileChooser.setInitialFileName("");
-			File file = fileChooser.showOpenDialog(primaryStage);
-
 			String currenttext = text.getText();
 			String newtext1 = currenttext.substring(0, text.getCaretPosition());
 			String newtext2 = currenttext.substring(text.getCaretPosition());
-			String insert = file.getAbsolutePath();
-			String finalstring = newtext1 + "\n<img src=\"file:" + insert + "\" width=\"100px\">\n" + newtext2;
+			String finalstring = newtext1 + "\n<img src=\"\" width=\"50%\">\n" + newtext2;
 			text.setText(finalstring);
-
 		});
 		MenuItem videoMenuItem = new MenuItem("Video");
 		videoMenuItem.setOnAction(actionEvent -> {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Select .mp4");
-			fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Video Files", "*.mp4"));
-			fileChooser.setInitialFileName("");
-			File file = fileChooser.showOpenDialog(primaryStage);
-
 			String currenttext = text.getText();
 			String newtext1 = currenttext.substring(0, text.getCaretPosition());
 			String newtext2 = currenttext.substring(text.getCaretPosition());
-			String insert = file.getAbsolutePath();
-			String finalstring = newtext1 + "\n<video width=\"100px\" controls><source src=\"file:" + insert
-					+ "\"></video>\n" + newtext2;
+			String finalstring = newtext1 + "\n<video width=\"50%\" controls><source src=\"\"></video>\n" + newtext2;
 			text.setText(finalstring);
-
 		});
 
-		insertMenu.getItems().addAll(imageMenuItem);
-		insertMenu.getItems().addAll(videoMenuItem);
+		MenuItem setMediaPathMenuItem = new MenuItem("Set Media Folder");
+
+		setMediaPathMenuItem.setOnAction(actionEvent -> {
+			DirectoryChooser directoryChooser = new DirectoryChooser();
+			directoryChooser.setTitle("Select Media Folder");
+			File file = directoryChooser.showDialog(primaryStage);
+			System.out.println(file.getAbsolutePath() + "/");
+			vg.setMediaPath(file.getAbsolutePath() + "/");
+		});
+		insertMenu.getItems().addAll(imageMenuItem,videoMenuItem,new SeparatorMenuItem(), setMediaPathMenuItem);
 		menuBar.getMenus().add(insertMenu);
 
 	}
@@ -467,24 +459,23 @@ public class TextEditor extends Application {
 	public void changedEvent(WebEngine engine, String newValue) {
 
 		SAObject sao = twMap.getSAObject(currentSelectedTreeItem);
-		VGenerator v = new VGenerator();
 
 		if (twMap.isCategory(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
-			engine.loadContent(v.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)), "text/html");
+			engine.loadContent(vg.getCategoryHtml((Category) twMap.getSAObject(currentSelectedTreeItem)), "text/html");
 
 		} else if (twMap.isQuestion(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
-			engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)), "text/html");
+			engine.loadContent(vg.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem)), "text/html");
 
 		} else if (twMap.isAnswer(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
-			engine.loadContent(v.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem.getParent())),
+			engine.loadContent(vg.getQuestionHtml((Question) twMap.getSAObject(currentSelectedTreeItem.getParent())),
 					"text/html");
 
 		} else if (twMap.isConclusion(currentSelectedTreeItem)) {
 			twMap.setContent(sao, newValue);
-			engine.loadContent(v.getConclusionHtml((Conclusion) twMap.getSAObject(currentSelectedTreeItem)),
+			engine.loadContent(vg.getConclusionHtml((Conclusion) twMap.getSAObject(currentSelectedTreeItem)),
 					"text/html");
 
 		} else {
@@ -709,8 +700,12 @@ public class TextEditor extends Application {
 				item = new TreeItem<>("Category: " + (twMap.getTreeItem(obj).getParent().getChildren().size() + 1));
 
 				result.ifPresent(name -> {
-					twMap.getTreeItem(obj).setValue(name);
-					c.setCategoryName(name);
+					if(name.equals("")) {
+						twMap.removePair(obj);
+					} else {
+						twMap.getTreeItem(obj).setValue(name);
+						c.setCategoryName(name);
+					}
 
 				});
 			} else {

@@ -21,7 +21,7 @@ import java.util.*;
 
 public class VGenerator implements VGeneratorInterface {
 
-    private String mediaPath = "/home/sokol/Desktop/images/";
+    private String mediaPath = "";
 
     private String previewTemplate;
 
@@ -175,7 +175,7 @@ public class VGenerator implements VGeneratorInterface {
 
     private String replaceImgAndVideoSrcForTemplate(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
-        for(Element video : htmlDoc.select("video[src]")){
+        for(Element video : htmlDoc.select("source[src]")){
             File file = new File(mediaPath + video.attr("src"));
             String filePath = "file:" + mediaPath + file.getName();
             video.attr("src", filePath);
@@ -185,12 +185,12 @@ public class VGenerator implements VGeneratorInterface {
             String zipPath = "file:" + mediaPath + file.getName();
             img.attr("src", zipPath);
         }
-        return htmlDoc.body().children().toString();
+        return htmlDoc.toString();
     }
 
     private String replaceImgAndVideoSrc(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
-        for(Element video : htmlDoc.select("video[src]")){
+        for(Element video : htmlDoc.select("source[src]")){
             File file = new File(mediaPath + video.attr("src"));
             String zipPath = "videos/" + file.getName();
             try {
@@ -293,8 +293,8 @@ public class VGenerator implements VGeneratorInterface {
         context.put("question", questionCopy);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "questionPreview", previewTemplate);
-        System.out.println(replaceImgAndVideoSrc(writer.toString()));
-        return replaceImgAndVideoSrc(writer.toString());
+        System.out.println(replaceImgAndVideoSrcForTemplate(writer.toString()));
+        return replaceImgAndVideoSrcForTemplate(writer.toString());
     }
     public String getCategoryHtml(Category category){
         return MarkdownHelper.markdownToHtml(category.getContent());
