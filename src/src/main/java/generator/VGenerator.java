@@ -3,7 +3,6 @@ package generator;
 import domain.*;
 import helper.FileHelper;
 import helper.MarkdownHelper;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
@@ -22,13 +21,23 @@ import java.util.*;
 
 public class VGenerator implements VGeneratorInterface {
 
+    private String mediaPath = "";
+
     private String previewTemplate;
 
     public String getPreviewTemplate() {
         return previewTemplate;
     }
 
-    public HashMap<String, byte[]> bytesMap = new HashMap<>();
+    public String getMediaPath() {
+        return mediaPath;
+    }
+
+    public void setMediaPath(String mediaPath) {
+        this.mediaPath = mediaPath;
+    }
+
+    private HashMap<String, byte[]> bytesMap = new HashMap<>();
 
     public VGenerator(){
         generatePreviewTemplate();
@@ -37,11 +46,9 @@ public class VGenerator implements VGeneratorInterface {
     /**
      * @param question A question which Content will transformed to HTML and inserted to the template
      * @param jsonTemplate A template which describes the Structure of the HTML
-     * @return HTML-String which is dervide from the question and template
      */
-    private HashMap<String, String> generateQuestion(Question question, String jsonTemplate, String htmlTemplate){
+    private void generateQuestion(Question question, String jsonTemplate, String htmlTemplate){
         //convert Markdown to HTML and remove linebreaks
-        HashMap<String, String> contentFileMap = new HashMap<>();
         Question questionCopy = new Question(question);
         questionCopy.setContent(MarkdownHelper.markdownToHtml(questionCopy.getContent()));
         ArrayList<Answer> answers = new ArrayList<>();
@@ -60,13 +67,11 @@ public class VGenerator implements VGeneratorInterface {
         StringWriter htmlWriter = new StringWriter();
         Velocity.evaluate(context, jsonWriter, "question", jsonTemplate);
         Velocity.evaluate(context, htmlWriter, "question", htmlTemplate);
-        contentFileMap.put("questions/"+question.getId() + ".json", jsonWriter.toString());
-        contentFileMap.put("questions/"+question.getId() + ".html", replaceImgAndVideoSrc(htmlWriter.toString()));
-        return contentFileMap;
+        bytesMap.put("questions/"+question.getId() + ".json", jsonWriter.toString().getBytes());
+        bytesMap.put("questions/"+question.getId() + ".html", replaceImgAndVideoSrc(htmlWriter.toString()).getBytes());
     }
 
-    private HashMap<String, String> generateTempFile(){
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generateTempFile(){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/filenames.tpl");
         Velocity.init();
@@ -80,12 +85,10 @@ public class VGenerator implements VGeneratorInterface {
         context.put("filenames", filenames);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "categoryMap", template);
-        filesContentMap.put("filenames.txt", writer.toString());
-        return filesContentMap;
+        bytesMap.put("filenames.txt", writer.toString().getBytes());
     }
 
-    private HashMap<String, String> generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/categories.tpl");
         Velocity.init();
@@ -93,12 +96,10 @@ public class VGenerator implements VGeneratorInterface {
         context.put("categoryMap", categoryMap);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "categoryMap", template);
-        filesContentMap.put("scripts/categories.js", writer.toString());
-        return filesContentMap;
+        bytesMap.put("scripts/categories.js", writer.toString().getBytes());
     }
 
-    private HashMap<String, String> generateQCountJS(int questionCount){
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generateQCountJS(int questionCount){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/QCount.tpl");
         Velocity.init();
@@ -106,12 +107,10 @@ public class VGenerator implements VGeneratorInterface {
         context.put("questionCount", questionCount);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "categoryMap", template);
-        filesContentMap.put("scripts/QCount.js",writer.toString());
-        return filesContentMap;
+        bytesMap.put("scripts/QCount.js",writer.toString().getBytes());
     }
 
-    private HashMap<String, String> generateQuestions(SARoot saRoot) {
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generateQuestions(SARoot saRoot) {
         FileHelper fh = new FileHelper();
         for (Question question:
              saRoot.getQuestions()) {
@@ -119,13 +118,11 @@ public class VGenerator implements VGeneratorInterface {
 
             String jsonTemplate = fh.getFileFromResources(templatePath);
             String htmlTemplate = fh.getFileFromResources("templates/questions/questionHtml.tpl");
-            filesContentMap.putAll(generateQuestion(new Question(question), jsonTemplate, htmlTemplate));
+            generateQuestion(new Question(question), jsonTemplate, htmlTemplate);
         }
-        return filesContentMap;
     }
 
-    private HashMap<String, String> generateSolution(SARoot saRoot){
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generateSolution(SARoot saRoot){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/solution.tpl");
         StringBuilder solution = new StringBuilder();
@@ -140,12 +137,11 @@ public class VGenerator implements VGeneratorInterface {
         context.put("solution", solution.toString());
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "solution", template);
-        filesContentMap.put("scripts/solution.js",writer.toString());
-        return filesContentMap;
+        bytesMap.put("scripts/solution.js",writer.toString().getBytes());
+
     }
 
-    private HashMap<String, String> generatePoints(SARoot saRoot){
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generatePoints(SARoot saRoot){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/points.tpl");
         Velocity.init();
@@ -153,12 +149,10 @@ public class VGenerator implements VGeneratorInterface {
         context.put("questions", saRoot.getQuestions());
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "points", template);
-        filesContentMap.put("scripts/points.js",writer.toString());
-        return filesContentMap;
+        bytesMap.put("scripts/points.js",writer.toString().getBytes());
     }
 
-    private HashMap<String, String> generateConclusion(SARoot saRoot){
-        HashMap<String, String> filesContentMap = new HashMap<>();
+    private void generateConclusion(SARoot saRoot){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/questions/conclusion.tpl");
         Velocity.init();
@@ -166,38 +160,38 @@ public class VGenerator implements VGeneratorInterface {
         context.put("conclusions", saRoot.getConclusions());
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "conclusions", template);
-        filesContentMap.put("questions/conclusion.json",writer.toString());
-
-        return filesContentMap;
+        bytesMap.put("questions/conclusion.json",writer.toString().getBytes());
     }
 
-    private HashMap<String, String> getFilesContentMap(SARoot saRoot){
-        HashMap<String, String> filesContentMap = new HashMap<>();
-        System.out.println(saRoot.getConclusions().size());
-        filesContentMap.putAll(generateConclusion(saRoot));
-        filesContentMap.putAll(generateQuestions(saRoot));
-        filesContentMap.putAll(generateSolution(saRoot));
-        filesContentMap.putAll(generateCategoriesJS(saRoot.getCategoryQuestionMap()));
-        filesContentMap.putAll(generateQCountJS(saRoot.getQuestions().size()));
-        filesContentMap.putAll(generatePoints(saRoot));
-        //filesContentMap.putAll(generateTempFile());
-        return filesContentMap;
+    private void fillByteMap(SARoot saRoot){
+        generateConclusion(saRoot);
+        generateQuestions(saRoot);
+        generateSolution(saRoot);
+        generateCategoriesJS(saRoot.getCategoryQuestionMap());
+        generateQCountJS(saRoot.getQuestions().size());
+        generatePoints(saRoot);
+        addStaticFilesToByteMap();
     }
 
-    private Question parseMarkdown(Question question){
-        Question questionCopy = new Question(question);
-        questionCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()));
-        for (Answer answer :
-                questionCopy.getAnswers()) {
-            answer.setContent(MarkdownHelper.markdownToHtml(answer.getContent()));
+    private String replaceImgAndVideoSrcForTemplate(String htmlString){
+        Document htmlDoc = Jsoup.parse(htmlString);
+        for(Element video : htmlDoc.select("source[src]")){
+            File file = new File(mediaPath + video.attr("src"));
+            String filePath = "file:" + mediaPath + file.getName();
+            video.attr("src", filePath);
         }
-        return questionCopy;
+        for(Element img : htmlDoc.select("img[src]")){
+            File file = new File(mediaPath + img.attr("src"));
+            String zipPath = "file:" + mediaPath + file.getName();
+            img.attr("src", zipPath);
+        }
+        return htmlDoc.toString();
     }
 
     private String replaceImgAndVideoSrc(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
         for(Element video : htmlDoc.select("source[src]")){
-            File file = new File(video.attr("src").replace("file:", ""));
+            File file = new File(mediaPath + video.attr("src"));
             String zipPath = "videos/" + file.getName();
             try {
                 bytesMap.put(zipPath, Files.readAllBytes(file.toPath()));
@@ -207,8 +201,8 @@ public class VGenerator implements VGeneratorInterface {
             video.attr("src", zipPath);
         }
         for(Element img : htmlDoc.select("img[src]")){
-            File file = new File(img.attr("src").replace("file:", ""));
-            String zipPath = "images/" + file.getName();
+            File file = new File(mediaPath + img.attr("src"));
+            String zipPath = "media/" + file.getName();
             try {
                 bytesMap.put(zipPath, Files.readAllBytes(file.toPath()));
             } catch (IOException e) {
@@ -219,13 +213,8 @@ public class VGenerator implements VGeneratorInterface {
         return htmlDoc.body().children().toString();
     }
 
-    public void createZipArchive(SARoot saRoot, String path){
+    private void addStaticFilesToByteMap(){
         FileHelper fh = new FileHelper();
-        File websiteFile = new File(path);
-        ArrayList<ZipEntrySource> entries = new ArrayList<>();
-        for (HashMap.Entry<String, String> entry : getFilesContentMap(new SARoot(saRoot)).entrySet()){
-            entries.add(new ByteSource(entry.getKey(), entry.getValue().getBytes()));
-        }
         ArrayList<String> websiteFiles = new ArrayList<>();
         websiteFiles.add("/images/unistuttgart_logo_deutsch.jpg");
         websiteFiles.add("/questions/evaluation.json");
@@ -244,13 +233,20 @@ public class VGenerator implements VGeneratorInterface {
         websiteFiles.add("/scripts/evaluation.js");
         websiteFiles.add("/scripts/load-question.js");
         websiteFiles.add("/index.html");
-
         for (String websiteFileName :
                 websiteFiles) {
             String filenamePath = "website"+websiteFileName;
             System.out.println(filenamePath);
-            bytesMap.put(websiteFileName.substring(1), fh.getFileFromResources(filenamePath).getBytes());
+            bytesMap.put(websiteFileName, fh.bytesFromResources(filenamePath));
+
         }
+    }
+
+    public void createZipArchive(SARoot saRoot, String path){
+        File websiteFile = new File(path);
+        ArrayList<ZipEntrySource> entries = new ArrayList<>();
+        bytesMap = new HashMap<>();
+        fillByteMap(saRoot);
 
         for (HashMap.Entry<String, byte[]> entry : bytesMap.entrySet()){
             entries.add(new ByteSource(entry.getKey(), entry.getValue()));
@@ -298,7 +294,8 @@ public class VGenerator implements VGeneratorInterface {
         context.put("question", questionCopy);
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "questionPreview", previewTemplate);
-        return writer.toString();
+        System.out.println(replaceImgAndVideoSrcForTemplate(writer.toString()));
+        return replaceImgAndVideoSrcForTemplate(writer.toString());
     }
     public String getCategoryHtml(Category category){
         return MarkdownHelper.markdownToHtml(category.getContent());
