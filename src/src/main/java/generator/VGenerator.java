@@ -249,7 +249,7 @@ public class VGenerator implements VGeneratorInterface {
                 websiteFiles) {
             String filenamePath = "website"+websiteFileName;
             System.out.println(filenamePath);
-            bytesMap.put(websiteFileName, fh.getFileFromResources(filenamePath).getBytes());
+            bytesMap.put(websiteFileName.substring(1), fh.getFileFromResources(filenamePath).getBytes());
         }
 
         for (HashMap.Entry<String, byte[]> entry : bytesMap.entrySet()){
