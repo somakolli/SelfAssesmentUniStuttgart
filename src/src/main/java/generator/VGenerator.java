@@ -65,6 +65,25 @@ public class VGenerator implements VGeneratorInterface {
         return contentFileMap;
     }
 
+    private HashMap<String, String> generateTempFile(){
+        HashMap<String, String> filesContentMap = new HashMap<>();
+        FileHelper fh = new FileHelper();
+        String template = fh.getFileFromResources("templates/filenames.tpl");
+        Velocity.init();
+        Context context = new VelocityContext();
+        List<String> filenames = null;
+        try {
+            filenames = fh.getFileMapFromResourceDirectory(new File(getClass().getClassLoader().getResource("website").getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        context.put("filenames", filenames);
+        StringWriter writer = new StringWriter();
+        Velocity.evaluate(context, writer, "categoryMap", template);
+        filesContentMap.put("filenames.txt", writer.toString());
+        return filesContentMap;
+    }
+
     private HashMap<String, String> generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
         HashMap<String, String> filesContentMap = new HashMap<>();
         FileHelper fh = new FileHelper();
@@ -161,6 +180,7 @@ public class VGenerator implements VGeneratorInterface {
         filesContentMap.putAll(generateCategoriesJS(saRoot.getCategoryQuestionMap()));
         filesContentMap.putAll(generateQCountJS(saRoot.getQuestions().size()));
         filesContentMap.putAll(generatePoints(saRoot));
+        //filesContentMap.putAll(generateTempFile());
         return filesContentMap;
     }
 
@@ -202,16 +222,36 @@ public class VGenerator implements VGeneratorInterface {
     public void createZipArchive(SARoot saRoot, String path){
         FileHelper fh = new FileHelper();
         File websiteFile = new File(path);
-        File websiteResourcesFile = new File(getClass().getClassLoader().getResource("website").getFile());
-        try {
-            bytesMap.putAll(fh.getFileMapFromResourceDirectory(websiteResourcesFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         ArrayList<ZipEntrySource> entries = new ArrayList<>();
         for (HashMap.Entry<String, String> entry : getFilesContentMap(new SARoot(saRoot)).entrySet()){
             entries.add(new ByteSource(entry.getKey(), entry.getValue().getBytes()));
         }
+        ArrayList<String> websiteFiles = new ArrayList<>();
+        websiteFiles.add("/images/unistuttgart_logo_deutsch.jpg");
+        websiteFiles.add("/questions/evaluation.json");
+        websiteFiles.add("/css/mediaQuestionStyle.css");
+        websiteFiles.add("/css/multiCheckboxStyle.css");
+        websiteFiles.add("/css/overviewStyle.css");
+        websiteFiles.add("/css/containerStyle.css");
+        websiteFiles.add("/css/topContentStyle.css");
+        websiteFiles.add("/css/bootstrap.min.css");
+        websiteFiles.add("/css/evaluationStyle.css");
+        websiteFiles.add("/css/color.css");
+        websiteFiles.add("/css/bottomContentStyle.css");
+        websiteFiles.add("/scripts/timer.js");
+        websiteFiles.add("/scripts/base64.js");
+        websiteFiles.add("/scripts/state.js");
+        websiteFiles.add("/scripts/evaluation.js");
+        websiteFiles.add("/scripts/load-question.js");
+        websiteFiles.add("/index.html");
+
+        for (String websiteFileName :
+                websiteFiles) {
+            String filenamePath = "website"+websiteFileName;
+            System.out.println(filenamePath);
+            bytesMap.put(websiteFileName, fh.getFileFromResources(filenamePath).getBytes());
+        }
+
         for (HashMap.Entry<String, byte[]> entry : bytesMap.entrySet()){
             entries.add(new ByteSource(entry.getKey(), entry.getValue()));
         }
