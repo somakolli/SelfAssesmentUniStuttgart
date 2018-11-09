@@ -35,9 +35,9 @@ import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
 
 /**
  *
- * Benutzeroberfläche zum Erstellen eines Self-Assesment-Tests.
+ * BenutzeroberflÃ¤che zum Erstellen eines Self-Assesment-Tests.
  * 
- * @author Julian Blumenröther
+ * @author Julian BlumenrÃ¶ther
  * @version 1.0
  * 
  * 
@@ -103,7 +103,7 @@ public class TextEditor extends Application {
 			}
 		});
 
-		// Tabelle zum ändern der eigenschaften
+		// Tabelle zum Ã¤ndern der eigenschaften
 
 		table.setPrefHeight(60);
 		root.setBottom(table);
@@ -763,6 +763,7 @@ public class TextEditor extends Application {
 	 * 
 	 * @param primaryStage
 	 * @param text
+	 * @param keep
 	 * @throws IOException
 	 */
 	public void open(Stage primaryStage, TextArea text, boolean keep) throws IOException {
