@@ -238,6 +238,7 @@ public class VGenerator implements VGeneratorInterface {
             String filenamePath = "website"+websiteFileName;
             System.out.println(filenamePath);
             bytesMap.put(websiteFileName, fh.bytesFromResources(filenamePath));
+
         }
     }
 
