@@ -14,7 +14,7 @@ public class Question extends ContentObject {
 
     private List<Answer> answers = new ArrayList<>();
     //private List<String> mediaPaths = new ArrayList<>();
-    private int points = 0;
+    private int points = 1;
     //if the time is zero there will be no timer
     private int time = 0;
     private Category category = new Category();
