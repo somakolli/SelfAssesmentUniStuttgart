@@ -219,7 +219,7 @@ public class VGenerator implements VGeneratorInterface {
         websiteFiles.add("css/mediaQuestionStyle.css");
         websiteFiles.add("css/multiCheckboxStyle.css");
         websiteFiles.add("css/overviewStyle.css");
-        websiteFiles.add("/css/containerStyle.css");
+        websiteFiles.add("css/containerStyle.css");
         websiteFiles.add("css/topContentStyle.css");
         websiteFiles.add("css/bootstrap.min.css");
         websiteFiles.add("css/evaluationStyle.css");
