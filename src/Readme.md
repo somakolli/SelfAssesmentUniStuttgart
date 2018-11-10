@@ -5,9 +5,6 @@ To Build from source Maven is required.
 Build with `mvn package` and execute `java -jar target/SelfAssesment-1.0-jar-with-dependencies.jar` 
 to run the GUI.
 
-To generate a website from an existing xml execute 
-`java -jar target/SelfAssesment-1.0-jar-with-dependencies.jar pathToXML pathToMediaFiles`.
-
 ## GUI Guide
 
 ### Import and Export XML
