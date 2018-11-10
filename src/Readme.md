@@ -46,17 +46,26 @@ You can either add Images or Videos with Insert Media -> Image or Insert Media -
 The HTML text will be added to your currently viewed item.
 You can set the source in the src tag.
 
-You can either input absolute sources but if you want to import your test on another computer you should set
-the media folder with Insert Media -> Set Media Folder.
+You can either input absolute sources but if you want to import your test on another 
+computer you should setthe media folder with Insert Media -> Set Media Folder.
 Then you have to input the sources relative to that path.
 
 Lets assume you have a folder `../Desktop/media` where you have an image `image.png`.
 
 If you set that folder as your media folder you just need to enter `image.png` as the source.
 
-If you then import that test on another computer and `image.png` is stored in `../Pictures` then you 
-can select `../Pictures` as your media folder and the images should show correctly 
+If you then import that test on another computer and `image.png` is stored in `../Pictures`
+then you can select `../Pictures` as your media folder and the images should show correctly 
 without changing the question.
+
+## Generating a Website
+
+To generate a website you have to select File -> Generate Website and select a folder
+and chose a name for the zip file.
+
+To deploy the website unpack the zip file and serve the files in it with a http-webserver.
+You need a server to correctly test the website, just opening the index.html on a browser
+will not work.
 
 
 
