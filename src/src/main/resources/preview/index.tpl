@@ -24,7 +24,7 @@
                         <li class="list-group-item">
                             <div class="checkbox">
                                 <label>
-                                <input type="checkbox" id="answer$answer.getId()" value="$answer.getContent()">
+                                <input type="checkbox" id="" value="">
                                     <div class="markdown-content">$answer.getContent()</div>
                                 </label>
                             </div>
