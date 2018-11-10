@@ -28,7 +28,14 @@ Die genannten Dateien werden anschließend mithilfe eines HTTP-Servers dem Clien
 Die gesamte Webseite basiert auf einer einzelnen HTML-Seite, die für jede Frage des Tests verändert wird.
 Ist im folgenden die Rede von einer Seite, so wird damit entsprechend die manipulierte HTML-Seite für eine Frage referenziert.
 
-Im folgenden soll der Aufbau jeder Fragenseite, von oben nach unten betrachtet und erläutert werden. 
+ \begin{figure*} 
+  \centering
+     \includegraphics[width=\textwidth]{Jena_Images/beispielfrage.png}
+  \caption{Die Anzeige einer Frage für einen Beispieltest.}
+  \label{fig:beispielfrage}
+\end{figure*}
+Im folgenden soll der Aufbau jeder Fragenseite, zu sehen in Abbildung~\ref{fig:beispielfrage}, von oben nach unten betrachtet und erläutert werden. 
+  
 Die Seiten beginnen stets mit dem Logo der Universität Stuttgart. 
 Es folgt eine Übersichtsleiste (A), welche die verschiedenen Kategorien des Tests anzeigt. 
 Die Kategorie der aktuell angezeigten Frage wird zur Hervorhebung grau markiert. 
@@ -41,9 +48,10 @@ Unterhalb des Fortschrittsbalkens und zentral im Sichtfeld werden die aktuelle F
 Die Frage erhält ein eigenes Feld (C), in welcher optional eine Erklärung zur Frage und ein Bild angezeigt werden können.
 Separiert von der Frage folgen dann ihre Antwortmöglichkeiten (D), die jeweils eigene Felder erhalten. 
 Für alle Fragen wird links neben jeder Antwort eine Checkbox platziert.
-Hierbei können Antworten auch Bilder beinhalten.
+Hierbei können Antworten auch Bilder beinhalten, die innerhalb der Antwortfelder angezeigt werden.
+Wurde die optionale Zeitbeschränkung für die Frage aktiviert, so wird die verbleibende Zeit (E) mittig und unterhalb dem Feld der Frage und ihrer Antworten angezeigt.
 
-Zuletzt findet sich der Next-Button (E) rechtsbündig unter dem Feld der Frage und ihrer Antworten, mit welchem die nächste Frage anzeigen lässt.
+Zuletzt findet sich der Next-Button (F) rechtsbündig unter dem Feld der Frage und ihrer Antworten, mit welchem die nächste Frage anzeigen lässt.
 
 Es wird zunächst die nahezu leere HTML-Seite aufgerufen, welche als Hülle für die Seiten der Fragen dient. 
 In der Folge wird der Inhalt der HMTL-Seite durch die aktuell anzuzeigende Frage bestimmt.
@@ -79,13 +87,17 @@ Dieses Skript vergleicht die Antworten des Nutzers mit einem durch den Generator
 Für jede korrekt beantwortete Frage wird die durch die Frage vergebene Punktzahl zur erreichten Kategoriepunktzahl und Gesamtpunktzahl addiert.
 Die Kategoriepunktzahl gibt die erreichte Punktzahl für sämtliche Fragen einer Kategorie an, die Gesamtpunktzahl die erreichte Punktzahl für die Gesamtheit aller Fragen.
 
-Die verschiedenen Kategoriepunktzahlen und die Gesamtpunktzahl werden dann in einer spezifischen Evaluationsseite dargestellt wird.
- 
-Abbildung Z zeigt die Evaluation nach einem Durchlauf eines Beispieltests. 
-
-Die Evaluationsseite setzt sich aus der Anzeige der erreichten Punkte für jede einzelne Kategorie und einem Fazit abhängig von der Gesamtpunktzahl zusammen.
+ \begin{figure*} 
+  \centering
+     \includegraphics[width=\textwidth]{Jena_Images/eval.png}
+  \caption{Die Evaluationsseite für einen Beispieltest mit drei Kategorien und maximal erreichbaren 60 Punkten.}
+  \label{fig:eval}
+\end{figure*}
+Die verschiedenen Kategoriepunktzahlen und die Gesamtpunktzahl werden dann in einer spezifischen Evaluationsseite dargestellt, die in Abbildung~\ref{fig:eval} zu sehen ist.
+  
+Die Evaluationsseite setzt sich aus der Anzeige der erreichten Punkte für jede einzelne Kategorie (A) und einem Fazit abhängig von der Gesamtpunktzahl (B) zusammen.
 Für die einzelnen Kategorien wird anhand eines Fortschrittsbalkens angezeigt, wie viele der maximal erreichbaren Punkte der betroffenen Kategorie erreicht wurden. 
 
 Für das Fazit wird eine spezifische JSON-Datei anhand der erreichten Gesamtpunktzahl ausgewertet. 
 Der Ersteller des Tests legt in dieser Datei fest, welcher Fazittext für welches Punkteintervall angezeigt werden soll. 
-Es wird dann überpürft in welchem Intervall die erreichte Gesamtpunktzahl liegt und das entsprechende Fazit im Dropdown-Feld unter den Fortschrittsbalken angezeigt. 
+Es wird dann überpürft in welchem Intervall die erreichte Gesamtpunktzahl liegt und das entsprechende Fazit im Dropdown-Feld unter den Fortschrittsbalken angezeigt (C). 
