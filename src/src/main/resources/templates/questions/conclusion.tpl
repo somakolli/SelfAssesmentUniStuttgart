@@ -1,5 +1,5 @@
 {
-    "conclusion-array": [
+    "conclusion_array": [
         #foreach($conclusion in $conclusions)
         {
             "range" : $conclusion.getRange(),
