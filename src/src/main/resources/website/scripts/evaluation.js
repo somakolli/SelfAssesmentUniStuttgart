@@ -117,8 +117,7 @@ function showFraction(id, correct, total) {
 
 function addConclusion(concData) {
     $.get("questions/conclusion.json", function (data) {
-        let arr = data.conclusion-array;
-        console.log(arr);
+        let arr = data.conclusion_array;
         for (let i = 0; i < arr.length; i++) {
             if (concData <= arr[i].range) {
                 $("#fazit").append(arr[i].conclusion);
