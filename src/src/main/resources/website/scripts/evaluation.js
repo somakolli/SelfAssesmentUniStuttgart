@@ -22,8 +22,9 @@ function loadEvaluation(state) {
 
 function fillEvaluation(categories) {
     for (let [key, value] of categories.entries()) {
-        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' + key.slice(1) + '</td> <td class="bar"> <div id="' + key.slice(1) + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
+        $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' + key + '</td> <td class="bar"> <div id="' + key + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
     }
+    $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td style="text-align: center;"> <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#fazitCollapse" aria-expanded="false" aria-controls="fazitCollapse" style="font-size: 24px;"> Fazit </button> </td> </tr> </tbody> </table> </div> <!-- aria-labelledby="headingThree" --> <div id="fazitCollapse" class="collapse"  data-parent="#accordionExample"> <div id="fazit" class="card-body"> </div> </div> </div>');
 }
 
 //input: state as binary string
