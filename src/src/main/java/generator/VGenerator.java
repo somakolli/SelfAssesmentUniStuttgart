@@ -176,14 +176,12 @@ public class VGenerator implements VGeneratorInterface {
     private String replaceImgAndVideoSrcForTemplate(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
         for(Element video : htmlDoc.select("source[src]")){
-            File file = new File(mediaPath + video.attr("src"));
-            String filePath = "file:" + mediaPath + file.getName();
+            String filePath = "file:" + mediaPath + video.attr("src");
             video.attr("src", filePath);
         }
         for(Element img : htmlDoc.select("img[src]")){
-            File file = new File(mediaPath + img.attr("src"));
-            String zipPath = "file:" + mediaPath + file.getName();
-            img.attr("src", zipPath);
+            String filePath = "file:" + mediaPath + img.attr("src");
+            img.attr("src", filePath);
         }
         return htmlDoc.toString();
     }
