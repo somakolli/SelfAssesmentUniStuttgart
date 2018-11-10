@@ -54,6 +54,7 @@ public class TextEditor extends Application {
 	public static final TreeView<String> tree = new TreeView<>(rootitem);;
 	private VGenerator vg = new VGenerator();
 
+
 	@Override
 	public void start(Stage primaryStage) {
 
