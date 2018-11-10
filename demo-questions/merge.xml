@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <question>
+        <content>Gegeben sei der deterministische endliche Automat A  = ( {a,b}, {s,q0}, δ, s, {q0} ), dieser wird durch die Abbildung unten grafisch beschrieben.
+
+
+A wird im Zustand *s* gestartet und arbeitet dann ein Eingabewort *w* zeichenweise ab.
+
+
+Ein Wort *w* wird von A erkannt, falls der Automat seine Arbeit im Endzustand *q0* beendet und keine weiteren Zeichen zu lesen sind.
+
+
+Z.b. wird *w0* = aba von A erkannt, *w1* = bab aber nicht.
+
+&lt;img src="Demo_Tim/myDea.jpg" width="330px"&gt;
+
+---
+Welche Wörter erkennt A ?</content>
+        <answer>
+            <content>*w2* = abababab</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>*w3* = aaababba</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>*w4* = bbababaaaba</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>*w5* = ba</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Theoretische Informatik</categoryName>
+        </category>
+        <id>0</id>
+        <points>4</points>
+        <singleChoice>false</singleChoice>
+        <time>0</time>
+    </question>
+    <question>
+        <content>Betrachten Sie die folgende Wahrheitstabelle: &lt;br&gt;
+&lt;img src="Demo_Tim/wahrheitstabelle.png" width="340px"&gt;
+
+Sei die Funktion f definiert durch: &lt;br&gt;
+f(A,B) = (!A * B) + (A * !B)
+
+
+Welche dieser Belegungen der letzten Spalte sind gültig?
+
+</content>
+        <answer>
+            <content>
+&lt;img src="Demo_Tim/lsg1.png" width="100px"&gt;
+</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>
+&lt;img src="Demo_Tim/lsg2.png" width="100px"&gt;
+</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>
+&lt;img src="Demo_Tim/lsg3.png" width="100px"&gt;
+</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Theoretische Informatik</categoryName>
+        </category>
+        <id>1</id>
+        <points>2</points>
+        <singleChoice>true</singleChoice>
+        <time>0</time>
+    </question>
+    <question>
+        <content>Zunächst eine einfache Funktion, auf der linken Seite sind die jeweiligen Elemente und deren Funktion aufgelistet:
+
+
+&lt;img src="kontrollfluss-frage1.png" width="100%"&gt;
+
+
+Was ist das Ergebnis des Aufrufes der Funktion: max(10,20)?
+
+
+</content>
+        <answer>
+            <content>       10</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>       20</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>       max</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>       result</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Kontrollfluss</categoryName>
+        </category>
+        <id>2</id>
+        <points>2</points>
+        <singleChoice>true</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>&lt;img src="kontrollfluss-frage2.png" width="400px"&gt;
+
+Was ist der zurückgegebende Wert der des Aufrufes: funct(5) 
+</content>
+        <answer>
+            <content>5</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>10</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>15</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>20</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Kontrollfluss</categoryName>
+        </category>
+        <id>3</id>
+        <points>2</points>
+        <singleChoice>true</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>
+&lt;img src="Kontrollfluss-Frage3.png" width="400px"&gt;
+
+Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
+</content>
+        <answer>
+            <content>a = 1, b = 12</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>a = 10, b = 10</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>a = -2, b = 2</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Mit keinem der Genannten.</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Kontrollfluss</categoryName>
+        </category>
+        <id>4</id>
+        <points>4</points>
+        <singleChoice>false</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>Ein Korb mit 1kg Erdbeeren, die einen Wassergehalt von 99% von dem 1kg haben, steht in der Sonne. Dadurch verringert sich der Wassergehalt auf 98%.
+&lt;br /&gt;  **Wie viel wiegen die Erdbeeren jetzt?**</content>
+        <answer>
+            <content>999g</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>990g</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>500g</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Keine der oberen Antworten ist richtig.</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>5</id>
+        <points>4</points>
+        <singleChoice>true</singleChoice>
+        <time>120</time>
+    </question>
+    <question>
+        <content>Lösen sie das folgende Gleichungssystem: &lt;br /&gt; **2x - y = 2**&lt;br /&gt; **-3x - 3y = -12**</content>
+        <answer>
+            <content>x = 2, y = 2</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>x = 0, y = -2</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>x = 1, y = 0</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Keine der oberen Antworten ist richtig.</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>6</id>
+        <points>4</points>
+        <singleChoice>true</singleChoice>
+        <time>60</time>
+    </question>
+    <question>
+        <content>Gegeben ist der Graph einer Funktion: 
+
+&lt;img src="Demo_Jonas/images/graph0.png" width="50%"&gt;
+
+
+**Wie sieht der Graph der 1.Ableitung aus?**</content>
+        <answer>
+            <content>
+&lt;img src="Demo_Jonas/images/graph1.png" width="50%"&gt;</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>
+&lt;img src="Demo_Jonas/images/graph2.png" width="50%"&gt;
+</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="Demo_Jonas/images/graph2.png" width="50%"&gt;
+</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>7</id>
+        <points>4</points>
+        <singleChoice>true</singleChoice>
+        <time>120</time>
+    </question>
+</saRoot>
