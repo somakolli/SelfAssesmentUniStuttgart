@@ -214,26 +214,26 @@ public class VGenerator implements VGeneratorInterface {
     private void addStaticFilesToByteMap(){
         FileHelper fh = new FileHelper();
         ArrayList<String> websiteFiles = new ArrayList<>();
-        websiteFiles.add("/images/unistuttgart_logo_deutsch.jpg");
-        websiteFiles.add("/questions/evaluation.json");
-        websiteFiles.add("/css/mediaQuestionStyle.css");
-        websiteFiles.add("/css/multiCheckboxStyle.css");
-        websiteFiles.add("/css/overviewStyle.css");
+        websiteFiles.add("images/unistuttgart_logo_deutsch.jpg");
+        websiteFiles.add("questions/evaluation.json");
+        websiteFiles.add("css/mediaQuestionStyle.css");
+        websiteFiles.add("css/multiCheckboxStyle.css");
+        websiteFiles.add("css/overviewStyle.css");
         websiteFiles.add("/css/containerStyle.css");
-        websiteFiles.add("/css/topContentStyle.css");
-        websiteFiles.add("/css/bootstrap.min.css");
-        websiteFiles.add("/css/evaluationStyle.css");
-        websiteFiles.add("/css/color.css");
-        websiteFiles.add("/css/bottomContentStyle.css");
-        websiteFiles.add("/scripts/timer.js");
-        websiteFiles.add("/scripts/base64.js");
-        websiteFiles.add("/scripts/state.js");
-        websiteFiles.add("/scripts/evaluation.js");
-        websiteFiles.add("/scripts/load-question.js");
-        websiteFiles.add("/index.html");
+        websiteFiles.add("css/topContentStyle.css");
+        websiteFiles.add("css/bootstrap.min.css");
+        websiteFiles.add("css/evaluationStyle.css");
+        websiteFiles.add("css/color.css");
+        websiteFiles.add("css/bottomContentStyle.css");
+        websiteFiles.add("scripts/timer.js");
+        websiteFiles.add("scripts/base64.js");
+        websiteFiles.add("scripts/state.js");
+        websiteFiles.add("scripts/evaluation.js");
+        websiteFiles.add("scripts/load-question.js");
+        websiteFiles.add("index.html");
         for (String websiteFileName :
                 websiteFiles) {
-            String filenamePath = "website"+websiteFileName;
+            String filenamePath = "website/"+websiteFileName;
             System.out.println(filenamePath);
             bytesMap.put(websiteFileName, fh.bytesFromResources(filenamePath));
 
