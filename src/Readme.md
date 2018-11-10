@@ -1,0 +1,62 @@
+## Build & Run
+
+To Build from source Maven is required.
+
+Build with `mvn package` and execute `java -jar target/SelfAssesment-1.0-jar-with-dependencies.jar` 
+to run the GUI.
+
+To generate a website from an existing xml execute 
+`java -jar target/SelfAssesment-1.0-jar-with-dependencies.jar pathToXML pathToMediaFiles`.
+
+## GUI Guide
+
+### Import and Export XML
+To write a Self Assesment Test you can either write one from scratch or import 
+an existing xml with File -> Import xml.
+To export your current Progress you can chose File -> Export XML.
+
+### Categories
+To add a new category, select File -> New Category and input the Category name.
+Categories must have unique names.
+
+### Questions
+To add a question first select the category and the select File -> New Question or 
+you can right click on the category and select New Question.
+In the center left window you can edit the questions content and in the center right window you
+can preview how the content will look once the website is generated.
+In the bottom you can change the time, the points and if the question is single choice or not.
+
+### Answers
+To add an answer you need to select the question and either right click -> New Answer or File -> New Answer.
+In the bottom you can set the answer to correct or incorrect.
+
+### Conclusions
+Too add a conclusion, choose File -> new Conclusion.
+The conclusion will be displayed in the end of the generated Test. 
+You can add multiple conclusions.
+Based on the achieved points one of the conclusions will be displayed.
+If you have selected a conclusion you can edit the point range in the bottom.
+
+Lets assume for example that you have one conlusion with the range 10 and one with the range 20.
+If the points achieved range from 0 - 10 the conclusion with range 10 will be shown.
+If the points achieved range from 11 - 20 the conclustion with range 20 will be shown.
+
+### Media
+You can either add Images or Videos with Insert Media -> Image or Insert Media -> Video.
+The HTML text will be added to your currently viewed item.
+You can set the source in the src tag.
+
+You can either input absolute sources but if you want to import your test on another computer you should set
+the media folder with Insert Media -> Set Media Folder.
+Then you have to input the sources relative to that path.
+
+Lets assume you have a folder `../Desktop/media` where you have an image `image.png`.
+
+If you set that folder as your media folder you just need to enter `image.png` as the source.
+
+If you then import that test on another computer and `image.png` is stored in `../Pictures` then you 
+can select `../Pictures` as your media folder and the images should show correctly 
+without changing the question.
+
+
+
