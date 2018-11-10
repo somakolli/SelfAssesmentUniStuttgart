@@ -54,17 +54,12 @@ public class TextEditor extends Application {
 	public static final TreeView<String> tree = new TreeView<>(rootitem);;
 	private VGenerator vg = new VGenerator();
 
-	public static void main(String[] args) {
-
-		Application.launch(args);
-
-	}
-
 	@Override
 	public void start(Stage primaryStage) {
 
 		BorderPane root = new BorderPane();
-		Scene scene = new Scene(root, 1600, 800);
+		Scene scene = new Scene(root, 1000, 800);
+		primaryStage.setMaximized(true);
 
 		primaryStage.setTitle("Self Assessment Test Creator");
 
@@ -273,32 +268,40 @@ public class TextEditor extends Application {
 
 		MenuItem openMenuItem = new MenuItem("Import xml");
 		openMenuItem.setOnAction(actionEvent -> {
-			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-			alert.setTitle("Select an Option.");
-			alert.setHeaderText("Merge with current Progress?");
-			alert.setContentText(
-					"Choosing no will delete your current progress. \nChoosing yes will merge the current progress with the chosen file.");
-			ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-			ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-			ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-			alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
-			alert.showAndWait().ifPresent(type -> {
-				if (type == okButton) {
-					try {
-						open(primaryStage, text, true);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				} else if (type == noButton) {
-					try {
-						open(primaryStage, text, false);
-					} catch (IOException e) {
-
-					}
-				} else {
-
+			if (twMap.getQuestions().isEmpty() && twMap.getCategories().isEmpty() && twMap.getConclusions().isEmpty()){
+				try {
+					open(primaryStage, text, true);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			});
+			} else {
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Select an Option.");
+				alert.setHeaderText("Merge with current Progress?");
+				alert.setContentText(
+						"Choosing no will delete your current progress. \nChoosing yes will merge the current progress with the chosen file.");
+				ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+				ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+				ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+				alert.getButtonTypes().setAll(okButton, noButton, cancelButton);
+				alert.showAndWait().ifPresent(type -> {
+					if (type == okButton) {
+						try {
+							open(primaryStage, text, true);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else if (type == noButton) {
+						try {
+							open(primaryStage, text, false);
+						} catch (IOException e) {
+
+						}
+					} else {
+
+					}
+				});
+			}
 		});
 
 		MenuItem saveMenuItem = new MenuItem("Export xml");
