@@ -10,7 +10,6 @@ function loadQuestion(currNum) {
             $(".container-fluid").children().first().replaceWith(questionHtml);
             setProgressBar(currNum);
             setHeader(currNum);
-            console.log(questionHtml);
             if(questionJson.time > 0){
                 $('<div id="timer"></div>').insertBefore(".bottom-right");
                 startTimer(questionJson.time);
@@ -59,9 +58,9 @@ function setHeader(currNum){
             }
         }
         if(currCat == key){
-            $(".breadcrumb").append('<li id="' + key + '" class="breadcrumb-item active" aria-current="PI" style="color:black"><a>' +  key.substring(1)  + '</a></li>')
+            $(".breadcrumb").append('<li id="' + key + '" class="breadcrumb-item active" aria-current="PI" style="color:black"><a>' +  key  + '</a></li>')
         } else {
-            $(".breadcrumb").append('<li id="' + key + '" class="breadcrumb-item"><a>' +  key.substring(1)  + '</a></li>');
+            $(".breadcrumb").append('<li id="' + key + '" class="breadcrumb-item"><a>' +  key  + '</a></li>');
         }
         i += value;
     }

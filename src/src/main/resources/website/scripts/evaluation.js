@@ -9,6 +9,7 @@ const example = "001001100000101100011110";
  * 5) use calculation to choose fitting fazit
  */
 function loadEvaluation(state) {
+    $("#timer").remove();
     $(".container-fluid").replaceWith('<div class="accordion" id="evaluation"></div>');
     $(".header").remove();
     $(".progress").remove();
@@ -93,6 +94,7 @@ function setUpEvaluation(categories, result, questionPoints) {
         //overall.push([correct, value]);
         j += value;
     }
+    
     return overall;
 }
 
@@ -115,9 +117,11 @@ function showFraction(id, correct, total) {
 
 function addConclusion(concData) {
     $.get("questions/conclusion.json", function (data) {
-        for (let i = 0; i < data.length; i++) {
-            if (concData <= data[i].range) {
-                $("#fazit").append(data[i].conclusion);
+        let arr = data.conclusion-array;
+        console.log(arr);
+        for (let i = 0; i < arr.length; i++) {
+            if (concData <= arr[i].range) {
+                $("#fazit").append(arr[i].conclusion);
                 break;
             }
         }
