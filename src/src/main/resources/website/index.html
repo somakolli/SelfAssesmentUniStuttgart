@@ -10,50 +10,24 @@
     <link rel="stylesheet" type="text/css" href="css/bottomContentStyle.css">
     <link rel="stylesheet" type="text/css" href="css/color.css">
     <link rel="stylesheet" type="text/css" href="css/topContentStyle.css">
-    <!-- <link rel="stylesheet" type="text/css" href="css/evaluationStyle.css"> -->
-    <script>(function (global) {
-
-        if(typeof (global) === "undefined") {
-            throw new Error("window is undefined");
-        }
-
-        var _hash = "!";
-        var noBackPlease = function () {
-            global.location.href += "#";
-
-            // making sure we have the fruit available for juice (^__^)
-            global.setTimeout(function () {
-                global.location.href += "!";
-            }, 50);
-        };
-
-        global.onhashchange = function () {
-            if (global.location.hash !== _hash) {
-                global.location.hash = _hash;
-            }
-        };
-
-        global.onload = function () {
-            noBackPlease();
-
-            // disables backspace on page except on input fields and textarea..
-            document.body.onkeydown = function (e) {
-                var elm = e.target.nodeName.toLowerCase();
-                if (e.which === 8 && (elm !== 'input' && elm  !== 'textarea')) {
-                    e.preventDefault();
-                }
-                // stopping event bubbling up the DOM tree..
-                e.stopPropagation();
-            };
-        }
-
-    })(window);</script>
-    <img src="images/unistuttgart_logo_deutsch.jpg" class="rounded" alt="Logo der Universität Stuttgart" width="500"
-        height="100" style="margin: 0px 10px">
+    <script src="scripts/preventBack.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/QCount.js"></script>
+    <script src="scripts/solution.js"></script>
+    <script src="scripts/categories.js"></script>
+    <script src="scripts/timer.js"></script>
+    <script src="scripts/load-question.js"></script>
+    <script src="scripts/evaluation.js"></script>
+    <script src="scripts/base64.js"></script>
+    <script src="scripts/state.js"></script>
+    <script src="scripts/points.js"></script>
 </head>
 
 <body>
     <!-----------------------------HEADER---------------------->
+    <img src="images/unistuttgart_logo_deutsch.jpg" class="rounded" alt="Logo der Universität Stuttgart" width="500"
+         height="100" style="margin: 0px 10px">
     <nav class="header" aria-label="breadcrumb">
         <ol class="breadcrumb">
         </ol>
@@ -69,28 +43,11 @@
     <div class="container-fluid">
         <div class="card border-dark mb-3">
         </div>
-        <!-- <div class="bottom-left">
-            <a href="#" class="previous" onclick="updateState();"> Previous</a>
-        </div> -->
         <div id="timer" value="60">
         </div>
         <div class="bottom-right">
             <a href="#" class="next" onclick="updateState();">Next</a>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
-        crossorigin="anonymous"></script>
-    <script src="scripts/QCount.js"></script>
-    <script src="scripts/solution.js"></script>
-    <script src="scripts/categories.js"></script>
-    <script src="scripts/timer.js"></script>
-    <script src="scripts/load-question.js"></script>
-    <script src="scripts/evaluation.js"></script>
-    <script src="scripts/base64.js"></script>
-    <script src="scripts/state.js"></script>
-    <script src="scripts/points.js"></script>
 </body>
 </html>

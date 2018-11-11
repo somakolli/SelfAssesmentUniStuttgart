@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: evaluation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: evaluation.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * given the binary encoded state,
+ * calculate and display the evaluation page
+ * @param {String} state
+ */
+function loadEvaluation(state) {
+    $("#timer").remove();
+    $(".container-fluid").replaceWith('&lt;div class="accordion" id="evaluation">&lt;/div>');
+    $(".header").remove();
+    $(".progress").remove();
+    $('head').append('&lt;link rel="stylesheet" type="text/css" href="css/evaluationStyle.css">');
+    fillEvaluation(getCategories());
+    let answersAndCount = stateToAnswers(state);
+    let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
+    let overallScore = setUpEvaluation(getCategories(), result, getQuestionPoints());
+    addConclusion(overallScore);
+}
+
+/**
+ * fill the evaluation page with the category fields and progress bars
+ * @param {map} categories 
+ */
+function fillEvaluation(categories) {
+    for (let [key, value] of categories.entries()) {
+        $("#evaluation").append('&lt;div class="card"> &lt;div class="card-header"> &lt;table class="table"> &lt;tbody> &lt;tr> &lt;td class="category">' + key + '&lt;/td> &lt;td class="bar"> &lt;div id="' + key + '" class="progress"> &lt;/div> &lt;/td> &lt;/tr> &lt;/tbody> &lt;/table> &lt;/div> &lt;/div>')
+    }
+    $("#evaluation").append('&lt;div class="card"> &lt;div class="card-header"> &lt;table class="table"> &lt;tbody> &lt;tr> &lt;td style="text-align: center;"> &lt;button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#fazitCollapse" aria-expanded="false" aria-controls="fazitCollapse" style="font-size: 24px;"> Fazit &lt;/button> &lt;/td> &lt;/tr> &lt;/tbody> &lt;/table> &lt;/div> &lt;!-- aria-labelledby="headingThree" --> &lt;div id="fazitCollapse" class="collapse"  data-parent="#accordionExample"> &lt;div id="fazit" class="card-body"> &lt;/div> &lt;/div> &lt;/div>');
+}
+
+/**
+ * produces an array consisting of the user answers as binary string 
+ * and an array of how many answer options each question consisted of
+ * @return {array} [useranswers, answersperquestion]
+ */
+function stateToAnswers() {
+    let answerArray = stateToAnswerList();
+    let answerString = "";
+    let allAnswers = [];
+    for(let i = 0; i &lt; answerArray.length; i++){
+        let currentAnswerString = answerArray[i];
+        answerString+=currentAnswerString;
+        allAnswers.push(currentAnswerString.length);
+    }
+    return [answerString, allAnswers];
+}
+
+
+/**
+ * produces an array of 1's and 0's in order of the questions, 
+ * 1 representing a correctly answered question 
+ * @param {String} solution
+ * @param {String} answers
+ * @param {array}  evaluation
+ * @return {array} result 
+ */
+function evaluate(solution, answers, allAnswers) {
+    /* console.log("ans: " + answers)
+    console.log("sol: " + solution) */
+    let result = [];
+    let pointer = 0;
+    for (let i = 0; i &lt; allAnswers.length; i++) {
+        let currCorrect = true;
+        //pointer indicates the beginn of all answers for one indiv. question, pointer + allAnswers[i] the end
+        for (let j = pointer; j &lt; pointer + allAnswers[i]; j++) {
+            if (solution.charAt(j) != answers.charAt(j)) {
+                currCorrect = false;
+                break;
+            }
+        }
+        currCorrect == true ? result.push(1) : result.push(0);
+        pointer += allAnswers[i];
+    }
+    return result;
+}
+
+ /**
+  * calculates the overall score of the test
+  * @param {map} categories 
+  * @param {array} result 
+  * @param {array} questionPoints 
+  * @return {number} overallPoints
+  */
+function setUpEvaluation(categories, result, questionPoints) {
+    let j = 0;
+    let overall = 0;
+    //let overall = [];
+    //value corresponds with the total amount of questions for this category
+    for (let [key, value] of categories) {
+        //console.log("value: " + value)
+        let correct = 0;
+        let categoryTotal = 0;
+        //j + value includes all questions that the current category consists of
+        for (let i = j; i &lt; j + value; i++) {
+            //sum up the 1's (correctly answered question) for each category
+            correct += result[i] * questionPoints[i];
+            categoryTotal += questionPoints[i];
+        }
+        showFraction(key, correct, categoryTotal);
+        overall += correct;
+        //overall.push([correct, value]);
+        j += value;
+    }
+    
+    return overall;
+}
+
+/**
+ * load html-fractions into evaluation page
+ * @param {String} id 
+ * @param {number} correct 
+ * @param {number} total 
+ */
+function showFraction(id, correct, total) {
+    let fraction = correct / total;
+    let width = Math.max(fraction * 100, 5);
+    let fillWidth = 100 - width;
+    if (fraction &lt; 0.25) {
+        $('[id="' + id + '"]').append('&lt;div class="progressBarLow" style="width:' + width + '%">' + correct + '&lt;/div>');
+    } else if (fraction >= 0.25 &amp;&amp; fraction &lt; 0.75) {
+        $('[id="' + id + '"]').append('&lt;div class="progressBarAverage" style="width:' + width + '%">' + correct + '&lt;/div>');
+    } else {
+        $('[id="' + id + '"]').append('&lt;div class="progressBarGood" style="width:' + width + '%">' + correct + '&lt;/div>');
+    }
+    if (width &lt; 100) {
+        $('[id="' + id + '"]').append('&lt;div class="progressFill" style="width:' + fillWidth + '%">' + total + '&lt;/div>');
+    }
+}
+
+/**
+ * add a conclusion to the evaluation page
+ * according to overall score
+ * @param {number} overallScore
+ */
+function addConclusion(overallScore) {
+    $.get("questions/conclusion.json", function (data) {
+        let rangeArray = data.conclusion_array;
+        for (let i = 0; i &lt; rangeArray.length; i++) {
+            if (overallScore &lt;= rangeArray[i]) {
+                $.get("conclusions/" + rangeArray[i] + ".html", function (conclusionHtml) {
+                    $("#fazit").append(conclusionHtml);
+                });
+                break;
+            }
+        }
+    });
+}
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addConclusion">addConclusion</a></li><li><a href="global.html#answerListToBinary">answerListToBinary</a></li><li><a href="global.html#answerListToBitString">answerListToBitString</a></li><li><a href="global.html#base64StringFromBytes">base64StringFromBytes</a></li><li><a href="global.html#binaryStringFromBytes">binaryStringFromBytes</a></li><li><a href="global.html#binaryStringToState">binaryStringToState</a></li><li><a href="global.html#bytesFromBase64String">bytesFromBase64String</a></li><li><a href="global.html#bytesFromBinaryString">bytesFromBinaryString</a></li><li><a href="global.html#calcQNr">calcQNr</a></li><li><a href="global.html#evaluate">evaluate</a></li><li><a href="global.html#fillEvaluation">fillEvaluation</a></li><li><a href="global.html#getAnswerList">getAnswerList</a></li><li><a href="global.html#loadEvaluation">loadEvaluation</a></li><li><a href="global.html#loadQuestion">loadQuestion</a></li><li><a href="global.html#loadQuestionOrEvaluation">loadQuestionOrEvaluation</a></li><li><a href="global.html#setHeader">setHeader</a></li><li><a href="global.html#setProgressBar">setProgressBar</a></li><li><a href="global.html#setUpEvaluation">setUpEvaluation</a></li><li><a href="global.html#showFraction">showFraction</a></li><li><a href="global.html#startTimer">startTimer</a></li><li><a href="global.html#stateToAnswerList">stateToAnswerList</a></li><li><a href="global.html#stateToAnswers">stateToAnswers</a></li><li><a href="global.html#stateToBinaryString">stateToBinaryString</a></li><li><a href="global.html#updateState">updateState</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 11 2018 19:48:58 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

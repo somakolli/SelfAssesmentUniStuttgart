@@ -16,25 +16,11 @@ public class FileHelper {
 
     }
 
-    public List<String> getFileMapFromResourceDirectory(File directory) throws IOException {
-        ArrayList<String> filenames = new ArrayList<>();
-        for (File file :
-                directory.listFiles()) {
-
-            if(file.isDirectory()) {
-                filenames.addAll(getFileMapFromResourceDirectory(file));
-            } else {
-                String path = file.getPath().replaceAll(".*website", "");
-                if(path.charAt(0)=='\\'){
-                    path = path.substring(1);
-                }
-                System.out.println(path);
-                filenames.add(path);
-            }
-        }
-        return filenames;
-    }
-
+    /**
+     * Gets the String of a file from the resources folder
+     * @param fileName name of the file
+     * @return content of the file
+     */
     public String getFileFromResources(String fileName){
         String result = "";
 
@@ -48,6 +34,11 @@ public class FileHelper {
         return result;
     }
 
+    /**
+     * gets the bytes form a file in the resources folder
+     * @param fileName name of the file
+     * @return byte content of the file
+     */
     public byte[] bytesFromResources(String fileName){
         ClassLoader classLoader = getClass().getClassLoader();
         try{
@@ -56,18 +47,5 @@ public class FileHelper {
             e.printStackTrace();
         }
         return new byte[0];
-    }
-
-    public void writeFileToResources(String fileName, String content){
-        try {
-            Files.write(Paths.get(fileName), content.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public String getPathFormResources(String fileName){
-        return Paths.get(fileName).toString();
     }
 }

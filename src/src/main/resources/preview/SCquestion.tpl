@@ -24,8 +24,8 @@
                 <li class="list-group-item">
                     <div class="radio">
                         <label>
-                            <input name="answer$answer.getId()" type="radio" id="answer$answer.getId()" value="answer$answer.getId()">
-                            <div class="markdown-content">$answer.getContent()</div>
+                            <input name="answer$answer.getId()" type="radio" id="" value="">
+                                <div class="markdown-content">$answer.getContent()</div>
                         </label>
                     </div>
                 </li>
