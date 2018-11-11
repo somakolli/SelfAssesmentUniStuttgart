@@ -23,15 +23,9 @@ public class VGenerator implements VGeneratorInterface {
 
     private String mediaPath = "";
 
-    private String previewTemplate;
+    private String mCPreviewTemplate;
 
-    public String getPreviewTemplate() {
-        return previewTemplate;
-    }
-
-    public String getMediaPath() {
-        return mediaPath;
-    }
+    private String sCPreviewTemplate;
 
     public void setMediaPath(String mediaPath) {
         this.mediaPath = mediaPath;
@@ -40,7 +34,8 @@ public class VGenerator implements VGeneratorInterface {
     private HashMap<String, byte[]> bytesMap = new HashMap<>();
 
     public VGenerator(){
-        generatePreviewTemplate();
+         mCPreviewTemplate = generatePreviewTemplate("MCquestion.tpl");
+         sCPreviewTemplate = generatePreviewTemplate("SCquestion.tpl");
     }
 
     /**
@@ -117,7 +112,12 @@ public class VGenerator implements VGeneratorInterface {
             String templatePath = "templates/questions/question.tpl";
 
             String jsonTemplate = fh.getFileFromResources(templatePath);
-            String htmlTemplate = fh.getFileFromResources("templates/questions/questionHtml.tpl");
+            String htmlTemplate;
+            if (question.isSingleChoice()){
+                htmlTemplate = fh.getFileFromResources("templates/questions/SCquestionHtml.tpl");
+            }else {
+                htmlTemplate = fh.getFileFromResources("templates/questions/questionHtml.tpl");
+            }
             generateQuestion(new Question(question), jsonTemplate, htmlTemplate);
         }
     }
@@ -254,9 +254,9 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap = new HashMap<>();
     }
 
-    private void generatePreviewTemplate(){
+    private String generatePreviewTemplate(String name){
         FileHelper fh = new FileHelper();
-        String template = fh.getFileFromResources("preview/index.tpl");
+        String template = fh.getFileFromResources("preview/" + name);
         Velocity.init();
         Context context = new VelocityContext();
         context.put("bottomContentStyleCss" , fh.getFileFromResources( "website/css/bottomContentStyle.css"));
@@ -273,7 +273,7 @@ public class VGenerator implements VGeneratorInterface {
         //just evaluate upper part so velocity does not remove foreachloop
         Velocity.evaluate(context, writer, "preview", template.substring(0,400));
 
-        previewTemplate = writer.toString() + template.substring(400);
+        return writer.toString() + template.substring(400);
     }
 
     public String getQuestionHtml(Question question){
@@ -291,8 +291,12 @@ public class VGenerator implements VGeneratorInterface {
         Context context = new VelocityContext();
         context.put("question", questionCopy);
         StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "questionPreview", previewTemplate);
-        System.out.println(replaceImgAndVideoSrcForTemplate(writer.toString()));
+        if (question.isSingleChoice()) {
+            Velocity.evaluate(context, writer, "questionPreview", sCPreviewTemplate);
+        } else {
+            Velocity.evaluate(context, writer, "questionPreview", mCPreviewTemplate);
+        }
+        //System.out.println(replaceImgAndVideoSrcForTemplate(writer.toString()));
         return replaceImgAndVideoSrcForTemplate(writer.toString());
     }
     public String getCategoryHtml(Category category){
