@@ -22,10 +22,7 @@ public class Category extends ContentObject {
 		this.categoryName = other.categoryName;
 	}
 
-	/**
-	 * 
-	 * @param categoryName
-	 */
+
     @XmlElement
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
