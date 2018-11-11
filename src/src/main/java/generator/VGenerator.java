@@ -49,6 +49,7 @@ public class VGenerator{
     /**
      * generates a Question based on the
      * @param question A question which Content will transformed to HTML and inserted to the template
+     * @param htmlTemplate the html template to be used
      * @param jsonTemplate A JSON Template which describes
      */
     private void generateQuestion(Question question, String jsonTemplate, String htmlTemplate){

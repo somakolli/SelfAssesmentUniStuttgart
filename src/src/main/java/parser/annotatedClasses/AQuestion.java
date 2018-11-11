@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * @author tjehr
- * Class to represent the annotated Question-Objects for XML parsing <br/>
- * This class does not (jet) contains a Hashmap Method
+ * Class to represent the annotated Question-Objects for XML parsing
+ * This class does not (yet) contain a Hashmap Method
  */
 
 @XmlRootElement
