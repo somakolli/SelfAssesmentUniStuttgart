@@ -6,7 +6,7 @@
             <li class="list-group-item">
                 <div class="radio">
                     <label>
-                        <input type="radio" id="answer$answer.getId()" value="">
+                        <input name="answer$answer.getId()" type="radio" id="answer$answer.getId()" value="">
                         <div class="markdown-content">$answer.getContent()</div>
                     </label>
                 </div>

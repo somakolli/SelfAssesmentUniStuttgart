@@ -61,6 +61,8 @@ let binaryStringToState = function (binaryString) {
 let getAnswerList = function () {
     let answersList = [];
     let answers = $("input[type=checkbox]");
+    if(answers.length === 0)
+        answers = $("input[type=radio]");
     answers.each(function () {
         answersList.push({ id: this.id, checked: this.checked });
     });
