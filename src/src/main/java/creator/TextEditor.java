@@ -296,7 +296,7 @@ public class TextEditor extends Application {
 						try {
 							open(primaryStage, text, false);
 						} catch (IOException e) {
-
+							e.printStackTrace();
 						}
 					} else {
 
@@ -309,12 +309,12 @@ public class TextEditor extends Application {
 		saveMenuItem.setOnAction(actionEvent -> {
 
 			try {
-				save(primaryStage, text);
+				save(primaryStage);
 				if (!currentSelectedTreeItem.equals(null)) {
 					twMap.setContent(twMap.getSAObject(currentSelectedTreeItem), text.getText());
 				}
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		});
 
@@ -430,7 +430,6 @@ public class TextEditor extends Application {
 			DirectoryChooser directoryChooser = new DirectoryChooser();
 			directoryChooser.setTitle("Select Media Folder");
 			File file = directoryChooser.showDialog(primaryStage);
-			System.out.println(file.getAbsolutePath() + "/");
 			vg.setMediaPath(file.getAbsolutePath() + "/");
 		});
 
@@ -445,8 +444,8 @@ public class TextEditor extends Application {
 	/**
 	 * Updates the content of the WebEngine.
 	 * 
-	 * @param engine
-	 * @param newValue
+	 * @param engine The WebEngine on which the Content will be shown.
+	 * @param newValue The Content which will be shown in the WebEngine.
 	 */
 	private void changedEvent(WebEngine engine, String newValue) {
 
@@ -601,7 +600,7 @@ public class TextEditor extends Application {
 	/**
 	 * Removes the currentSelectedTreeItem from the twMap and the TreeView.
 	 * 
-	 * @param text
+	 * @param text The main TextArea.
 	 */
 	private void delete(TextArea text) {
 
@@ -687,8 +686,8 @@ public class TextEditor extends Application {
 	 * Creates a Branch between the given rootitem and the given SAObject and links
 	 * them together in the Two-Way-Hash-Map.
 	 * 
-	 * @param root
-	 * @param obj
+	 * @param root The TreeItem on which the newly created TreeItem will be attached to.
+	 * @param obj The new created SAObject.
 	 */
 	private void makeBranch(TreeItem<String> root, SAObject obj) {
 
@@ -760,10 +759,10 @@ public class TextEditor extends Application {
 	 * Reads the contents of a selected XML file, converts them into java objects
 	 * and creates the corresponding TreeItems in the treeview.
 	 * 
-	 * @param primaryStage
-	 * @param text
-	 * @param keep
-	 * @throws IOException
+	 * @param primaryStage The main stage.
+	 * @param text The TextArea.
+	 * @param keep True, if you want to keep your progress, false otherwise.
+	 * @throws IOException Will be thrown, if there is no selected file.
 	 */
 	private void open(Stage primaryStage, TextArea text, boolean keep) throws IOException {
 		FileChooser fileChooser = new FileChooser();
@@ -809,11 +808,9 @@ public class TextEditor extends Application {
 
 	/**
 	 * Saves the current state of Test to a XML-file.
-	 * 
-	 * @param primaryStage
-	 * @param text
+	 * @param primaryStage The main stage.
 	 */
-	private void save(Stage primaryStage, TextArea text) {
+	private void save(Stage primaryStage) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save as XML-File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
