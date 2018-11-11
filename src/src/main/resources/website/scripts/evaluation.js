@@ -130,20 +130,21 @@ function showFraction(id, correct, total) {
 /**
  * add a conclusion to the evaluation page
  * according to overall score
- * @param {number} overallScore 
+ * @param {number} overallScore
  */
 function addConclusion(overallScore) {
     $.get("questions/conclusion.json", function (data) {
-        let arr = data.conclusion_array;
-        for (let i = 0; i < arr.length; i++) {
-            if (overallScore <= arr[i].range) {
-                $("#fazit").append(arr[i].conclusion);
+        let rangeArray = data.conclusion_array;
+        for (let i = 0; i < rangeArray.length; i++) {
+            if (overallScore <= rangeArray[i]) {
+                $.get("conclusions/" + rangeArray[i] + ".html", function (conclusionHtml) {
+                    $("#fazit").append(conclusionHtml);
+                });
                 break;
             }
         }
     });
 }
-
 
 
 

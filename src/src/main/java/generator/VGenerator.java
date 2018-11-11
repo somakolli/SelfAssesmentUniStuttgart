@@ -3,6 +3,7 @@ package generator;
 import domain.*;
 import helper.FileHelper;
 import helper.MarkdownHelper;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
@@ -19,6 +20,10 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.*;
 
+/**
+ * @author Sokol Makolli
+ * Generates the Website from the given templates in the resource and the given domain objects
+ */
 public class VGenerator{
 
     private String mediaPath = "";
@@ -33,6 +38,9 @@ public class VGenerator{
 
     private HashMap<String, byte[]> bytesMap = new HashMap<>();
 
+    /**
+     * concstructs the Generator and generates the preview templates
+     */
     public VGenerator(){
          mCPreviewTemplate = generatePreviewTemplate("MCquestion.tpl");
          sCPreviewTemplate = generatePreviewTemplate("SCquestion.tpl");
@@ -171,6 +179,21 @@ public class VGenerator{
         StringWriter writer = new StringWriter();
         Velocity.evaluate(context, writer, "conclusions", template);
         bytesMap.put("questions/conclusion.json",writer.toString().getBytes());
+
+        for (Conclusion conclusion:
+                saRoot.getConclusions()) {
+            generateConclusionHtml(conclusion);
+        }
+    }
+
+    /**
+     * generates the conclusion html files with name 'conclusion.range'.html
+     * @param conclusion the conclusion file to be generated
+     */
+    private void generateConclusionHtml(Conclusion conclusion) {
+        bytesMap.put("conclusions/" + conclusion.getRange() +".html",
+                replaceImgAndVideoSrc(MarkdownHelper.markdownToHtml(conclusion.getContent())).getBytes());
+
     }
 
     /**
@@ -258,10 +281,13 @@ public class VGenerator{
         websiteFiles.add("scripts/evaluation.js");
         websiteFiles.add("scripts/load-question.js");
         websiteFiles.add("index.html");
+        websiteFiles.add("scripts/preventBack.js");
+        websiteFiles.add("scripts/popper.min.js");
+        websiteFiles.add("scripts/bootstrap.min.js");
+        websiteFiles.add("scripts/jquery.min.js");
         for (String websiteFileName :
                 websiteFiles) {
             String filenamePath = "website/"+websiteFileName;
-            System.out.println(filenamePath);
             bytesMap.put(websiteFileName, fh.bytesFromResources(filenamePath));
 
         }
@@ -338,7 +364,6 @@ public class VGenerator{
         } else {
             Velocity.evaluate(context, writer, "questionPreview", mCPreviewTemplate);
         }
-        //System.out.println(replaceImgAndVideoSrcForTemplate(writer.toString()));
         return replaceImgAndVideoSrcForTemplate(writer.toString());
     }
 
