@@ -12,6 +12,10 @@ For the images to be shown correctly chose `Insert Media -> Set Media Folder` an
 
 To then Generate the Website chose `File -> Generate Website` which will generate a zip with the chosen location and name.
 
+To Generate a Website using the command line run `java -jar SelfAssesment-1.0-jar-with-dependencies.jar pathToXml pathToMediaFolder`. The website will the be safed as `website.zip` in the folder you ran the command.
+
+So to Generate a website using the demo-test you can just run `bin/java -jar SelfAssesment-1.0-jar-with-dependencies.jar bin/demo-test/demo-test.xml bin/demo-test/demo-images/`.
+
 ## Documentation
 
 You can find a generated JavaDoc and JavaScriptDoc in the `bin` folder.
