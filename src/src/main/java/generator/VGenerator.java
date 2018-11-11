@@ -39,8 +39,9 @@ public class VGenerator implements VGeneratorInterface {
     }
 
     /**
+     * generates a Question based on the
      * @param question A question which Content will transformed to HTML and inserted to the template
-     * @param jsonTemplate A template which describes the Structure of the HTML
+     * @param jsonTemplate A JSON Template which describes
      */
     private void generateQuestion(Question question, String jsonTemplate, String htmlTemplate){
         //convert Markdown to HTML and remove linebreaks
@@ -66,23 +67,12 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap.put("questions/"+question.getId() + ".html", replaceImgAndVideoSrc(htmlWriter.toString()).getBytes());
     }
 
-    private void generateTempFile(){
-        FileHelper fh = new FileHelper();
-        String template = fh.getFileFromResources("templates/filenames.tpl");
-        Velocity.init();
-        Context context = new VelocityContext();
-        List<String> filenames = null;
-        try {
-            filenames = fh.getFileMapFromResourceDirectory(new File(getClass().getClassLoader().getResource("website").getPath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        context.put("filenames", filenames);
-        StringWriter writer = new StringWriter();
-        Velocity.evaluate(context, writer, "categoryMap", template);
-        bytesMap.put("filenames.txt", writer.toString().getBytes());
-    }
-
+    /**
+     * generates the categories JavaScript file
+     * @param categoryMap a Category Map which has the Category as Key
+     *                    and an ArrayList with Questions which have the Category in the key as category
+     *                    as value
+     */
     private void generateCategoriesJS(HashMap<Category, ArrayList<Question>> categoryMap){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/categories.tpl");
@@ -94,6 +84,10 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap.put("scripts/categories.js", writer.toString().getBytes());
     }
 
+    /**
+     * Genrates the QCountJS
+     * @param questionCount the questionCount which will be written to the QCountJS
+     */
     private void generateQCountJS(int questionCount){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/QCount.tpl");
@@ -105,6 +99,10 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap.put("scripts/QCount.js",writer.toString().getBytes());
     }
 
+    /**
+     * Genrates all the Questions based on Type: Single Choice or Multiple Choice
+     * @param saRoot the Root object with all the Questions to be generated
+     */
     private void generateQuestions(SARoot saRoot) {
         FileHelper fh = new FileHelper();
         for (Question question:
@@ -122,6 +120,10 @@ public class VGenerator implements VGeneratorInterface {
         }
     }
 
+    /**
+     * Generates the solution.js based on the correct answers
+     * @param saRoot The Root with all the Questions
+     */
     private void generateSolution(SARoot saRoot){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/solution.tpl");
@@ -141,6 +143,10 @@ public class VGenerator implements VGeneratorInterface {
 
     }
 
+    /**
+     * Generates points.js based on the points of the Questions
+     * @param saRoot The Root with the QuestionList
+     */
     private void generatePoints(SARoot saRoot){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/scripts/points.tpl");
@@ -152,6 +158,10 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap.put("scripts/points.js",writer.toString().getBytes());
     }
 
+    /**
+     * Generates the conclusions.json with conclusion.tpl and the conclusions
+     * @param saRoot the root with the conclusions
+     */
     private void generateConclusion(SARoot saRoot){
         FileHelper fh = new FileHelper();
         String template = fh.getFileFromResources("templates/questions/conclusion.tpl");
@@ -163,6 +173,10 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap.put("questions/conclusion.json",writer.toString().getBytes());
     }
 
+    /**
+     * executes every function to fill the bytemap
+     * @param saRoot root from which the files will be generated
+     */
     private void fillByteMap(SARoot saRoot){
         generateConclusion(saRoot);
         generateQuestions(saRoot);
@@ -173,6 +187,11 @@ public class VGenerator implements VGeneratorInterface {
         addStaticFilesToByteMap();
     }
 
+    /**
+     * replaces the media sourced with the absolute path to be displayed in the preview
+     * @param htmlString the html document as string
+     * @return the html document with absolute sources
+     */
     private String replaceImgAndVideoSrcForTemplate(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
         for(Element video : htmlDoc.select("source[src]")){
@@ -186,6 +205,11 @@ public class VGenerator implements VGeneratorInterface {
         return htmlDoc.toString();
     }
 
+    /**
+     * replaces the media sourced with the absolute path to be generated in the website
+     * @param htmlString the html document as string
+     * @return the html document with absolute sources
+     */
     private String replaceImgAndVideoSrc(String htmlString){
         Document htmlDoc = Jsoup.parse(htmlString);
         for(Element video : htmlDoc.select("source[src]")){
@@ -211,6 +235,9 @@ public class VGenerator implements VGeneratorInterface {
         return htmlDoc.body().children().toString();
     }
 
+    /**
+     * adds the files which don't need to be modified to the byteMap
+     */
     private void addStaticFilesToByteMap(){
         FileHelper fh = new FileHelper();
         ArrayList<String> websiteFiles = new ArrayList<>();
@@ -240,8 +267,13 @@ public class VGenerator implements VGeneratorInterface {
         }
     }
 
-    public void createZipArchive(SARoot saRoot, String path){
-        File websiteFile = new File(path);
+    /**
+     * creates a zip archive with all the needed files for the website
+     * @param saRoot the root from which the website content will be generated
+     * @param zipPath the path of the zip where it will be stored
+     */
+    public void createZipArchive(SARoot saRoot, String zipPath){
+        File websiteFile = new File(zipPath);
         ArrayList<ZipEntrySource> entries = new ArrayList<>();
         bytesMap = new HashMap<>();
         fillByteMap(saRoot);
@@ -254,9 +286,14 @@ public class VGenerator implements VGeneratorInterface {
         bytesMap = new HashMap<>();
     }
 
-    private String generatePreviewTemplate(String name){
+    /**
+     * inputs all the needed styles and scripts into the preview templates
+     * @param templateName the name of the template
+     * @return the generated String with all the resources
+     */
+    private String generatePreviewTemplate(String templateName){
         FileHelper fh = new FileHelper();
-        String template = fh.getFileFromResources("preview/" + name);
+        String template = fh.getFileFromResources("preview/" + templateName);
         Velocity.init();
         Context context = new VelocityContext();
         context.put("bottomContentStyleCss" , fh.getFileFromResources( "website/css/bottomContentStyle.css"));
@@ -276,6 +313,11 @@ public class VGenerator implements VGeneratorInterface {
         return writer.toString() + template.substring(400);
     }
 
+    /**
+     * generates the question html for the preview
+     * @param question the question which will be generated
+     * @return the html doc which will be shown
+     */
     public String getQuestionHtml(Question question){
         Question questionCopy = new Question(question);
         questionCopy.setContent(MarkdownHelper.markdownToHtml(question.getContent()));
@@ -299,10 +341,20 @@ public class VGenerator implements VGeneratorInterface {
         //System.out.println(replaceImgAndVideoSrcForTemplate(writer.toString()));
         return replaceImgAndVideoSrcForTemplate(writer.toString());
     }
+
+    /**
+     * generates the category html for the preview
+     * @param category the category which will be generated
+     * @return the html doc which will be shown
+     */
     public String getCategoryHtml(Category category){
         return MarkdownHelper.markdownToHtml(category.getContent());
     }
-
+    /**
+     * generates the conclusion html for the preview
+     * @param conclusion the conclusion which will be generated
+     * @return the html doc which will be shown
+     */
     public String getConclusionHtml(Conclusion conclusion){
         return MarkdownHelper.markdownToHtml(conclusion.getContent());
     }
