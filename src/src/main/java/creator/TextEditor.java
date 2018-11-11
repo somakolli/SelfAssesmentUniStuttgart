@@ -47,11 +47,11 @@ import javax.swing.plaf.basic.BasicBorders.SplitPaneBorder;
  */
 public class TextEditor extends Application {
 
-	public static final TreeItem<String> rootitem = new TreeItem<>();
-	public static TreeItem<String> currentSelectedTreeItem = rootitem;
-	public static final TwoWayHashMap twMap = new TwoWayHashMap();
-	public static final TableView<SAObject> table = new TableView<SAObject>();
-	public static final TreeView<String> tree = new TreeView<>(rootitem);;
+	private static final TreeItem<String> rootitem = new TreeItem<>();
+	private static TreeItem<String> currentSelectedTreeItem = rootitem;
+	private static final TwoWayHashMap twMap = new TwoWayHashMap();
+	private static final TableView<SAObject> table = new TableView<SAObject>();
+	private static final TreeView<String> tree = new TreeView<>(rootitem);;
 	private VGenerator vg = new VGenerator();
 
 
@@ -448,7 +448,7 @@ public class TextEditor extends Application {
 	 * @param engine
 	 * @param newValue
 	 */
-	public void changedEvent(WebEngine engine, String newValue) {
+	private void changedEvent(WebEngine engine, String newValue) {
 
 		SAObject sao = twMap.getSAObject(currentSelectedTreeItem);
 
@@ -479,7 +479,7 @@ public class TextEditor extends Application {
 	/**
 	 * Creates a new category.
 	 */
-	public void createCategory() {
+	private void createCategory() {
 		Category c = new Category();
 		TextInputDialog dialog = new TextInputDialog("Category");
 		dialog.setTitle("Category Name");
@@ -506,7 +506,7 @@ public class TextEditor extends Application {
 	/**
 	 * Creates a new question.
 	 */
-	public void createQuestion() {
+	private void createQuestion() {
 
 		Question q = new Question();
 
@@ -542,7 +542,7 @@ public class TextEditor extends Application {
 	/**
 	 * Creates a new answer.
 	 */
-	public void createAnswer() {
+	private void createAnswer() {
 		Answer a = new Answer();
 
 		if (currentSelectedTreeItem != null) {
@@ -583,7 +583,7 @@ public class TextEditor extends Application {
 	/**
 	 * Creates a new conclusion.
 	 */
-	public void createConclusion() {
+	private void createConclusion() {
 
 		Conclusion c = new Conclusion();
 
@@ -603,7 +603,7 @@ public class TextEditor extends Application {
 	 * 
 	 * @param text
 	 */
-	public void delete(TextArea text) {
+	private void delete(TextArea text) {
 
 		try {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -660,7 +660,7 @@ public class TextEditor extends Application {
 
 				}
 
-				if (twMap.AllTreeItems.size() == 0) {
+				if (twMap.getAllTreeItems().size() == 0) {
 					table.getColumns().clear();
 					table.getItems().clear();
 				}
@@ -718,15 +718,15 @@ public class TextEditor extends Application {
 			}
 
 		} else if (twMap.isQuestion(obj)) {
+			
 			Question q = (Question) obj;
 			Category c = (Category) twMap.getSAObject(twMap.getTreeItem(q).getParent());
 			q.setCategory(c);
-
-			for (int i = 0; i < twMap.getQuestionTreeItems(c).size(); i++) {
-				twMap.getQuestionTreeItems(c).get(i).setValue("Question: " + (i + 1));
-			}
-			System.out.println(twMap.getQuestionTreeItems().size());
-			item.setValue("Question: " + (twMap.getQuestionTreeItems().size()));
+			twMap.updateQuestionTreeItems();
+//			for (int i = 0; i < twMap.getQuestionTreeItems(c).size(); i++) {
+//				twMap.getQuestionTreeItems(c).get(i).setValue("Question: " + (i + 1));
+//			}
+			
 
 		} else if (twMap.isAnswer(obj)) {
 
@@ -765,7 +765,7 @@ public class TextEditor extends Application {
 	 * @param keep
 	 * @throws IOException
 	 */
-	public void open(Stage primaryStage, TextArea text, boolean keep) throws IOException {
+	private void open(Stage primaryStage, TextArea text, boolean keep) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select xml File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
@@ -813,7 +813,7 @@ public class TextEditor extends Application {
 	 * @param primaryStage
 	 * @param text
 	 */
-	public void save(Stage primaryStage, TextArea text) {
+	private void save(Stage primaryStage, TextArea text) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save as XML-File");
 		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
