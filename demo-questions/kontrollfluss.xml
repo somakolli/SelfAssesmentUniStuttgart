@@ -4,29 +4,29 @@
         <content>Zunächst eine einfache Funktion, auf der linken Seite sind die jeweiligen Elemente und deren Funktion aufgelistet:
 
 
-&lt;img src="file:C:\Users\Rezar\Desktop\kontrollfluss.png" width="400px"&gt;
+&lt;img src="Kontrollfluss-Frage1.png" width="400px"&gt;
 
 Was ist das Ergebnis des Aufrufes der Funktion: max(10,20)?
 
 
 </content>
         <answer>
-            <content>       10</content>
+            <content>10</content>
             <correct>false</correct>
             <id>0</id>
         </answer>
         <answer>
-            <content>       20</content>
+            <content>20</content>
             <correct>true</correct>
             <id>0</id>
         </answer>
         <answer>
-            <content>       max</content>
+            <content>max</content>
             <correct>false</correct>
             <id>0</id>
         </answer>
         <answer>
-            <content>       result</content>
+            <content>result</content>
             <correct>false</correct>
             <id>0</id>
         </answer>
@@ -40,7 +40,7 @@ Was ist das Ergebnis des Aufrufes der Funktion: max(10,20)?
         <time>60</time>
     </question>
     <question>
-        <content>&lt;img src="file:C:\Users\Rezar\Desktop\Kontrollfluss-Frage2.png" width="400px"&gt;
+        <content>&lt;img src="Kontrollfluss-Frage2.png" width="400px"&gt;
 
 Was ist der zurückgegebende Wert der des Aufrufes: funct(5) 
 </content>
@@ -75,7 +75,7 @@ Was ist der zurückgegebende Wert der des Aufrufes: funct(5)
     </question>
     <question>
         <content>
-&lt;img src="file:C:\Users\Rezar\Desktop\Kontrollfluss-Frage3.png" width="400px"&gt;
+&lt;img src="Kontrollfluss-Frage3.png" width="400px"&gt;
 
 Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
 </content>
