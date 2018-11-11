@@ -282,7 +282,6 @@ public class VGenerator{
         websiteFiles.add("scripts/load-question.js");
         websiteFiles.add("index.html");
         websiteFiles.add("scripts/preventBack.js");
-        websiteFiles.add("scripts/popper.min.js");
         websiteFiles.add("scripts/bootstrap.min.js");
         websiteFiles.add("scripts/jquery.min.js");
         for (String websiteFileName :

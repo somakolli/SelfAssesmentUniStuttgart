@@ -150,6 +150,11 @@ function base64StringFromBytes (bytes) {
     return string
 }
 
+/**
+ * Creates a binary string from the given bytes
+ * @param bytes
+ * @returns {string}
+ */
 function binaryStringFromBytes (bytes) {
     
     return Array.from(bytes)
