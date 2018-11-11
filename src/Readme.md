@@ -64,5 +64,15 @@ To deploy the website unpack the zip file and serve the files in it with a http-
 You need a server to correctly test the website, just opening the index.html on a browser
 will not work.
 
+## Markdown
+You can use markdown or html to edit the contents of questions, answers or conclusions.
+
+For Markdown the library [flexmark-java](https://github.com/vsch/flexmark-java) is used.
+
+You can see the possible markdown commands here https://spec.commonmark.org/0.28/.
+
+To input videos or images please use html, since markdown does not allow to change the size.
+
+If you want to center the content use `<center></center>`
 
 
