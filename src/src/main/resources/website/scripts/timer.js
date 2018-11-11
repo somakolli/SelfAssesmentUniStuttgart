@@ -1,3 +1,7 @@
+/**
+ * sets up a timer according to given time limit
+ * @param {number} limit 
+ */
 function startTimer(limit) {
     $("#timer").css("visibility", "visible");
     var currentTime = new Date();
@@ -22,9 +26,3 @@ function startTimer(limit) {
         }
     }, 1000);
 }
-
-/* function hideTimer(){
-    clearInterval(x);
-    $("#timer").css("visibility", "hidden");
-}
- */

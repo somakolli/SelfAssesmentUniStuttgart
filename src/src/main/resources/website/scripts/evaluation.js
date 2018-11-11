@@ -1,12 +1,8 @@
-const example = "001001100000101100011110";
 
 /**
- * 0) input: state as binary string
- * 1) replace question container with evaluation specific main div
- * 2) load category specific divs into main div from file
- * 3) calculate the result of userAnswers AND solution
- * 4) use calculation to setUp the evaluation page
- * 5) use calculation to choose fitting fazit
+ * given the binary encoded state,
+ * calculate and display the evaluation page
+ * @param {String} state
  */
 function loadEvaluation(state) {
     $("#timer").remove();
@@ -17,10 +13,14 @@ function loadEvaluation(state) {
     fillEvaluation(getCategories());
     let answersAndCount = stateToAnswers(state);
     let result = evaluate(getSolution(), answersAndCount[0], answersAndCount[1]);
-    let concData = setUpEvaluation(getCategories(), result, getQuestionPoints());
-    addConclusion(concData);
+    let overallScore = setUpEvaluation(getCategories(), result, getQuestionPoints());
+    addConclusion(overallScore);
 }
 
+/**
+ * fill the evaluation page with the category fields and progress bars
+ * @param {map} categories 
+ */
 function fillEvaluation(categories) {
     for (let [key, value] of categories.entries()) {
         $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td class="category">' + key + '</td> <td class="bar"> <div id="' + key + '" class="progress"> </div> </td> </tr> </tbody> </table> </div> </div>')
@@ -28,9 +28,11 @@ function fillEvaluation(categories) {
     $("#evaluation").append('<div class="card"> <div class="card-header"> <table class="table"> <tbody> <tr> <td style="text-align: center;"> <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#fazitCollapse" aria-expanded="false" aria-controls="fazitCollapse" style="font-size: 24px;"> Fazit </button> </td> </tr> </tbody> </table> </div> <!-- aria-labelledby="headingThree" --> <div id="fazitCollapse" class="collapse"  data-parent="#accordionExample"> <div id="fazit" class="card-body"> </div> </div> </div>');
 }
 
-//input: state as binary string
-//convert state to binary string of answers
-//output: user answers as binary string, array of how many answer options each question consisted of
+/**
+ * produces an array consisting of the user answers as binary string 
+ * and an array of how many answer options each question consisted of
+ * @return {array} [useranswers, answersperquestion]
+ */
 function stateToAnswers() {
     let answerArray = stateToAnswerList();
     let answerString = "";
@@ -43,10 +45,14 @@ function stateToAnswers() {
     return [answerString, allAnswers];
 }
 
+
 /**
- * input: solution as binary string, user answers as binary string, array containing the info. how many answer options each single question consisted of
- * check for each individual question, if it was answered correctly
- * output: an array of 1's and 0's in order of the questions, 1 representing a correctly answered question etc.
+ * produces an array of 1's and 0's in order of the questions, 
+ * 1 representing a correctly answered question 
+ * @param {String} solution
+ * @param {String} answers
+ * @param {array}  evaluation
+ * @return {array} result 
  */
 function evaluate(solution, answers, allAnswers) {
     /* console.log("ans: " + answers)
@@ -68,12 +74,13 @@ function evaluate(solution, answers, allAnswers) {
     return result;
 }
 
-/**
- * input: map containing the id's of each category and how many questions it consisted of, the binary results of each individual question, the points of each question
- * get the idnividual fractions of rightly answered questions for each category 
- * collect fractions to choose the fitting fazit later on
- * output: overall score of the test
- */
+ /**
+  * calculates the overall score of the test
+  * @param {map} categories 
+  * @param {array} result 
+  * @param {array} questionPoints 
+  * @return {number} overallPoints
+  */
 function setUpEvaluation(categories, result, questionPoints) {
     let j = 0;
     let overall = 0;
@@ -98,7 +105,12 @@ function setUpEvaluation(categories, result, questionPoints) {
     return overall;
 }
 
-//load fractions into evaluation page
+/**
+ * load html-fractions into evaluation page
+ * @param {String} id 
+ * @param {number} correct 
+ * @param {number} total 
+ */
 function showFraction(id, correct, total) {
     let fraction = correct / total;
     let width = Math.max(fraction * 100, 5);
@@ -115,11 +127,16 @@ function showFraction(id, correct, total) {
     }
 }
 
-function addConclusion(concData) {
+/**
+ * add a conclusion to the evaluation page
+ * according to overall score
+ * @param {number} overallScore 
+ */
+function addConclusion(overallScore) {
     $.get("questions/conclusion.json", function (data) {
         let arr = data.conclusion_array;
         for (let i = 0; i < arr.length; i++) {
-            if (concData <= arr[i].range) {
+            if (overallScore <= arr[i].range) {
                 $("#fazit").append(arr[i].conclusion);
                 break;
             }
@@ -127,7 +144,6 @@ function addConclusion(concData) {
     });
 }
 
-//stateToAnswers(example);
 
 
 

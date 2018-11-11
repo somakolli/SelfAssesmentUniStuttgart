@@ -1,8 +1,7 @@
-const exampleString = "00101101001111100010101010";
-
-//console.log(calcQNr(exampleString));
-
-//load currently to be shown question
+/**
+ * loads current question 
+ * @param {number} currNum
+ */
 function loadQuestion(currNum) {
     $.get("questions/" + currNum + ".json", function (questionJson) {
         //let qObj = $.parseJSON(data);
@@ -23,8 +22,11 @@ function loadQuestion(currNum) {
     return stateToAnswerList().length;
 } */
 
+/**
+ * @param {String} state
+ * @return {number} currNum
+ */
 function calcQNr(state){
-    //console.log("state: " + state)
     let alLength = 5;
     let currNum = 0;
     let i = 0;
@@ -36,6 +38,10 @@ function calcQNr(state){
     return currNum;
 }
 
+/**
+ * sets the progress bar according to current question number
+ * @param {number} currNum 
+ */
 function setProgressBar(currNum){
     $(".progress").empty();
     for(let i = 0; i <= currNum; i++){
@@ -46,6 +52,10 @@ function setProgressBar(currNum){
     }
 }
 
+/**
+ * sets header according to current question number
+ * @param {number} currNum 
+ */
 function setHeader(currNum){
     $(".breadcrumb").empty();
     let i = 0;
