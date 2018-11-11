@@ -1,7 +1,22 @@
 \label{Zusammenfassung_Ausblick} 
-Zusammenfassend kann gesagt werden, dass die in dieser Arbeit vorgestellte Applikation den gestellten Anforderungen gerecht wird.
-So ist es mit Hilfe unserer Applikation möglich, ohne großen Aufwand und ohne Programmierkenntnisse einen Online-Selfassessment-Test zu erstellen.
 
-Eine künftige Weiterentwicklung dieser Anwendung kann es unter anderem ermöglichen, das Erscheinungsbild der Webseite noch feingranularer anzupassen.
-Solche Einstellungen umfassen dabei auch das Einbinden von eigenen Stylesheets. 
+Im Folgenden soll der in dieser Arbeit entwickelte Ansatz und seine Komponenten zusammenfassend betrachtet werden. Abschließend werden einige mögiche Verbesserungs- und Erweiterungsmöglichkeiten präsentiert.
+
+\subsection{Zusammenfassung}
+
+Das Ziel dieser Arbeit war die Entwicklung einer Java-Applikation zur vereinfachten Erstellung von webbasierten Self-Assessment-Tests. Dazu wurden zunächst einige vewandte Arbeiten betrachtet und auf ihre Stärken und Schwächen bei der Erstellung von Self-Assessment-Tests untersucht. In der Folge wurden die Architektur des Systems und die Anforderungen an dieses bestimmt. Ausgehend von der resultierenden Klassenstruktur wurden dann die einzelnen Komponenten des Systems implementiert. Der 'Creator' dient dabei als Benutzeroberfläche zur Erstellung des Tests. Mithilfe des des Parsers lassen sich bereits erstellte Tests effizient abspeichern und wiederverwenden. Zur Erstellung und Verwaltung der Webseite generiert der Generator dann die notwendigen statischen Ressourcen. Mittels eines Webservers werden diese Dateien schließlich veröffentlicht und clientseitig zur Anzeige der Fragen verwendet.
+
+\subsection{Ausblick}
+
+Zur Verbesserung der Benutzererfahrung kann der Ansatz um einige Funktionen ergänzt werden bestehende Funktionen weiter optimiert werden. 
+
+[Verbesserungen zur Architektur?]
+
+[Verbesserungen zum Creator?]
+
+[Verbesserungen zum Parser?]
+
+[Verbesserungen zum Generator?]
+
+Künftig können das Verhalten und die Anzeige der Website weiter optimiert und individualisiert werden.  Eine mögliche Erweiterung wäre die Hinzunahme der Option, beantwortete Fragen erneut besuchen zu können. Der Ersteller des Tests kann dann entscheiden, ob er diese Funktion aktivieren will oder nicht. Die Anzeige der Fragen und ihrer Antworten könnte künftig interaktiv gestaltet werden, sodass diese beispielsweise als Dropdown-Feld realisiert werden. Denkbar wäre zudem das Einbinden von eigenen Stylesheets, um das Aussehen der Webseite nach belieben durch den Ersteller des Tests zu verändern. 
 
