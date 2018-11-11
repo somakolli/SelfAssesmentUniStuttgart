@@ -19,7 +19,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.util.*;
 
-public class VGenerator implements VGeneratorInterface {
+public class VGenerator{
 
     private String mediaPath = "";
 
