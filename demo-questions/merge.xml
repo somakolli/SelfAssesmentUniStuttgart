@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <saRoot>
+    <conclusion>
+        <content>Sie scheinen für den Studiengang Informatik ungeeignet.</content>
+        <range>3</range>
+    </conclusion>
+    <conclusion>
+        <content>Mit ein wenig Aufarbeitung könnten sie erfolgreich ein Studium in der Informatik absolvieren.</content>
+        <range>6</range>
+    </conclusion>
+    <conclusion>
+        <content>Wir würden Ihnen ein Studium der Informatik empfehlen.
+
+Sie verfügen über genügend Kentnisse.</content>
+        <range>10</range>
+    </conclusion>
     <question>
-        <content>Gegeben sei der deterministische endliche Automat A  = ( {a,b}, {s,q0}, δ, s, {q0} ), dieser wird durch die Abbildung unten grafisch beschrieben.
+        <content>&lt;center&gt;
+
+Gegeben sei der deterministische endliche Automat A  = ( {a,b}, {s,q0}, δ, s, {q0} ), dieser wird durch die Abbildung unten grafisch beschrieben.
 
 
 A wird im Zustand *s* gestartet und arbeitet dann ein Eingabewort *w* zeichenweise ab.
@@ -15,7 +31,9 @@ Z.b. wird *w0* = aba von A erkannt, *w1* = bab aber nicht.
 &lt;img src="Demo_Tim/myDea.jpg" width="330px"&gt;
 
 ---
-Welche Wörter erkennt A ?</content>
+Welche Wörter erkennt A ?
+
+&lt;center&gt;</content>
         <answer>
             <content>*w2* = abababab</content>
             <correct>true</correct>
@@ -41,19 +59,25 @@ Welche Wörter erkennt A ?</content>
             <categoryName>Theoretische Informatik</categoryName>
         </category>
         <id>0</id>
-        <points>4</points>
+        <points>1</points>
         <singleChoice>false</singleChoice>
         <time>0</time>
     </question>
     <question>
-        <content>Betrachten Sie die folgende Wahrheitstabelle: &lt;br&gt;
-&lt;img src="Demo_Tim/wahrheitstabelle.png" width="340px"&gt;
+        <content>&lt;center&gt;
 
-Sei die Funktion f definiert durch: &lt;br&gt;
+Betrachten Sie die folgende Wahrheitstabelle: 
+
+&lt;img src="Demo_Tim/wahrheitstabelle.png" width="100%"&gt;
+
+Sei die Funktion f definiert durch: 
+
 f(A,B) = (!A * B) + (A * !B)
 
 
 Welche dieser Belegungen der letzten Spalte sind gültig?
+
+&lt;center&gt;
 
 </content>
         <answer>
@@ -82,12 +106,13 @@ Welche dieser Belegungen der letzten Spalte sind gültig?
             <categoryName>Theoretische Informatik</categoryName>
         </category>
         <id>1</id>
-        <points>2</points>
+        <points>1</points>
         <singleChoice>true</singleChoice>
         <time>0</time>
     </question>
     <question>
-        <content>Zunächst eine einfache Funktion, auf der linken Seite sind die jeweiligen Elemente und deren Funktion aufgelistet:
+        <content>&lt;center&gt;
+Zunächst eine einfache Funktion, auf der linken Seite sind die jeweiligen Elemente und deren Funktion aufgelistet:
 
 
 &lt;img src="kontrollfluss-frage1.png" width="100%"&gt;
@@ -95,25 +120,27 @@ Welche dieser Belegungen der letzten Spalte sind gültig?
 
 Was ist das Ergebnis des Aufrufes der Funktion: max(10,20)?
 
+&lt;center&gt;
+
 
 </content>
         <answer>
-            <content>       10</content>
+            <content>10</content>
             <correct>false</correct>
             <id>0</id>
         </answer>
         <answer>
-            <content>       20</content>
+            <content>20</content>
             <correct>true</correct>
             <id>0</id>
         </answer>
         <answer>
-            <content>       max</content>
+            <content>max</content>
             <correct>false</correct>
             <id>0</id>
         </answer>
         <answer>
-            <content>       result</content>
+            <content>result</content>
             <correct>false</correct>
             <id>0</id>
         </answer>
@@ -122,14 +149,18 @@ Was ist das Ergebnis des Aufrufes der Funktion: max(10,20)?
             <categoryName>Kontrollfluss</categoryName>
         </category>
         <id>2</id>
-        <points>2</points>
+        <points>1</points>
         <singleChoice>true</singleChoice>
         <time>60</time>
     </question>
     <question>
-        <content>&lt;img src="kontrollfluss-frage2.png" width="400px"&gt;
+        <content>&lt;center&gt;
+
+&lt;img src="kontrollfluss-frage2.png" width="400px"&gt;
 
 Was ist der zurückgegebende Wert der des Aufrufes: funct(5) 
+
+&lt;center&gt;
 </content>
         <answer>
             <content>5</content>
@@ -156,15 +187,16 @@ Was ist der zurückgegebende Wert der des Aufrufes: funct(5)
             <categoryName>Kontrollfluss</categoryName>
         </category>
         <id>3</id>
-        <points>2</points>
+        <points>1</points>
         <singleChoice>true</singleChoice>
         <time>60</time>
     </question>
     <question>
-        <content>
+        <content>&lt;center&gt;
 &lt;img src="Kontrollfluss-Frage3.png" width="400px"&gt;
 
 Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
+&lt;center&gt;
 </content>
         <answer>
             <content>a = 1, b = 12</content>
@@ -191,13 +223,19 @@ Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
             <categoryName>Kontrollfluss</categoryName>
         </category>
         <id>4</id>
-        <points>4</points>
+        <points>1</points>
         <singleChoice>false</singleChoice>
         <time>60</time>
     </question>
     <question>
-        <content>Ein Korb mit 1kg Erdbeeren, die einen Wassergehalt von 99% von dem 1kg haben, steht in der Sonne. Dadurch verringert sich der Wassergehalt auf 98%.
-&lt;br /&gt;  **Wie viel wiegen die Erdbeeren jetzt?**</content>
+        <content>&lt;center&gt;
+Ein Korb mit 1kg Erdbeeren, die einen Wassergehalt von 99% von dem 1kg haben, steht in der Sonne. 
+Dadurch verringert sich der Wassergehalt auf 98%.
+
+---
+
+ **Wie viel wiegen die Erdbeeren jetzt?**
+&lt;center&gt;</content>
         <answer>
             <content>999g</content>
             <correct>false</correct>
@@ -223,12 +261,19 @@ Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
             <categoryName>Mathematik</categoryName>
         </category>
         <id>5</id>
-        <points>4</points>
+        <points>1</points>
         <singleChoice>true</singleChoice>
         <time>120</time>
     </question>
     <question>
-        <content>Lösen sie das folgende Gleichungssystem: &lt;br /&gt; **2x - y = 2**&lt;br /&gt; **-3x - 3y = -12**</content>
+        <content>&lt;center&gt;
+Lösen sie das folgende Gleichungssystem: 
+
+**2x - y = 2**
+
+ **-3x - 3y = -12**
+
+&lt;/center&gt;</content>
         <answer>
             <content>x = 2, y = 2</content>
             <correct>true</correct>
@@ -254,17 +299,21 @@ Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
             <categoryName>Mathematik</categoryName>
         </category>
         <id>6</id>
-        <points>4</points>
+        <points>1</points>
         <singleChoice>true</singleChoice>
         <time>60</time>
     </question>
     <question>
-        <content>Gegeben ist der Graph einer Funktion: 
+        <content>&lt;center&gt;
+
+Gegeben ist der Graph einer Funktion: 
+
 
 &lt;img src="Demo_Jonas/images/graph0.png" width="50%"&gt;
 
 
-**Wie sieht der Graph der 1.Ableitung aus?**</content>
+**Wie sieht der Graph der 1.Ableitung aus?**
+&lt;/center&gt;</content>
         <answer>
             <content>
 &lt;img src="Demo_Jonas/images/graph1.png" width="50%"&gt;</content>
@@ -289,8 +338,108 @@ Mit welchem der werte für a, b die Funktion in dem rot markierten Zustand?
             <categoryName>Mathematik</categoryName>
         </category>
         <id>7</id>
-        <points>4</points>
+        <points>1</points>
         <singleChoice>true</singleChoice>
         <time>120</time>
+    </question>
+    <question>
+        <content>&lt;center&gt;Marla hat ein Stück Papier gefaltet und sorgfältig ein Loch in das gefaltete
+Papier gestochen. Nach dem Auseinanderfalten ist das unten abgebildete
+Muster zu sehen. 
+
+&lt;br&gt;
+&lt;img src="papier-mit-löchern.png" width="20%"&gt;
+
+---
+
+Wie könnte Marla das Papier vorher gefaltet haben?
+
+&lt;/center&gt;
+</content>
+        <answer>
+            <content>
+&lt;img src="question_9_1.png" width="50%"&gt;
+</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="question_9_2.png" width="50%"&gt;</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="question_9_3.png" width="50%"&gt;</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="question_9_4.png" width="50%"&gt;</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="question_9_5.png" width="50%"&gt;</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Logik</categoryName>
+        </category>
+        <id>8</id>
+        <points>1</points>
+        <singleChoice>true</singleChoice>
+        <time>0</time>
+    </question>
+    <question>
+        <content>Als Vanessa Taschengeld bekommt, ist zufällig ihr Onkel dabei. „Aufgepasst!“, ruft er.
+„Ich werde folgende 3 Aktionen mit deinem Geld ausführen:
+
+---
+
+1. Ich lege 1 Euro dazu.
+2. Ich nehme 1 Euro weg.
+3. Ich verdopple.
+
+
+---
+Wähle klug die Reihenfolge.“ Bei welcher Reihenfolge bekommt Vanessa am meisten?
+
+
+</content>
+        <answer>
+            <content>1 -&gt; 3 -&gt; 2</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>1 -&gt; 2 -&gt; 3</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>2 -&gt; 3 -&gt; 1</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>2 -&gt; 1 -&gt; 1</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>3 -&gt; 1 -&gt; 2 </content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Logik</categoryName>
+        </category>
+        <id>9</id>
+        <points>1</points>
+        <singleChoice>true</singleChoice>
+        <time>0</time>
     </question>
 </saRoot>
