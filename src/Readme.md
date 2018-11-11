@@ -14,7 +14,7 @@ To then Generate the Website chose `File -> Generate Website` which will generat
 
 To Generate a Website using the command line run `java -jar SelfAssesment-1.0-jar-with-dependencies.jar pathToXml pathToMediaFolder`. The website will the be safed as `website.zip` in the folder you ran the command.
 
-So to Generate a website using the demo-test you can just run `bin/java -jar SelfAssesment-1.0-jar-with-dependencies.jar bin/demo-test/demo-test.xml bin/demo-test/demo-images/`.
+So to Generate a website using the demo-test you can just run `java -jar SelfAssesment-1.0-jar-with-dependencies.jar bin/demo-test/demo-test.xml bin/demo-test/demo-images/`.
 
 ## Documentation
 
