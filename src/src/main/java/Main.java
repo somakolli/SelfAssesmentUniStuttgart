@@ -14,7 +14,9 @@ public class Main extends TextEditor {
             parser.setFile(new File(args[0]));
             parser.startParser();
             VGenerator vGenerator = new VGenerator();
+            vGenerator.setMediaPath(args[1]);
             vGenerator.createZipArchive(parser.getRootelement(), "website.zip");
+            System.exit(0);
         }
     }
 }
