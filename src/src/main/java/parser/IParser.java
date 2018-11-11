@@ -10,10 +10,6 @@ import java.util.List;
  * Interface for the parser
  */
 public interface IParser {
-    /**
-     * starts this parserTry, source File may be given via Console <br/>
-     * will create a JAXB Marshaller to handle the file.
-     */
 
     /**
      * console interaction to set a new Path for the XML source
