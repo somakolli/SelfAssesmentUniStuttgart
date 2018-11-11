@@ -1,5 +1,5 @@
 <div class="card border-dark mb-3">
-    <div class="card-header">$question.getContent()</div>
+    <div class="card-header" style="text-align: left">$question.getContent()</div>
     <div class="card-body">
         <ul id="question$question.getId()" class="list-group list-group-flush">
             #foreach($answer in $question.getAnswers())
