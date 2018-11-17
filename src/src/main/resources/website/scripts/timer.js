@@ -7,7 +7,7 @@ function startTimer(limit) {
     var x = setInterval(function () {
         limit--;
 
-        $("#timer").text("Timer: " + seconds + "s ");
+        $("#timer").text("Timer: " + limit + "s ");
         $(".bottom-right").click(function(){
             clearInterval(x);
         });
