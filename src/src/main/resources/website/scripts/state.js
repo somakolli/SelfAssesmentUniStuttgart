@@ -24,7 +24,9 @@ function updateState() {
     let stateObj = { state: "" };
     let questionList = stateToAnswerList();
     questionList.push(answerListToBitString(getAnswerList()));
+    console.log("question string: " + questionList);
     let questionListString = answerListToBinary(questionList);
+    console.log("state string: " + questionListString.slice(1))
     $("#timer").remove();
     history.pushState(stateObj, "new State", "?s=" +
         binaryStringToState(questionListString));
