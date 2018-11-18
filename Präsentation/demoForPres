@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<saRoot>
+    <conclusion>
+        <content>Leider weisen Sie größere Lücken in den notwendigen Grundlagen für das Studium der Informatik auf. Wir empfehlen Ihnen sich mit alternativen Studiengängen außeinander zu setzen, da Sie für das Studium der Informatik ungeeignet zu sein scheinen.</content>
+        <range>5</range>
+    </conclusion>
+    <conclusion>
+        <content>Sie haben bewiesen, dass sie über Teile der notwendigen Grundlagen für ein erfolgreiches Informatik Studium verfügen. Wir empfehlen Ihnen, an den in diesem Test aufgezeigten Schwächen zu arbeiten, ehe Sie sich an das Studium wagen.</content>
+        <range>14</range>
+    </conclusion>
+    <conclusion>
+        <content>Sie besitzen die notwendigen Grundlagen um ein Studium im Fach Informatik erfolgreich meistern zu können. </content>
+        <range>20</range>
+    </conclusion>
+    <question>
+        <content>&lt;center&gt;
+Ein Korb mit 1kg Erdbeeren, welche einen Wassergehalt von 99% besitzen, wird in die Sonne gestellt. 
+Dadurch verringert sich der Wassergehalt der Erdbeeren auf 98%.
+
+---
+
+ **Wie viel wiegen die Erdbeeren jetzt?**
+&lt;center&gt;</content>
+        <answer>
+            <content>999g</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>990g</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>500g</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>Keine der oberen Antworten ist richtig.</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>0</id>
+        <points>5</points>
+        <singleChoice>true</singleChoice>
+        <time>80</time>
+    </question>
+    <question>
+        <content>&lt;center&gt;
+
+Gegeben ist der Graph einer Funktion: 
+
+
+&lt;img src="graph0.png" width="45%"&gt;
+
+---
+
+**Wie sieht der Graph der 1.Ableitung aus?**
+&lt;/center&gt;</content>
+        <answer>
+            <content>
+&lt;img src="graph1.png" width="80%"&gt;</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="graph2.png" width="80%"&gt;
+</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>&lt;img src="graph3.png" width="80%"&gt;
+</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Mathematik</categoryName>
+        </category>
+        <id>1</id>
+        <points>5</points>
+        <singleChoice>true</singleChoice>
+        <time>0</time>
+    </question>
+    <question>
+        <content>Als Vanessa Taschengeld bekommt, ist zufällig ihr Onkel dabei. „Aufgepasst!“, ruft er.
+„Ich werde folgende 3 Aktionen mit deinem Geld ausführen:
+
+---
+
+1. Ich lege 1 Euro dazu.
+2. Ich nehme 1 Euro weg.
+3. Ich verdopple.
+
+
+---
+Ich werde jede Aktion **genau einmal** ausführen. Wähle klug deine bevorzugte Reihenfolge. “ 
+
+Mit welcher Reihenfolge der Aktionen bekommt Vanessa am meisten Geld?
+
+</content>
+        <answer>
+            <content>1 -&gt; 3 -&gt; 2</content>
+            <correct>true</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>1 -&gt; 2 -&gt; 3</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>2 -&gt; 3 -&gt; 1</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>2 -&gt; 1 -&gt; 3</content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <answer>
+            <content>3 -&gt; 1 -&gt; 2 </content>
+            <correct>false</correct>
+            <id>0</id>
+        </answer>
+        <category>
+            <content></content>
+            <categoryName>Logik</categoryName>
+        </category>
+        <id>2</id>
+        <points>10</points>
+        <singleChoice>true</singleChoice>
+        <time>0</time>
+    </question>
+</saRoot>
